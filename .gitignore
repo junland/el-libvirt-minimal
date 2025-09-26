@@ -53,3 +53,11 @@ dkms.conf
 
 # debug information files
 *.dwo
+
+# RPM build artifacts
+rpmbuild/
+*.rpm
+*.src.rpm
+*.tar.gz
+*.tar.bz2
+*.tar.xz
