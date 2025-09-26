@@ -37,7 +37,6 @@ jobs:
       run: |
         useradd -m builder
         chown -R builder:builder /home/builder
-        chown -R builder:builder /github/workspace
         
     - name: Prepare build environment files
       run: |
