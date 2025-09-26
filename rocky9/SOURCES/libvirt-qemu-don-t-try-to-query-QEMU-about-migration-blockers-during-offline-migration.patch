@@ -1,0 +1,87 @@
+From 80ac99d0f947f5e2fe4ff7fe9fb63b6dc6cbc1bb Mon Sep 17 00:00:00 2001
+Message-Id: <80ac99d0f947f5e2fe4ff7fe9fb63b6dc6cbc1bb@dist-git>
+From: Laine Stump <laine@redhat.com>
+Date: Thu, 21 Jul 2022 01:56:11 -0400
+Subject: [PATCH] qemu: don't try to query QEMU about migration blockers during
+ offline migration
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+The new code that queries QEMU about migration blockers was put at the
+top of qemuMigrationSrcIsAllowed(), but that function can also be
+called in the case of offline migration (ie when the domain is
+inactive / QEMU isn't running). This check should have been put inside
+the "if (!(flags & VIR_MIGRATE_OFFLINE))" conditional, so let's move
+it there.
+
+Fixes: 156e99f686690855be4e45d9b8b3194191a8bc31
+Signed-off-by: Laine Stump <laine@redhat.com>
+Reviewed-by: Jiri Denemark <jdenemar@redhat.com>
+(cherry picked from commit 2dd5587f1dc8e2cf4e6e0a4e4cf576b8183b33cd)
+Resolves: https://bugzilla.redhat.com/2092833
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+---
+ src/qemu/qemu_migration.c | 39 +++++++++++++++++++++------------------
+ 1 file changed, 21 insertions(+), 18 deletions(-)
+
+diff --git a/src/qemu/qemu_migration.c b/src/qemu/qemu_migration.c
+index 735eb02673..96c4c0f1da 100644
+--- a/src/qemu/qemu_migration.c
++++ b/src/qemu/qemu_migration.c
+@@ -1458,24 +1458,6 @@ qemuMigrationSrcIsAllowed(virQEMUDriver *driver,
+     int nsnapshots;
+     int pauseReason;
+     size_t i;
+-    bool blockedReasonsCap = virQEMUCapsGet(priv->qemuCaps,
+-                                            QEMU_CAPS_MIGRATION_BLOCKED_REASONS);
+-
+-    /* Ask qemu if it has a migration blocker */
+-    if (blockedReasonsCap) {
+-        g_auto(GStrv) blockers = NULL;
+-        if (qemuDomainGetMigrationBlockers(driver, vm,
+-                                           VIR_ASYNC_JOB_MIGRATION_OUT,
+-                                           &blockers) < 0)
+-            return false;
+-
+-        if (blockers && blockers[0]) {
+-            g_autofree char *reasons = g_strjoinv("; ", blockers);
+-            virReportError(VIR_ERR_OPERATION_INVALID,
+-                           _("cannot migrate domain: %s"), reasons);
+-            return false;
+-        }
+-    }
+ 
+     /* perform these checks only when migrating to remote hosts */
+     if (remote) {
+@@ -1493,6 +1475,27 @@ qemuMigrationSrcIsAllowed(virQEMUDriver *driver,
+ 
+     /* following checks don't make sense for offline migration */
+     if (!(flags & VIR_MIGRATE_OFFLINE)) {
++        bool blockedReasonsCap = virQEMUCapsGet(priv->qemuCaps,
++                                                QEMU_CAPS_MIGRATION_BLOCKED_REASONS);
++
++        /* Ask qemu if it has a migration blocker */
++        if (blockedReasonsCap) {
++            g_auto(GStrv) blockers = NULL;
++
++            if (qemuDomainGetMigrationBlockers(driver, vm,
++                                               VIR_ASYNC_JOB_MIGRATION_OUT,
++                                               &blockers) < 0) {
++                return false;
++            }
++
++            if (blockers && blockers[0]) {
++                g_autofree char *reasons = g_strjoinv("; ", blockers);
++                virReportError(VIR_ERR_OPERATION_INVALID,
++                               _("cannot migrate domain: %s"), reasons);
++                return false;
++            }
++        }
++
+         if (remote) {
+             /* cancel migration if disk I/O error is emitted while migrating */
+             if (flags & VIR_MIGRATE_ABORT_ON_ERROR &&
+-- 
+2.35.1
+

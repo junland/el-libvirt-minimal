@@ -1,0 +1,195 @@
+From 5853ac5261b2934ca300b24a7bd78cc4b377c90c Mon Sep 17 00:00:00 2001
+Message-Id: <5853ac5261b2934ca300b24a7bd78cc4b377c90c@dist-git>
+From: Michal Privoznik <mprivozn@redhat.com>
+Date: Thu, 7 Jul 2022 17:37:46 +0200
+Subject: [PATCH] qemu: Make IOThread changing more robust
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+There are three APIs that allow changing IOThreads:
+
+  virDomainAddIOThread()
+  virDomainDelIOThread()
+  virDomainSetIOThreadParams()
+
+In case of QEMU driver these are handled by
+qemuDomainChgIOThread() which attempts to be versatile enough to
+work on both inactive and live domain definitions at the same
+time. However, it's a bit clumsy - when a change to live
+definition succeeds but fails in inactive definition then there's
+no rollback. And somewhat rightfully so - changes to live
+definition are in general harder to roll back. Therefore, do what
+we do elsewhere (qemuDomainAttachDeviceLiveAndConfig(),
+qemuDomainDetachDeviceAliasLiveAndConfig(), ...):
+
+  1) do the change to inactive XML first,
+  2) in fact, do the change to a copy of inactive XML,
+  3) swap inactive XML and its copy only after everything
+     succeeded.
+
+Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+Reviewed-by: Ján Tomko <jtomko@redhat.com>
+(cherry picked from commit 6db9c95a45d4e24cdcd5c009b7fe5da3745b5d59)
+Resolves: https://bugzilla.redhat.com/show_bug.cgi?id=2059511
+Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+---
+ src/qemu/qemu_driver.c | 74 ++++++++++++++++++++++++------------------
+ 1 file changed, 43 insertions(+), 31 deletions(-)
+
+diff --git a/src/qemu/qemu_driver.c b/src/qemu/qemu_driver.c
+index 3b5c3db67c..2c627396f1 100644
+--- a/src/qemu/qemu_driver.c
++++ b/src/qemu/qemu_driver.c
+@@ -5594,6 +5594,7 @@ qemuDomainChgIOThread(virQEMUDriver *driver,
+ {
+     g_autoptr(virQEMUDriverConfig) cfg = NULL;
+     qemuDomainObjPrivate *priv;
++    g_autoptr(virDomainDef) defcopy = NULL;
+     virDomainDef *def;
+     virDomainDef *persistentDef;
+     virDomainIOThreadIDDef *iothreaddef = NULL;
+@@ -5609,34 +5610,34 @@ qemuDomainChgIOThread(virQEMUDriver *driver,
+     if (virDomainObjGetDefs(vm, flags, &def, &persistentDef) < 0)
+         goto endjob;
+ 
+-    if (def) {
+-        if (!virQEMUCapsGet(priv->qemuCaps, QEMU_CAPS_OBJECT_IOTHREAD)) {
+-            virReportError(VIR_ERR_CONFIG_UNSUPPORTED, "%s",
+-                           _("IOThreads not supported with this binary"));
+-            goto endjob;
+-        }
++    if (persistentDef) {
++        /* Make a copy of persistent definition and do all the changes there.
++         * Swap the definitions only after changes to live definition
++         * succeeded. */
++        if (!(defcopy = virDomainObjCopyPersistentDef(vm, driver->xmlopt,
++                                                      priv->qemuCaps)))
++            return -1;
+ 
+         switch (action) {
+         case VIR_DOMAIN_IOTHREAD_ACTION_ADD:
+-            if (virDomainDriverAddIOThreadCheck(def, iothread.iothread_id) < 0)
++            if (virDomainDriverAddIOThreadCheck(defcopy, iothread.iothread_id) < 0)
+                 goto endjob;
+ 
+-            if (qemuDomainHotplugAddIOThread(driver, vm, iothread.iothread_id) < 0)
++            if (!virDomainIOThreadIDAdd(defcopy, iothread.iothread_id))
+                 goto endjob;
+ 
+             break;
+ 
+         case VIR_DOMAIN_IOTHREAD_ACTION_DEL:
+-            if (virDomainDriverDelIOThreadCheck(def, iothread.iothread_id) < 0)
++            if (virDomainDriverDelIOThreadCheck(defcopy, iothread.iothread_id) < 0)
+                 goto endjob;
+ 
+-            if (qemuDomainHotplugDelIOThread(driver, vm, iothread.iothread_id) < 0)
+-                goto endjob;
++            virDomainIOThreadIDDel(defcopy, iothread.iothread_id);
+ 
+             break;
+ 
+         case VIR_DOMAIN_IOTHREAD_ACTION_MOD:
+-            iothreaddef = virDomainIOThreadIDFind(def, iothread.iothread_id);
++            iothreaddef = virDomainIOThreadIDFind(defcopy, iothread.iothread_id);
+ 
+             if (!iothreaddef) {
+                 virReportError(VIR_ERR_INVALID_ARG,
+@@ -5645,41 +5646,47 @@ qemuDomainChgIOThread(virQEMUDriver *driver,
+                 goto endjob;
+             }
+ 
+-            if (qemuDomainIOThreadValidate(iothreaddef, iothread, true) < 0)
++            if (qemuDomainIOThreadValidate(iothreaddef, iothread, false) < 0)
+                 goto endjob;
+ 
+-            if (qemuDomainHotplugModIOThread(driver, vm, iothread) < 0)
++            if (qemuDomainHotplugModIOThreadIDDef(iothreaddef, iothread) < 0) {
++                virReportError(VIR_ERR_OPERATION_UNSUPPORTED, "%s",
++                               _("configuring persistent polling values is not supported"));
+                 goto endjob;
++            }
+ 
+-            qemuDomainHotplugModIOThreadIDDef(iothreaddef, iothread);
+             break;
+-
+         }
+-
+-        qemuDomainSaveStatus(vm);
+     }
+ 
+-    if (persistentDef) {
++    if (def) {
++        if (!virQEMUCapsGet(priv->qemuCaps, QEMU_CAPS_OBJECT_IOTHREAD)) {
++            virReportError(VIR_ERR_CONFIG_UNSUPPORTED, "%s",
++                           _("IOThreads not supported with this binary"));
++            goto endjob;
++        }
++
+         switch (action) {
+         case VIR_DOMAIN_IOTHREAD_ACTION_ADD:
+-            if (virDomainDriverAddIOThreadCheck(persistentDef, iothread.iothread_id) < 0)
++            if (virDomainDriverAddIOThreadCheck(def, iothread.iothread_id) < 0)
+                 goto endjob;
+ 
+-            if (!virDomainIOThreadIDAdd(persistentDef, iothread.iothread_id))
++            if (qemuDomainHotplugAddIOThread(driver, vm, iothread.iothread_id) < 0)
+                 goto endjob;
+ 
+             break;
+ 
+         case VIR_DOMAIN_IOTHREAD_ACTION_DEL:
+-            if (virDomainDriverDelIOThreadCheck(persistentDef, iothread.iothread_id) < 0)
++            if (virDomainDriverDelIOThreadCheck(def, iothread.iothread_id) < 0)
+                 goto endjob;
+ 
+-            virDomainIOThreadIDDel(persistentDef, iothread.iothread_id);
++            if (qemuDomainHotplugDelIOThread(driver, vm, iothread.iothread_id) < 0)
++                goto endjob;
+ 
+             break;
+ 
+         case VIR_DOMAIN_IOTHREAD_ACTION_MOD:
+-            iothreaddef = virDomainIOThreadIDFind(persistentDef, iothread.iothread_id);
++            iothreaddef = virDomainIOThreadIDFind(def, iothread.iothread_id);
+ 
+             if (!iothreaddef) {
+                 virReportError(VIR_ERR_INVALID_ARG,
+@@ -5688,21 +5695,26 @@ qemuDomainChgIOThread(virQEMUDriver *driver,
+                 goto endjob;
+             }
+ 
+-            if (qemuDomainIOThreadValidate(iothreaddef, iothread, false) < 0)
++            if (qemuDomainIOThreadValidate(iothreaddef, iothread, true) < 0)
+                 goto endjob;
+ 
+-            if (qemuDomainHotplugModIOThreadIDDef(iothreaddef, iothread) < 0) {
+-                virReportError(VIR_ERR_OPERATION_UNSUPPORTED, "%s",
+-                               _("configuring persistent polling values is not supported"));
++            if (qemuDomainHotplugModIOThread(driver, vm, iothread) < 0)
+                 goto endjob;
+-            }
+ 
++            qemuDomainHotplugModIOThreadIDDef(iothreaddef, iothread);
+             break;
++
+         }
+ 
+-        if (virDomainDefSave(persistentDef, driver->xmlopt,
+-                             cfg->configDir) < 0)
++        qemuDomainSaveStatus(vm);
++    }
++
++    /* Finally, if no error until here, we can save config. */
++    if (defcopy) {
++        if (virDomainDefSave(defcopy, driver->xmlopt, cfg->configDir) < 0)
+             goto endjob;
++
++        virDomainObjAssignDef(vm, &defcopy, false, NULL);
+     }
+ 
+     ret = 0;
+-- 
+2.35.1
+

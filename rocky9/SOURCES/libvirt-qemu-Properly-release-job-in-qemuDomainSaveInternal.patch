@@ -1,0 +1,38 @@
+From b35eb8dd4800be4dba22eb0a38da4d4d1c54521f Mon Sep 17 00:00:00 2001
+Message-Id: <b35eb8dd4800be4dba22eb0a38da4d4d1c54521f@dist-git>
+From: Jiri Denemark <jdenemar@redhat.com>
+Date: Wed, 27 Jul 2022 15:40:12 +0200
+Subject: [PATCH] qemu: Properly release job in qemuDomainSaveInternal
+
+The function would fail to release the job in case
+qemuMigrationSrcIsAllowed failed.
+
+Fixes v8.5.0-157-g69e0e33873
+
+Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
+Reviewed-by: Pavel Hrdina <phrdina@redhat.com>
+(cherry picked from commit 9c3d398df11024ef6c00a50c98fcc0f1f66c16a1)
+
+https://bugzilla.redhat.com/show_bug.cgi?id=1497907
+
+Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
+---
+ src/qemu/qemu_driver.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/qemu/qemu_driver.c b/src/qemu/qemu_driver.c
+index 256e126ae1..ebd6365f52 100644
+--- a/src/qemu/qemu_driver.c
++++ b/src/qemu/qemu_driver.c
+@@ -2655,7 +2655,7 @@ qemuDomainSaveInternal(virQEMUDriver *driver,
+         goto cleanup;
+ 
+     if (!qemuMigrationSrcIsAllowed(driver, vm, false, VIR_ASYNC_JOB_SAVE, 0))
+-        goto cleanup;
++        goto endjob;
+ 
+     if (!virDomainObjIsActive(vm)) {
+         virReportError(VIR_ERR_INTERNAL_ERROR, "%s",
+-- 
+2.35.1
+

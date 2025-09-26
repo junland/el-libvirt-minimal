@@ -1,0 +1,48 @@
+From 6d21624edd73edb9b59e5dac0d98d0812e9bf0ad Mon Sep 17 00:00:00 2001
+Message-Id: <6d21624edd73edb9b59e5dac0d98d0812e9bf0ad@dist-git>
+From: Michal Privoznik <mprivozn@redhat.com>
+Date: Tue, 12 Jul 2022 15:46:50 +0200
+Subject: [PATCH] virtpm: Introduce TPM-1.2 and TPM-2.0 capabilieis
+
+These new capabilities will be used only to track whether
+swtpm_setup is capable of TPM-1.2 and/or TPM-2.0.
+
+Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+Reviewed-by: Peter Krempa <pkrempa@redhat.com>
+(cherry picked from commit 7b37763278c44887789e80a6058ee27953c0e5e6)
+Resolves: https://bugzilla.redhat.com/show_bug.cgi?id=2103119
+Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+---
+ src/util/virtpm.c | 2 ++
+ src/util/virtpm.h | 2 ++
+ 2 files changed, 4 insertions(+)
+
+diff --git a/src/util/virtpm.c b/src/util/virtpm.c
+index b898f3a6db..3c961c11cb 100644
+--- a/src/util/virtpm.c
++++ b/src/util/virtpm.c
+@@ -47,6 +47,8 @@ VIR_ENUM_IMPL(virTPMSwtpmSetupFeature,
+               "cmdarg-create-config-files",
+               "tpm12-not-need-root",
+               "cmdarg-reconfigure-pcr-banks",
++              "tpm-1.2",
++              "tpm-2.0",
+ );
+ 
+ /**
+diff --git a/src/util/virtpm.h b/src/util/virtpm.h
+index 0a82a03b69..bbf379a54a 100644
+--- a/src/util/virtpm.h
++++ b/src/util/virtpm.h
+@@ -42,6 +42,8 @@ typedef enum {
+     VIR_TPM_SWTPM_SETUP_FEATURE_CMDARG_CREATE_CONFIG_FILES,
+     VIR_TPM_SWTPM_SETUP_FEATURE_TPM12_NOT_NEED_ROOT,
+     VIR_TPM_SWTPM_SETUP_FEATURE_CMDARG_RECONFIGURE_PCR_BANKS,
++    VIR_TPM_SWTPM_SETUP_FEATURE_TPM_1_2,
++    VIR_TPM_SWTPM_SETUP_FEATURE_TPM_2_0,
+ 
+     VIR_TPM_SWTPM_SETUP_FEATURE_LAST
+ } virTPMSwtpmSetupFeature;
+-- 
+2.35.1
+

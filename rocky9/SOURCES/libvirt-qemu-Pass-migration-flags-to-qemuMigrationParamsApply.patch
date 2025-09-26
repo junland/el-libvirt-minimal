@@ -1,0 +1,148 @@
+From 4c906acec14efe3893491d749465ed7e285a825c Mon Sep 17 00:00:00 2001
+Message-Id: <4c906acec14efe3893491d749465ed7e285a825c@dist-git>
+From: Jiri Denemark <jdenemar@redhat.com>
+Date: Wed, 29 Jun 2022 12:00:03 +0200
+Subject: [PATCH] qemu: Pass migration flags to qemuMigrationParamsApply
+
+The flags will later be used to determine which parameters should
+actually be applied.
+
+Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
+Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+(cherry picked from commit 0eae541257cd4f01c9d90db62056ad8d03c5af23)
+
+https://bugzilla.redhat.com/show_bug.cgi?id=2111070
+
+Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
+---
+ src/qemu/qemu_driver.c           |  6 +++---
+ src/qemu/qemu_migration.c        |  8 ++++----
+ src/qemu/qemu_migration_params.c | 11 ++++++++---
+ src/qemu/qemu_migration_params.h |  3 ++-
+ 4 files changed, 17 insertions(+), 11 deletions(-)
+
+diff --git a/src/qemu/qemu_driver.c b/src/qemu/qemu_driver.c
+index 847c96639d..17e4c23199 100644
+--- a/src/qemu/qemu_driver.c
++++ b/src/qemu/qemu_driver.c
+@@ -13091,7 +13091,7 @@ qemuDomainMigrateSetMaxDowntime(virDomainPtr dom,
+             goto endjob;
+ 
+         if (qemuMigrationParamsApply(driver, vm, VIR_ASYNC_JOB_NONE,
+-                                     migParams) < 0)
++                                     migParams, 0) < 0)
+             goto endjob;
+     } else {
+         qemuDomainObjEnterMonitor(driver, vm);
+@@ -13273,7 +13273,7 @@ qemuDomainMigrateSetCompressionCache(virDomainPtr dom,
+             goto endjob;
+ 
+         if (qemuMigrationParamsApply(driver, vm, VIR_ASYNC_JOB_NONE,
+-                                     migParams) < 0)
++                                     migParams, 0) < 0)
+             goto endjob;
+     } else {
+         qemuDomainObjEnterMonitor(driver, vm);
+@@ -13360,7 +13360,7 @@ qemuDomainMigrateSetMaxSpeed(virDomainPtr dom,
+             goto endjob;
+ 
+         if (qemuMigrationParamsApply(driver, vm, VIR_ASYNC_JOB_NONE,
+-                                     migParams) < 0)
++                                     migParams, 0) < 0)
+             goto endjob;
+     } else {
+         int rc;
+diff --git a/src/qemu/qemu_migration.c b/src/qemu/qemu_migration.c
+index 76903d612b..8cbd73a809 100644
+--- a/src/qemu/qemu_migration.c
++++ b/src/qemu/qemu_migration.c
+@@ -3259,7 +3259,7 @@ qemuMigrationDstPrepareActive(virQEMUDriver *driver,
+     }
+ 
+     if (qemuMigrationParamsApply(driver, vm, VIR_ASYNC_JOB_MIGRATION_IN,
+-                                 migParams) < 0)
++                                 migParams, flags) < 0)
+         goto error;
+ 
+     if (mig->nbd &&
+@@ -4847,7 +4847,7 @@ qemuMigrationSrcRun(virQEMUDriver *driver,
+         goto error;
+ 
+     if (qemuMigrationParamsApply(driver, vm, VIR_ASYNC_JOB_MIGRATION_OUT,
+-                                 migParams) < 0)
++                                 migParams, flags) < 0)
+         goto error;
+ 
+     if (flags & VIR_MIGRATE_ZEROCOPY) {
+@@ -6941,7 +6941,7 @@ qemuMigrationSrcToFile(virQEMUDriver *driver, virDomainObj *vm,
+                                       QEMU_DOMAIN_MIG_BANDWIDTH_MAX * 1024 * 1024) < 0)
+             return -1;
+ 
+-        if (qemuMigrationParamsApply(driver, vm, asyncJob, migParams) < 0)
++        if (qemuMigrationParamsApply(driver, vm, asyncJob, migParams, 0) < 0)
+             return -1;
+ 
+         priv->migMaxBandwidth = QEMU_DOMAIN_MIG_BANDWIDTH_MAX;
+@@ -7037,7 +7037,7 @@ qemuMigrationSrcToFile(virQEMUDriver *driver, virDomainObj *vm,
+                                           QEMU_MIGRATION_PARAM_MAX_BANDWIDTH,
+                                           saveMigBandwidth * 1024 * 1024) == 0)
+                 ignore_value(qemuMigrationParamsApply(driver, vm, asyncJob,
+-                                                      migParams));
++                                                      migParams, 0));
+         } else {
+             if (qemuDomainObjEnterMonitorAsync(driver, vm, asyncJob) == 0) {
+                 qemuMonitorSetMigrationSpeed(priv->mon, saveMigBandwidth);
+diff --git a/src/qemu/qemu_migration_params.c b/src/qemu/qemu_migration_params.c
+index cc66ed8229..398c07efd0 100644
+--- a/src/qemu/qemu_migration_params.c
++++ b/src/qemu/qemu_migration_params.c
+@@ -833,8 +833,10 @@ qemuMigrationCapsToJSON(virBitmap *caps,
+  * @vm: domain object
+  * @asyncJob: migration job
+  * @migParams: migration parameters to send to QEMU
++ * @apiFlags: migration flags, some of them may affect which parameters are applied
+  *
+- * Send all parameters stored in @migParams to QEMU.
++ * Send parameters stored in @migParams to QEMU. If @apiFlags is non-zero, some
++ * parameters that do not make sense for the enabled flags will be ignored.
+  *
+  * Returns 0 on success, -1 on failure.
+  */
+@@ -842,7 +844,8 @@ int
+ qemuMigrationParamsApply(virQEMUDriver *driver,
+                          virDomainObj *vm,
+                          int asyncJob,
+-                         qemuMigrationParams *migParams)
++                         qemuMigrationParams *migParams,
++                         unsigned long apiFlags G_GNUC_UNUSED)
+ {
+     qemuDomainObjPrivate *priv = vm->privateData;
+     bool xbzrleCacheSize_old = false;
+@@ -1245,7 +1248,9 @@ qemuMigrationParamsReset(virQEMUDriver *driver,
+     if (!virDomainObjIsActive(vm) || !origParams)
+         goto cleanup;
+ 
+-    if (qemuMigrationParamsApply(driver, vm, asyncJob, origParams) < 0)
++    /* Do not pass apiFlags to qemuMigrationParamsApply here to make sure all
++     * parameters and capabilities are reset. */
++    if (qemuMigrationParamsApply(driver, vm, asyncJob, origParams, 0) < 0)
+         goto cleanup;
+ 
+     qemuMigrationParamsResetTLS(driver, vm, asyncJob, origParams, apiFlags);
+diff --git a/src/qemu/qemu_migration_params.h b/src/qemu/qemu_migration_params.h
+index d1184acded..9e990e09bd 100644
+--- a/src/qemu/qemu_migration_params.h
++++ b/src/qemu/qemu_migration_params.h
+@@ -98,7 +98,8 @@ int
+ qemuMigrationParamsApply(virQEMUDriver *driver,
+                          virDomainObj *vm,
+                          int asyncJob,
+-                         qemuMigrationParams *migParams);
++                         qemuMigrationParams *migParams,
++                         unsigned long apiFlags);
+ 
+ int
+ qemuMigrationParamsEnableTLS(virQEMUDriver *driver,
+-- 
+2.35.1
+
