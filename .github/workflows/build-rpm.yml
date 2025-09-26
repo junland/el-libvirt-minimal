@@ -32,46 +32,50 @@ jobs:
     - name: Install build dependencies
       run: |
         dnf install -y rpm-build rpmdevtools tar gzip 
-        rpmdev-setuptree
+
+    - name: Add non-root user for building
+      run: |
+        useradd -m builder
+        chown -R builder:builder /home/builder
+        chown -R builder:builder /github/workspace
         
     - name: Prepare build environment files
       run: |
         # Ensure rpmbuild directories exist
-        mkdir -vp ~/rpmbuild/SPECS ~/rpmbuild/SOURCES
+        mkdir -vp /home/builder/rpmbuild/{SOURCES,SPECS,BUILD,RPMS,SRPMS}
 
         # Copy spec file to rpmbuild directory
-        cp -v rocky${{ matrix.el_version }}/libvirt.spec ~/rpmbuild/SPECS/
+        cp -v rocky${{ matrix.el_version }}/libvirt.spec /home/builder/rpmbuild/SPECS/
 
         # Copy source files to SOURCES directory
-        cp -rv rocky${{ matrix.el_version }}/SOURCES/* ~/rpmbuild/SOURCES/
+        cp -rv rocky${{ matrix.el_version }}/SOURCES/* /home/builder/rpmbuild/SOURCES/
 
     - name: Download additional sources
       run: |
         # Download additional sources if needed
-        spectool -g -R ~/rpmbuild/SPECS/libvirt.spec
+        spectool -g -R /home/builder/rpmbuild/SPECS/libvirt.spec
 
     - name: Install build dependencies from spec file
       run: |
-        dnf builddep -y ~/rpmbuild/SPECS/libvirt.spec
+        dnf builddep -y /home/builder/rpmbuild/SPECS/libvirt.spec
         
     - name: Build source RPM
       run: |
-        rpmbuild -bs ~/rpmbuild/SPECS/libvirt.spec
+        su builder -s /bin/bash -c "rpmbuild -bs /home/builder/rpmbuild/SPECS/libvirt.spec"
         
     - name: Build binary RPM
       run: |
-        rpmbuild -bb ~/rpmbuild/SPECS/libvirt.spec
+        su builder -s /bin/bash -c "rpmbuild -bb /home/builder/rpmbuild/SPECS/libvirt.spec"
         
     - name: List built packages
       run: |
-        find ~/rpmbuild -name "*.rpm" -type f -exec ls -la {} \;
-        
+        find /home/builder/rpmbuild -name "*.rpm" -type f -exec ls -la {} \;
+
     - name: Upload RPM artifacts
       uses: actions/upload-artifact@v4
       with:
         name: rpms-el${{ matrix.el_version }}
         path: |
-          $(find ~/rpmbuild/RPMS -type f -name "*.rpm")
-          $(find ~/rpmbuild/SRPMS -type f -name "*.rpm")
-        # Retain RPM artifacts for 30 days to allow sufficient time for review and debugging.
+          /home/builder/rpmbuild/RPMS
+          /home/builder/rpmbuild/SRPMS
         retention-days: 30
