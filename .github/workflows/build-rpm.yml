@@ -23,9 +23,15 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: Enable CRB repository
+      run: |
+        dnf install -y dnf-plugins-core
+        dnf config-manager --set-enabled crb
+        dnf clean all
+
     - name: Install build dependencies
       run: |
-        dnf install -y dnf-plugins-core rpm-build rpmdevtools tar gzip 
+        dnf install -y rpm-build rpmdevtools tar gzip 
         rpmdev-setuptree
         
     - name: Prepare build environment files
