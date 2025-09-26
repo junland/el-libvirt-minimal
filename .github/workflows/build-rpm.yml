@@ -31,16 +31,18 @@ jobs:
     - name: Prepare build environment files
       run: |
         # Ensure rpmbuild directories exist
-        mkdir -p ~/rpmbuild/SPECS ~/rpmbuild/SOURCES
+        mkdir -vp ~/rpmbuild/SPECS ~/rpmbuild/SOURCES
 
         # Copy spec file to rpmbuild directory
-        cp rocky${{ matrix.el_version }}/libvirt.spec ~/rpmbuild/SPECS/
+        cp -v rocky${{ matrix.el_version }}/libvirt.spec ~/rpmbuild/SPECS/
 
         # Copy source files to SOURCES directory
-        cp -r rocky${{ matrix.el_version }}/SOURCES/* ~/rpmbuild/SOURCES/
+        cp -rv rocky${{ matrix.el_version }}/SOURCES/* ~/rpmbuild/SOURCES/
 
+    - name: Download additional sources
+      run: |
         # Download additional sources if needed
-        spectool -g -R ~/rpmbuild/SPECS/libvirt.spec -C ~/rpmbuild/SOURCES/
+        spectool -g -R ~/rpmbuild/SPECS/libvirt.spec
 
     - name: Install build dependencies from spec file
       run: |
