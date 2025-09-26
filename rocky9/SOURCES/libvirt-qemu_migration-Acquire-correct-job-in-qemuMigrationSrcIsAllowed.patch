@@ -1,0 +1,132 @@
+From d4c4660b097695916244307d1125a17c30c0c9ef Mon Sep 17 00:00:00 2001
+Message-Id: <d4c4660b097695916244307d1125a17c30c0c9ef@dist-git>
+From: Martin Kletzander <mkletzan@redhat.com>
+Date: Fri, 22 Jul 2022 12:20:04 +0200
+Subject: [PATCH] qemu_migration: Acquire correct job in
+ qemuMigrationSrcIsAllowed
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Commit 62627524607f added the acquiring of a job, but it is not always
+VIR_ASYNC_JOB_MIGRATION_OUT, so the code fails when doing save or anything else.
+Correct the async job by passing it from the caller as another parameter.
+
+Signed-off-by: Martin Kletzander <mkletzan@redhat.com>
+Reviewed-by: Jiri Denemark <jdenemar@redhat.com>
+(cherry picked from commit 69e0e33873f1aec55df77f12fb0197d50dca3319)
+Resolves: https://bugzilla.redhat.com/2092833
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+---
+ src/qemu/qemu_driver.c    | 8 ++++----
+ src/qemu/qemu_migration.c | 7 ++++---
+ src/qemu/qemu_migration.h | 1 +
+ src/qemu/qemu_snapshot.c  | 4 ++--
+ 4 files changed, 11 insertions(+), 9 deletions(-)
+
+diff --git a/src/qemu/qemu_driver.c b/src/qemu/qemu_driver.c
+index 654b5d65e5..847c96639d 100644
+--- a/src/qemu/qemu_driver.c
++++ b/src/qemu/qemu_driver.c
+@@ -2650,13 +2650,13 @@ qemuDomainSaveInternal(virQEMUDriver *driver,
+     virQEMUSaveData *data = NULL;
+     g_autoptr(qemuDomainSaveCookie) cookie = NULL;
+ 
+-    if (!qemuMigrationSrcIsAllowed(driver, vm, false, 0))
+-        goto cleanup;
+-
+     if (qemuDomainObjBeginAsyncJob(driver, vm, VIR_ASYNC_JOB_SAVE,
+                                    VIR_DOMAIN_JOB_OPERATION_SAVE, flags) < 0)
+         goto cleanup;
+ 
++    if (!qemuMigrationSrcIsAllowed(driver, vm, false, VIR_ASYNC_JOB_SAVE, 0))
++        goto cleanup;
++
+     if (!virDomainObjIsActive(vm)) {
+         virReportError(VIR_ERR_INTERNAL_ERROR, "%s",
+                        _("guest unexpectedly quit"));
+@@ -3176,7 +3176,7 @@ doCoreDump(virQEMUDriver *driver,
+             goto cleanup;
+         }
+ 
+-        if (!qemuMigrationSrcIsAllowed(driver, vm, false, 0))
++        if (!qemuMigrationSrcIsAllowed(driver, vm, false, VIR_ASYNC_JOB_DUMP, 0))
+             goto cleanup;
+ 
+         if (qemuMigrationSrcToFile(driver, vm, fd, compressor,
+diff --git a/src/qemu/qemu_migration.c b/src/qemu/qemu_migration.c
+index 96c4c0f1da..f571c9eb27 100644
+--- a/src/qemu/qemu_migration.c
++++ b/src/qemu/qemu_migration.c
+@@ -1452,6 +1452,7 @@ bool
+ qemuMigrationSrcIsAllowed(virQEMUDriver *driver,
+                           virDomainObj *vm,
+                           bool remote,
++                          int asyncJob,
+                           unsigned int flags)
+ {
+     qemuDomainObjPrivate *priv = vm->privateData;
+@@ -1483,7 +1484,7 @@ qemuMigrationSrcIsAllowed(virQEMUDriver *driver,
+             g_auto(GStrv) blockers = NULL;
+ 
+             if (qemuDomainGetMigrationBlockers(driver, vm,
+-                                               VIR_ASYNC_JOB_MIGRATION_OUT,
++                                               asyncJob,
+                                                &blockers) < 0) {
+                 return false;
+             }
+@@ -2632,7 +2633,7 @@ qemuMigrationSrcBeginPhase(virQEMUDriver *driver,
+         qemuMigrationJobStartPhase(vm, QEMU_MIGRATION_PHASE_BEGIN3) < 0)
+         return NULL;
+ 
+-    if (!qemuMigrationSrcIsAllowed(driver, vm, true, flags))
++    if (!qemuMigrationSrcIsAllowed(driver, vm, true, priv->job.asyncJob, flags))
+         return NULL;
+ 
+     if (!(flags & (VIR_MIGRATE_UNSAFE | VIR_MIGRATE_OFFLINE)) &&
+@@ -6033,7 +6034,7 @@ qemuMigrationSrcPerformJob(virQEMUDriver *driver,
+         if (!(flags & VIR_MIGRATE_OFFLINE) && virDomainObjCheckActive(vm) < 0)
+             goto endjob;
+ 
+-        if (!qemuMigrationSrcIsAllowed(driver, vm, true, flags))
++        if (!qemuMigrationSrcIsAllowed(driver, vm, true, VIR_ASYNC_JOB_MIGRATION_OUT, flags))
+             goto endjob;
+ 
+         if (!(flags & (VIR_MIGRATE_UNSAFE | VIR_MIGRATE_OFFLINE)) &&
+diff --git a/src/qemu/qemu_migration.h b/src/qemu/qemu_migration.h
+index 81cc1e91c0..61d12d6eb1 100644
+--- a/src/qemu/qemu_migration.h
++++ b/src/qemu/qemu_migration.h
+@@ -229,6 +229,7 @@ bool
+ qemuMigrationSrcIsAllowed(virQEMUDriver *driver,
+                           virDomainObj *vm,
+                           bool remote,
++                          int asyncJob,
+                           unsigned int flags);
+ 
+ int
+diff --git a/src/qemu/qemu_snapshot.c b/src/qemu/qemu_snapshot.c
+index 833f880252..0733d44faa 100644
+--- a/src/qemu/qemu_snapshot.c
++++ b/src/qemu/qemu_snapshot.c
+@@ -291,7 +291,7 @@ qemuSnapshotCreateActiveInternal(virQEMUDriver *driver,
+     virDomainSnapshotDef *snapdef = virDomainSnapshotObjGetDef(snap);
+     int ret = -1;
+ 
+-    if (!qemuMigrationSrcIsAllowed(driver, vm, false, 0))
++    if (!qemuMigrationSrcIsAllowed(driver, vm, false, VIR_ASYNC_JOB_SNAPSHOT, 0))
+         goto cleanup;
+ 
+     if (virDomainObjGetState(vm, NULL) == VIR_DOMAIN_RUNNING) {
+@@ -1422,7 +1422,7 @@ qemuSnapshotCreateActiveExternal(virQEMUDriver *driver,
+     /* do the memory snapshot if necessary */
+     if (memory) {
+         /* check if migration is possible */
+-        if (!qemuMigrationSrcIsAllowed(driver, vm, false, 0))
++        if (!qemuMigrationSrcIsAllowed(driver, vm, false, VIR_ASYNC_JOB_SNAPSHOT, 0))
+             goto cleanup;
+ 
+         qemuDomainJobSetStatsType(priv->job.current,
+-- 
+2.35.1
+

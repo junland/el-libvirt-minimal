@@ -1,0 +1,40 @@
+From f030ed332be8742918127fa3cc27aebb47b56c19 Mon Sep 17 00:00:00 2001
+Message-Id: <f030ed332be8742918127fa3cc27aebb47b56c19@dist-git>
+From: Michal Privoznik <mprivozn@redhat.com>
+Date: Wed, 3 Aug 2022 12:27:19 +0200
+Subject: [PATCH] qemu_process: Destroy domain's namespace after killing QEMU
+
+After QEMU is killed in qemuProcessStop() its mount namespace
+doesn't exist anymore, because it was the only process running
+there. Thus we should clear our internal flag that the domain has
+namespace enabled so that seclabel restore code does not try to
+enter it. We do the same in qemuProcessHandleMonitorEOF() but
+when it is us, who decides to kill QEMU rather than QEMU quitting
+we haven't seen EOF by the time qemuProcessStop() is called.
+
+Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+Reviewed-by: Martin Kletzander <mkletzan@redhat.com>
+(cherry picked from commit 589536e75d2af745c8f27134b466b23e4fbe3e95)
+Resolves: https://bugzilla.redhat.com/show_bug.cgi?id=2121141
+Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+---
+ src/qemu/qemu_process.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/src/qemu/qemu_process.c b/src/qemu/qemu_process.c
+index 1c28d4b102..4b52d664c7 100644
+--- a/src/qemu/qemu_process.c
++++ b/src/qemu/qemu_process.c
+@@ -8276,6 +8276,9 @@ void qemuProcessStop(virQEMUDriver *driver,
+                                  VIR_QEMU_PROCESS_KILL_FORCE|
+                                  VIR_QEMU_PROCESS_KILL_NOCHECK));
+ 
++    /* Its namespace is also gone then. */
++    qemuDomainDestroyNamespace(driver, vm);
++
+     qemuDomainCleanupRun(driver, vm);
+ 
+     qemuExtDevicesStop(driver, vm);
+-- 
+2.37.2
+

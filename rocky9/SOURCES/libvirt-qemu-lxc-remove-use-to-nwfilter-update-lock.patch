@@ -1,0 +1,222 @@
+From 7bcd75ca73d8eda05fafa8342309a8fd058cd326 Mon Sep 17 00:00:00 2001
+Message-Id: <7bcd75ca73d8eda05fafa8342309a8fd058cd326@dist-git>
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Date: Thu, 24 Feb 2022 19:02:32 +0000
+Subject: [PATCH] qemu,lxc: remove use to nwfilter update lock
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Now that the virNWFilterBinding APIs are using the nwfilter
+update lock directly, there is no need for the virt drivers
+to do it themselves.
+
+Reviewed-by: Laine Stump <laine@redhat.com>
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+(cherry picked from commit 5f8b090f421cd6a6c46f44905431491e2d3cf8f5)
+Resolves: https://bugzilla.redhat.com/show_bug.cgi?id=2044379
+Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+---
+ src/lxc/lxc_driver.c      |  6 ------
+ src/qemu/qemu_driver.c    | 18 ------------------
+ src/qemu/qemu_migration.c |  3 ---
+ src/qemu/qemu_process.c   |  4 ----
+ 4 files changed, 31 deletions(-)
+
+diff --git a/src/lxc/lxc_driver.c b/src/lxc/lxc_driver.c
+index 7bc39120ee..e581c62668 100644
+--- a/src/lxc/lxc_driver.c
++++ b/src/lxc/lxc_driver.c
+@@ -971,8 +971,6 @@ static int lxcDomainCreateWithFiles(virDomainPtr dom,
+ 
+     virCheckFlags(VIR_DOMAIN_START_AUTODESTROY, -1);
+ 
+-    virNWFilterReadLockFilterUpdates();
+-
+     if (!(vm = lxcDomObjFromDomain(dom)))
+         goto cleanup;
+ 
+@@ -1014,7 +1012,6 @@ static int lxcDomainCreateWithFiles(virDomainPtr dom,
+  cleanup:
+     virDomainObjEndAPI(&vm);
+     virObjectEventStateQueue(driver->domainEventState, event);
+-    virNWFilterUnlockFilterUpdates();
+     return ret;
+ }
+ 
+@@ -1080,8 +1077,6 @@ lxcDomainCreateXMLWithFiles(virConnectPtr conn,
+     if (flags & VIR_DOMAIN_START_VALIDATE)
+         parse_flags |= VIR_DOMAIN_DEF_PARSE_VALIDATE_SCHEMA;
+ 
+-    virNWFilterReadLockFilterUpdates();
+-
+     if (!(caps = virLXCDriverGetCapabilities(driver, false)))
+         goto cleanup;
+ 
+@@ -1138,7 +1133,6 @@ lxcDomainCreateXMLWithFiles(virConnectPtr conn,
+  cleanup:
+     virDomainObjEndAPI(&vm);
+     virObjectEventStateQueue(driver->domainEventState, event);
+-    virNWFilterUnlockFilterUpdates();
+     return dom;
+ }
+ 
+diff --git a/src/qemu/qemu_driver.c b/src/qemu/qemu_driver.c
+index d3d76c003f..00a86b6c7c 100644
+--- a/src/qemu/qemu_driver.c
++++ b/src/qemu/qemu_driver.c
+@@ -1603,8 +1603,6 @@ static virDomainPtr qemuDomainCreateXML(virConnectPtr conn,
+     if (flags & VIR_DOMAIN_START_AUTODESTROY)
+         start_flags |= VIR_QEMU_PROCESS_START_AUTODESTROY;
+ 
+-    virNWFilterReadLockFilterUpdates();
+-
+     if (!(def = virDomainDefParseString(xml, driver->xmlopt,
+                                         NULL, parse_flags)))
+         goto cleanup;
+@@ -1658,7 +1656,6 @@ static virDomainPtr qemuDomainCreateXML(virConnectPtr conn,
+     virDomainObjEndAPI(&vm);
+     virObjectEventStateQueue(driver->domainEventState, event);
+     virObjectEventStateQueue(driver->domainEventState, event2);
+-    virNWFilterUnlockFilterUpdates();
+     return dom;
+ }
+ 
+@@ -5773,8 +5770,6 @@ qemuDomainRestoreFlags(virConnectPtr conn,
+                   VIR_DOMAIN_SAVE_PAUSED, -1);
+ 
+ 
+-    virNWFilterReadLockFilterUpdates();
+-
+     fd = qemuSaveImageOpen(driver, NULL, path, &def, &data,
+                            (flags & VIR_DOMAIN_SAVE_BYPASS_CACHE) != 0,
+                            &wrapperFd, false, false);
+@@ -5846,7 +5841,6 @@ qemuDomainRestoreFlags(virConnectPtr conn,
+     if (vm && ret < 0)
+         qemuDomainRemoveInactiveJob(driver, vm);
+     virDomainObjEndAPI(&vm);
+-    virNWFilterUnlockFilterUpdates();
+     return ret;
+ }
+ 
+@@ -6395,8 +6389,6 @@ qemuDomainCreateWithFlags(virDomainPtr dom, unsigned int flags)
+                   VIR_DOMAIN_START_BYPASS_CACHE |
+                   VIR_DOMAIN_START_FORCE_BOOT, -1);
+ 
+-    virNWFilterReadLockFilterUpdates();
+-
+     if (!(vm = qemuDomainObjFromDomain(dom)))
+         goto cleanup;
+ 
+@@ -6425,7 +6417,6 @@ qemuDomainCreateWithFlags(virDomainPtr dom, unsigned int flags)
+ 
+  cleanup:
+     virDomainObjEndAPI(&vm);
+-    virNWFilterUnlockFilterUpdates();
+     return ret;
+ }
+ 
+@@ -7811,8 +7802,6 @@ qemuDomainAttachDeviceFlags(virDomainPtr dom,
+     virDomainObj *vm = NULL;
+     int ret = -1;
+ 
+-    virNWFilterReadLockFilterUpdates();
+-
+     if (!(vm = qemuDomainObjFromDomain(dom)))
+         goto cleanup;
+ 
+@@ -7835,7 +7824,6 @@ qemuDomainAttachDeviceFlags(virDomainPtr dom,
+ 
+  cleanup:
+     virDomainObjEndAPI(&vm);
+-    virNWFilterUnlockFilterUpdates();
+     return ret;
+ }
+ 
+@@ -7865,8 +7853,6 @@ static int qemuDomainUpdateDeviceFlags(virDomainPtr dom,
+                   VIR_DOMAIN_AFFECT_CONFIG |
+                   VIR_DOMAIN_DEVICE_MODIFY_FORCE, -1);
+ 
+-    virNWFilterReadLockFilterUpdates();
+-
+     cfg = virQEMUDriverGetConfig(driver);
+ 
+     if (!(vm = qemuDomainObjFromDomain(dom)))
+@@ -7943,7 +7929,6 @@ static int qemuDomainUpdateDeviceFlags(virDomainPtr dom,
+     if (dev != dev_copy)
+         virDomainDeviceDefFree(dev_copy);
+     virDomainObjEndAPI(&vm);
+-    virNWFilterUnlockFilterUpdates();
+     return ret;
+ }
+ 
+@@ -13644,8 +13629,6 @@ qemuDomainRevertToSnapshot(virDomainSnapshotPtr snapshot,
+     virDomainObj *vm = NULL;
+     int ret = -1;
+ 
+-    virNWFilterReadLockFilterUpdates();
+-
+     if (!(vm = qemuDomObjFromSnapshot(snapshot)))
+         goto cleanup;
+ 
+@@ -13656,7 +13639,6 @@ qemuDomainRevertToSnapshot(virDomainSnapshotPtr snapshot,
+ 
+  cleanup:
+     virDomainObjEndAPI(&vm);
+-    virNWFilterUnlockFilterUpdates();
+     return ret;
+ }
+ 
+diff --git a/src/qemu/qemu_migration.c b/src/qemu/qemu_migration.c
+index 2635ef1162..358cb9c3b5 100644
+--- a/src/qemu/qemu_migration.c
++++ b/src/qemu/qemu_migration.c
+@@ -2779,8 +2779,6 @@ qemuMigrationDstPrepareAny(virQEMUDriver *driver,
+     int rv;
+     g_autofree char *tlsAlias = NULL;
+ 
+-    virNWFilterReadLockFilterUpdates();
+-
+     if (flags & VIR_MIGRATE_OFFLINE) {
+         if (flags & (VIR_MIGRATE_NON_SHARED_DISK |
+                      VIR_MIGRATE_NON_SHARED_INC)) {
+@@ -3101,7 +3099,6 @@ qemuMigrationDstPrepareAny(virQEMUDriver *driver,
+     virDomainObjEndAPI(&vm);
+     virObjectEventStateQueue(driver->domainEventState, event);
+     qemuMigrationCookieFree(mig);
+-    virNWFilterUnlockFilterUpdates();
+     virErrorRestore(&origErr);
+     return ret;
+ 
+diff --git a/src/qemu/qemu_process.c b/src/qemu/qemu_process.c
+index 5c6657a876..914f9bef8b 100644
+--- a/src/qemu/qemu_process.c
++++ b/src/qemu/qemu_process.c
+@@ -8986,7 +8986,6 @@ qemuProcessReconnect(void *opaque)
+             qemuDomainRemoveInactiveJob(driver, obj);
+     }
+     virDomainObjEndAPI(&obj);
+-    virNWFilterUnlockFilterUpdates();
+     virIdentitySetCurrent(NULL);
+     return;
+ 
+@@ -9038,8 +9037,6 @@ qemuProcessReconnectHelper(virDomainObj *obj,
+     data->obj = obj;
+     data->identity = virIdentityGetCurrent();
+ 
+-    virNWFilterReadLockFilterUpdates();
+-
+     /* this lock and reference will be eventually transferred to the thread
+      * that handles the reconnect */
+     virObjectLock(obj);
+@@ -9062,7 +9059,6 @@ qemuProcessReconnectHelper(virDomainObj *obj,
+         qemuDomainRemoveInactiveJobLocked(src->driver, obj);
+ 
+         virDomainObjEndAPI(&obj);
+-        virNWFilterUnlockFilterUpdates();
+         g_clear_object(&data->identity);
+         VIR_FREE(data);
+         return -1;
+-- 
+2.35.1
+

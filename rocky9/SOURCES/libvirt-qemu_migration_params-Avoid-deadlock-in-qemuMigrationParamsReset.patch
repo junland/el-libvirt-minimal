@@ -1,0 +1,62 @@
+From 0022c9aef2ecf60e9091e6df57e56065b14b67c5 Mon Sep 17 00:00:00 2001
+Message-Id: <0022c9aef2ecf60e9091e6df57e56065b14b67c5@dist-git>
+From: Jiri Denemark <jdenemar@redhat.com>
+Date: Thu, 28 Jul 2022 15:35:45 +0200
+Subject: [PATCH] qemu_migration_params: Avoid deadlock in
+ qemuMigrationParamsReset
+
+In my recent comnmit v8.5.0-188-gc47f1abb81 I accidentally moved
+qemuMigrationParamsResetTLS after qemuDomainObjEnterMonitorAsync not
+noticing qemuMigrationParamsResetTLS will try to enter the monitor
+again. The second call will time out and return with a domain object
+locked. But we're still in monitor section and the object should be
+unlocked which means qemuDomainObjExitMonitor will deadlock trying to
+lock it again.
+
+Fixes: c47f1abb81194461377a0c608a7ecd87f9ce9146
+Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
+Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+(cherry picked from commit 8cb19a9b9a56ab6ebefc1f913c545e0bb86d4364)
+
+https://bugzilla.redhat.com/show_bug.cgi?id=2107892
+
+Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
+---
+ src/qemu/qemu_migration_params.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/src/qemu/qemu_migration_params.c b/src/qemu/qemu_migration_params.c
+index 4a824ff5e1..4766d16e64 100644
+--- a/src/qemu/qemu_migration_params.c
++++ b/src/qemu/qemu_migration_params.c
+@@ -1291,6 +1291,7 @@ qemuMigrationParamsReset(virQEMUDriver *driver,
+ {
+     virErrorPtr err;
+     g_autoptr(virBitmap) clearCaps = NULL;
++    int rc;
+ 
+     virErrorPreserveLast(&err);
+ 
+@@ -1305,11 +1306,16 @@ qemuMigrationParamsReset(virQEMUDriver *driver,
+ 
+     clearCaps = virBitmapNew(0);
+ 
+-    if (qemuMigrationParamsApplyCaps(vm, clearCaps) == 0 &&
+-        qemuMigrationParamsApplyValues(vm, origParams, false) == 0)
+-        qemuMigrationParamsResetTLS(driver, vm, asyncJob, origParams, apiFlags);
++    rc = 0;
++    if (qemuMigrationParamsApplyCaps(vm, clearCaps) < 0 ||
++        qemuMigrationParamsApplyValues(vm, origParams, false) < 0)
++        rc = -1;
+ 
+     qemuDomainObjExitMonitor(vm);
++    if (rc < 0)
++        goto cleanup;
++
++    qemuMigrationParamsResetTLS(driver, vm, asyncJob, origParams, apiFlags);
+ 
+  cleanup:
+     virErrorRestore(&err);
+-- 
+2.35.1
+

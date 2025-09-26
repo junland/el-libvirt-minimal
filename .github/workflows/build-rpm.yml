@@ -1,0 +1,66 @@
+name: Build RPM Package
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-rpm:
+    name: Build RPM Package
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        el_version: [9]
+
+    container:
+      image: quay.io/rockylinux/rockylinux:${{ matrix.el_version }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install build dependencies
+      run: |
+        dnf install -y rpm-build rpmdevtools tar gzip
+        rpmdev-setuptree
+        
+    - name: Prepare build environment files
+      run: |
+        # Copy spec file to rpmbuild directory
+        cp rocky${{ matrix.el_version }}/libvirt.spec ~/rpmbuild/SPECS/
+
+        # Copy source files to SOURCES directory
+        cp -r rocky${{ matrix.el_version }}/SOURCES/* ~/rpmbuild/SOURCES/
+
+        # Download additional sources if needed
+        spectool -g -R ~/rpmbuild/SPECS/libvirt.spec -C ~/rpmbuild/SOURCES/
+
+    - name: Install build dependencies from spec file
+      run: |
+        dnf builddep -y ~/rpmbuild/SPECS/libvirt.spec
+        
+    - name: Build source RPM
+      run: |
+        rpmbuild -bs ~/rpmbuild/SPECS/libvirt.spec
+        
+    - name: Build binary RPM
+      run: |
+        rpmbuild -bb ~/rpmbuild/SPECS/libvirt.spec
+        
+    - name: List built packages
+      run: |
+        find ~/rpmbuild -name "*.rpm" -type f -exec ls -la {} \;
+        
+    - name: Upload RPM artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: rpms-el${{ matrix.el_version }}
+        path: |
+          $(find ~/rpmbuild/RPMS -type f -name "*.rpm")
+          $(find ~/rpmbuild/SRPMS -type f -name "*.rpm")
+        # Retain RPM artifacts for 30 days to allow sufficient time for review and debugging.
+        retention-days: 30

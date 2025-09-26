@@ -1,0 +1,77 @@
+From bbab997f4307da65856dedd3f319037ce442d17e Mon Sep 17 00:00:00 2001
+Message-Id: <bbab997f4307da65856dedd3f319037ce442d17e@dist-git>
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Date: Thu, 24 Feb 2022 18:41:29 +0000
+Subject: [PATCH] nwfilter: hold filter update lock when creating/deleting
+ bindings
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+The nwfilter update lock is historically acquired by the virt
+drivers in order to achieve serialization between nwfilter
+define/undefine, and instantiation/teardown of filters.
+
+When running in the modular daemons, however, the mutex that
+the virt drivers are locking is in a completely different
+process from the mutex that the nwfilter driver is locking.
+
+Serialization is lost and thus call from the virt driver to
+virNWFilterBindingCreateXML can deadlock with a concurrent
+call to the virNWFilterDefineXML method.
+
+The solution is surprisingly easy, the update lock simply
+needs acquiring in the virNWFilterBindingCreateXML method
+and virNWFilterBindingUndefine method instead of in the
+virt drivers.
+
+The only semantic difference here is that when a virtual
+machine has multiple NICs, the instantiation and teardown
+of filters is no longer serialized for the whole VM, but
+rather for each NIC. This should not be a problem since
+the virt drivers already need to cope with tearing down
+a partially created VM where only some of the NICs are
+setup.
+
+Reviewed-by: Laine Stump <laine@redhat.com>
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+(cherry picked from commit 65dc79f50b96b34b2253601b8972d5ca90658f33)
+Resolves: https://bugzilla.redhat.com/show_bug.cgi?id=2044379
+Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+---
+ src/nwfilter/nwfilter_driver.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/src/nwfilter/nwfilter_driver.c b/src/nwfilter/nwfilter_driver.c
+index 200451d6b1..a4479fc9fe 100644
+--- a/src/nwfilter/nwfilter_driver.c
++++ b/src/nwfilter/nwfilter_driver.c
+@@ -760,12 +760,15 @@ nwfilterBindingCreateXML(virConnectPtr conn,
+     if (!(ret = virGetNWFilterBinding(conn, def->portdevname, def->filter)))
+         goto cleanup;
+ 
++    virNWFilterReadLockFilterUpdates();
+     if (virNWFilterInstantiateFilter(driver, def) < 0) {
++        virNWFilterUnlockFilterUpdates();
+         virNWFilterBindingObjListRemove(driver->bindings, obj);
+         virObjectUnref(ret);
+         ret = NULL;
+         goto cleanup;
+     }
++    virNWFilterUnlockFilterUpdates();
+     virNWFilterBindingObjSave(obj, driver->bindingDir);
+ 
+  cleanup:
+@@ -802,7 +805,9 @@ nwfilterBindingDelete(virNWFilterBindingPtr binding)
+     if (virNWFilterBindingDeleteEnsureACL(binding->conn, def) < 0)
+         goto cleanup;
+ 
++    virNWFilterReadLockFilterUpdates();
+     virNWFilterTeardownFilter(def);
++    virNWFilterUnlockFilterUpdates();
+     virNWFilterBindingObjDelete(obj, driver->bindingDir);
+     virNWFilterBindingObjListRemove(driver->bindings, obj);
+ 
+-- 
+2.35.1
+

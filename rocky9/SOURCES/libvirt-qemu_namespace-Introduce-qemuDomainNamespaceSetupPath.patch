@@ -1,0 +1,68 @@
+From c8379fdd0f13af84f4b2ed449f8de77117fd8bc7 Mon Sep 17 00:00:00 2001
+Message-Id: <c8379fdd0f13af84f4b2ed449f8de77117fd8bc7@dist-git>
+From: Michal Privoznik <mprivozn@redhat.com>
+Date: Tue, 6 Sep 2022 13:43:58 +0200
+Subject: [PATCH] qemu_namespace: Introduce qemuDomainNamespaceSetupPath()
+
+Sometimes it may come handy to just bind mount a directory/file
+into domain's namespace. Implement a thin wrapper over
+qemuNamespaceMknodPaths() which has all the logic we need.
+
+Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+Reviewed-by: Martin Kletzander <mkletzan@redhat.com>
+(cherry picked from commit 5853d707189005a4ea5b2215e80853867b822fd9)
+Resolves: https://bugzilla.redhat.com/show_bug.cgi?id=2152083
+Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+---
+ src/qemu/qemu_namespace.c | 19 +++++++++++++++++++
+ src/qemu/qemu_namespace.h |  4 ++++
+ 2 files changed, 23 insertions(+)
+
+diff --git a/src/qemu/qemu_namespace.c b/src/qemu/qemu_namespace.c
+index 807ec37c91..09e235e120 100644
+--- a/src/qemu/qemu_namespace.c
++++ b/src/qemu/qemu_namespace.c
+@@ -1424,6 +1424,25 @@ qemuNamespaceUnlinkPaths(virDomainObj *vm,
+ }
+ 
+ 
++int
++qemuDomainNamespaceSetupPath(virDomainObj *vm,
++                             const char *path,
++                             bool *created)
++{
++    g_autoptr(virGSListString) paths = NULL;
++
++    if (!qemuDomainNamespaceEnabled(vm, QEMU_DOMAIN_NS_MOUNT))
++        return 0;
++
++    paths = g_slist_prepend(paths, g_strdup(path));
++
++    if (qemuNamespaceMknodPaths(vm, paths, created) < 0)
++        return -1;
++
++    return 0;
++}
++
++
+ int
+ qemuDomainNamespaceSetupDisk(virDomainObj *vm,
+                              virStorageSource *src,
+diff --git a/src/qemu/qemu_namespace.h b/src/qemu/qemu_namespace.h
+index fbea865c70..85d990f460 100644
+--- a/src/qemu/qemu_namespace.h
++++ b/src/qemu/qemu_namespace.h
+@@ -48,6 +48,10 @@ void qemuDomainDestroyNamespace(virQEMUDriver *driver,
+ 
+ bool qemuDomainNamespaceAvailable(qemuDomainNamespace ns);
+ 
++int qemuDomainNamespaceSetupPath(virDomainObj *vm,
++                                 const char *path,
++                                 bool *created);
++
+ int qemuDomainNamespaceSetupDisk(virDomainObj *vm,
+                                  virStorageSource *src,
+                                  bool *created);
+-- 
+2.39.0
+

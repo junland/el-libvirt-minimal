@@ -1,0 +1,74 @@
+From 266e8c9174249b4d5a53dc8a43a3d7d9481d8b1c Mon Sep 17 00:00:00 2001
+Message-Id: <266e8c9174249b4d5a53dc8a43a3d7d9481d8b1c@dist-git>
+From: Michal Privoznik <mprivozn@redhat.com>
+Date: Tue, 12 Jul 2022 15:58:12 +0200
+Subject: [PATCH] domcaps: Introduce TPM backendVersion
+
+We accept TPM version in the domain XML. However, supported
+version depends on the host (swtpm_setup binary) and thus it may
+be tricky for users (or mgmt applications) chose a version.
+Introduce machinery for reporting supported version in domain
+capabilities.
+
+Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+Reviewed-by: Peter Krempa <pkrempa@redhat.com>
+(cherry picked from commit 1277a9c884039e92765c977917420511f45e52e8)
+Resolves: https://bugzilla.redhat.com/show_bug.cgi?id=2103119
+Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+---
+ docs/formatdomaincaps.rst      | 6 ++++++
+ src/conf/domain_capabilities.c | 1 +
+ src/conf/domain_capabilities.h | 1 +
+ 3 files changed, 8 insertions(+)
+
+diff --git a/docs/formatdomaincaps.rst b/docs/formatdomaincaps.rst
+index 3c425a9a4a..70f46b972a 100644
+--- a/docs/formatdomaincaps.rst
++++ b/docs/formatdomaincaps.rst
+@@ -513,6 +513,10 @@ TPM device capabilities are exposed under the ``tpm`` element. For instance:
+           <value>passthrough</value>
+           <value>emulator</value>
+         </enum>
++        <enum name='backendVersion'>
++          <value>1.2</value>
++          <value>2.0</value>
++        </enum>
+       </tpm>
+       ...
+     </devices>
+@@ -522,6 +526,8 @@ TPM device capabilities are exposed under the ``tpm`` element. For instance:
+    Options for the ``model`` attribute of the ``<tpm/>`` element.
+ ``backendModel``
+    Options for the ``type`` attribute of the ``<tpm><backend/>`` element.
++``backendVersion``
++   Options for the ``version`` attribute of the ``<tpm><backend/>`` element.
+ 
+ Features
+ ~~~~~~~~
+diff --git a/src/conf/domain_capabilities.c b/src/conf/domain_capabilities.c
+index 895e8d00e8..33570a51db 100644
+--- a/src/conf/domain_capabilities.c
++++ b/src/conf/domain_capabilities.c
+@@ -539,6 +539,7 @@ virDomainCapsDeviceTPMFormat(virBuffer *buf,
+ 
+     ENUM_PROCESS(tpm, model, virDomainTPMModelTypeToString);
+     ENUM_PROCESS(tpm, backendModel, virDomainTPMBackendTypeToString);
++    ENUM_PROCESS(tpm, backendVersion, virDomainTPMVersionTypeToString);
+ 
+     FORMAT_EPILOGUE(tpm);
+ }
+diff --git a/src/conf/domain_capabilities.h b/src/conf/domain_capabilities.h
+index f2eed80b15..a526969cda 100644
+--- a/src/conf/domain_capabilities.h
++++ b/src/conf/domain_capabilities.h
+@@ -127,6 +127,7 @@ struct _virDomainCapsDeviceTPM {
+     virTristateBool supported;
+     virDomainCapsEnum model;   /* virDomainTPMModel */
+     virDomainCapsEnum backendModel;   /* virDomainTPMBackendType */
++    virDomainCapsEnum backendVersion; /* virDomainTPMVersion */
+ };
+ 
+ STATIC_ASSERT_ENUM(VIR_DOMAIN_FS_DRIVER_TYPE_LAST);
+-- 
+2.35.1
+

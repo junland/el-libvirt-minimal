@@ -1,0 +1,229 @@
+From b8c791a3fc2767e6d899e3e0c590a93cb0ee7e03 Mon Sep 17 00:00:00 2001
+Message-Id: <b8c791a3fc2767e6d899e3e0c590a93cb0ee7e03@dist-git>
+From: Jiri Denemark <jdenemar@redhat.com>
+Date: Thu, 30 Jun 2022 12:52:38 +0200
+Subject: [PATCH] qemu_migration: Apply max-postcopy-bandwidth on post-copy
+ resume
+
+When resuming post-copy migration users may want to limit the bandwidth
+used by the migration and use a value that is different from the one
+specified when the migration was originally started.
+
+Resolves: https://gitlab.com/libvirt/libvirt/-/issues/333
+
+Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
+Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+(cherry picked from commit 766abdc291ba606379a7d197bff477fef25fb508)
+
+https://bugzilla.redhat.com/show_bug.cgi?id=2111070
+
+Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
+---
+ src/qemu/qemu_migration.c            | 12 ++++++--
+ src/qemu/qemu_migration_params.c     | 45 ++++++++++++++++++----------
+ src/qemu/qemu_migration_paramspriv.h |  3 +-
+ tests/qemumigparamstest.c            |  2 +-
+ tests/qemumigrationcookiexmltest.c   |  2 +-
+ 5 files changed, 42 insertions(+), 22 deletions(-)
+
+diff --git a/src/qemu/qemu_migration.c b/src/qemu/qemu_migration.c
+index 285a49c5ff..8a2f5b09a1 100644
+--- a/src/qemu/qemu_migration.c
++++ b/src/qemu/qemu_migration.c
+@@ -5097,12 +5097,13 @@ qemuMigrationSrcRun(virQEMUDriver *driver,
+ 
+ static int
+ qemuMigrationSrcResume(virDomainObj *vm,
+-                       qemuMigrationParams *migParams G_GNUC_UNUSED,
++                       qemuMigrationParams *migParams,
+                        const char *cookiein,
+                        int cookieinlen,
+                        char **cookieout,
+                        int *cookieoutlen,
+-                       qemuMigrationSpec *spec)
++                       qemuMigrationSpec *spec,
++                       unsigned long flags)
+ {
+     qemuDomainObjPrivate *priv = vm->privateData;
+     virQEMUDriver *driver = priv->driver;
+@@ -5119,6 +5120,10 @@ qemuMigrationSrcResume(virDomainObj *vm,
+     if (!mig)
+         return -1;
+ 
++    if (qemuMigrationParamsApply(driver, vm, VIR_ASYNC_JOB_MIGRATION_OUT,
++                                 migParams, flags) < 0)
++        return -1;
++
+     if (qemuDomainObjEnterMonitorAsync(driver, vm,
+                                        VIR_ASYNC_JOB_MIGRATION_OUT) < 0)
+         return -1;
+@@ -5200,6 +5205,7 @@ qemuMigrationSrcPerformNative(virQEMUDriver *driver,
+ 
+     if (STREQ(uribits->scheme, "unix")) {
+         if ((flags & VIR_MIGRATE_TLS) &&
++            !(flags & VIR_MIGRATE_POSTCOPY_RESUME) &&
+             !qemuMigrationParamsTLSHostnameIsSet(migParams)) {
+             virReportError(VIR_ERR_OPERATION_UNSUPPORTED, "%s",
+                            _("Explicit destination hostname is required "
+@@ -5231,7 +5237,7 @@ qemuMigrationSrcPerformNative(virQEMUDriver *driver,
+ 
+     if (flags & VIR_MIGRATE_POSTCOPY_RESUME) {
+         ret = qemuMigrationSrcResume(vm, migParams, cookiein, cookieinlen,
+-                                     cookieout, cookieoutlen, &spec);
++                                     cookieout, cookieoutlen, &spec, flags);
+     } else {
+         ret = qemuMigrationSrcRun(driver, vm, persist_xml, cookiein, cookieinlen,
+                                   cookieout, cookieoutlen, flags, resource,
+diff --git a/src/qemu/qemu_migration_params.c b/src/qemu/qemu_migration_params.c
+index a68aed9aa4..6ea0bde13a 100644
+--- a/src/qemu/qemu_migration_params.c
++++ b/src/qemu/qemu_migration_params.c
+@@ -141,6 +141,7 @@ struct _qemuMigrationParamsTPMapItem {
+ typedef struct _qemuMigrationParamInfoItem qemuMigrationParamInfoItem;
+ struct _qemuMigrationParamInfoItem {
+     qemuMigrationParamType type;
++    bool applyOnPostcopyResume;
+ };
+ 
+ /* Migration capabilities which should always be enabled as long as they
+@@ -265,6 +266,7 @@ static const qemuMigrationParamInfoItem qemuMigrationParamInfo[] = {
+     },
+     [QEMU_MIGRATION_PARAM_MAX_POSTCOPY_BANDWIDTH] = {
+         .type = QEMU_MIGRATION_PARAM_TYPE_ULL,
++        .applyOnPostcopyResume = true,
+     },
+     [QEMU_MIGRATION_PARAM_MULTIFD_CHANNELS] = {
+         .type = QEMU_MIGRATION_PARAM_TYPE_INT,
+@@ -782,7 +784,8 @@ qemuMigrationParamsFromJSON(virJSONValue *params)
+ 
+ 
+ virJSONValue *
+-qemuMigrationParamsToJSON(qemuMigrationParams *migParams)
++qemuMigrationParamsToJSON(qemuMigrationParams *migParams,
++                          bool postcopyResume)
+ {
+     g_autoptr(virJSONValue) params = virJSONValueNewObject();
+     size_t i;
+@@ -795,6 +798,9 @@ qemuMigrationParamsToJSON(qemuMigrationParams *migParams)
+         if (!pv->set)
+             continue;
+ 
++        if (postcopyResume && !qemuMigrationParamInfo[i].applyOnPostcopyResume)
++            continue;
++
+         switch (qemuMigrationParamInfo[i].type) {
+         case QEMU_MIGRATION_PARAM_TYPE_INT:
+             rc = virJSONValueObjectAppendNumberInt(params, name, pv->value.i);
+@@ -868,6 +874,7 @@ qemuMigrationCapsToJSON(virBitmap *caps,
+  *
+  * Send parameters stored in @migParams to QEMU. If @apiFlags is non-zero, some
+  * parameters that do not make sense for the enabled flags will be ignored.
++ * VIR_MIGRATE_POSTCOPY_RESUME is the only flag checked currently.
+  *
+  * Returns 0 on success, -1 on failure.
+  */
+@@ -876,32 +883,38 @@ qemuMigrationParamsApply(virQEMUDriver *driver,
+                          virDomainObj *vm,
+                          int asyncJob,
+                          qemuMigrationParams *migParams,
+-                         unsigned long apiFlags G_GNUC_UNUSED)
++                         unsigned long apiFlags)
+ {
+     qemuDomainObjPrivate *priv = vm->privateData;
+     bool xbzrleCacheSize_old = false;
+     g_autoptr(virJSONValue) params = NULL;
+     g_autoptr(virJSONValue) caps = NULL;
+     qemuMigrationParam xbzrle = QEMU_MIGRATION_PARAM_XBZRLE_CACHE_SIZE;
++    bool postcopyResume = !!(apiFlags & VIR_MIGRATE_POSTCOPY_RESUME);
+     int ret = -1;
+ 
+     if (qemuDomainObjEnterMonitorAsync(driver, vm, asyncJob) < 0)
+         return -1;
+ 
+-    if (asyncJob == VIR_ASYNC_JOB_NONE) {
+-        if (!virBitmapIsAllClear(migParams->caps)) {
+-            virReportError(VIR_ERR_INTERNAL_ERROR, "%s",
+-                           _("Migration capabilities can only be set by "
+-                             "a migration job"));
+-            goto cleanup;
+-        }
+-    } else {
+-        if (!(caps = qemuMigrationCapsToJSON(priv->migrationCaps, migParams->caps)))
+-            goto cleanup;
++    /* Changing capabilities is only allowed before migration starts, we need
++     * to skip them when resuming post-copy migration.
++     */
++    if (!postcopyResume) {
++        if (asyncJob == VIR_ASYNC_JOB_NONE) {
++            if (!virBitmapIsAllClear(migParams->caps)) {
++                virReportError(VIR_ERR_INTERNAL_ERROR, "%s",
++                               _("Migration capabilities can only be set by "
++                                 "a migration job"));
++                goto cleanup;
++            }
++        } else {
++            if (!(caps = qemuMigrationCapsToJSON(priv->migrationCaps, migParams->caps)))
++                goto cleanup;
+ 
+-        if (virJSONValueArraySize(caps) > 0 &&
+-            qemuMonitorSetMigrationCapabilities(priv->mon, &caps) < 0)
+-            goto cleanup;
++            if (virJSONValueArraySize(caps) > 0 &&
++                qemuMonitorSetMigrationCapabilities(priv->mon, &caps) < 0)
++                goto cleanup;
++        }
+     }
+ 
+     /* If QEMU is too old to support xbzrle-cache-size migration parameter,
+@@ -917,7 +930,7 @@ qemuMigrationParamsApply(virQEMUDriver *driver,
+         migParams->params[xbzrle].set = false;
+     }
+ 
+-    if (!(params = qemuMigrationParamsToJSON(migParams)))
++    if (!(params = qemuMigrationParamsToJSON(migParams, postcopyResume)))
+         goto cleanup;
+ 
+     if (virJSONValueObjectKeysNumber(params) > 0 &&
+diff --git a/src/qemu/qemu_migration_paramspriv.h b/src/qemu/qemu_migration_paramspriv.h
+index f7e0f51fbd..34d51231ff 100644
+--- a/src/qemu/qemu_migration_paramspriv.h
++++ b/src/qemu/qemu_migration_paramspriv.h
+@@ -26,7 +26,8 @@
+ #pragma once
+ 
+ virJSONValue *
+-qemuMigrationParamsToJSON(qemuMigrationParams *migParams);
++qemuMigrationParamsToJSON(qemuMigrationParams *migParams,
++                          bool postcopyResume);
+ 
+ qemuMigrationParams *
+ qemuMigrationParamsFromJSON(virJSONValue *params);
+diff --git a/tests/qemumigparamstest.c b/tests/qemumigparamstest.c
+index bcdee5f32b..5d45a9dd58 100644
+--- a/tests/qemumigparamstest.c
++++ b/tests/qemumigparamstest.c
+@@ -155,7 +155,7 @@ qemuMigParamsTestJSON(const void *opaque)
+     if (!(migParams = qemuMigrationParamsFromJSON(paramsIn)))
+         return -1;
+ 
+-    if (!(paramsOut = qemuMigrationParamsToJSON(migParams)) ||
++    if (!(paramsOut = qemuMigrationParamsToJSON(migParams, false)) ||
+         !(actualJSON = virJSONValueToString(paramsOut, true)))
+         return -1;
+ 
+diff --git a/tests/qemumigrationcookiexmltest.c b/tests/qemumigrationcookiexmltest.c
+index 316bfedd15..9731348b53 100644
+--- a/tests/qemumigrationcookiexmltest.c
++++ b/tests/qemumigrationcookiexmltest.c
+@@ -333,7 +333,7 @@ testQemuMigrationCookieBlockDirtyBitmaps(const void *opaque)
+ 
+     qemuMigrationParamsSetBlockDirtyBitmapMapping(migParams, &migParamsBitmaps);
+ 
+-    if (!(paramsOut = qemuMigrationParamsToJSON(migParams)) ||
++    if (!(paramsOut = qemuMigrationParamsToJSON(migParams, false)) ||
+         !(actualJSON = virJSONValueToString(paramsOut, true)))
+         return -1;
+ 
+-- 
+2.35.1
+

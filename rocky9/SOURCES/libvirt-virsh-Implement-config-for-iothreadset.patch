@@ -1,0 +1,62 @@
+From 02ebd15a48da7a53560bbea5e530a5b9c929daee Mon Sep 17 00:00:00 2001
+Message-Id: <02ebd15a48da7a53560bbea5e530a5b9c929daee@dist-git>
+From: Michal Privoznik <mprivozn@redhat.com>
+Date: Thu, 7 Jul 2022 17:44:32 +0200
+Subject: [PATCH] virsh: Implement --config for iothreadset
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Our man page already documents that iothreadset has --config
+argument. Well, it doesn't really. Normally, I'd just fix the man
+page, but with recent work on the API it's possible to tweak
+values for inactive XML too. Therefore, implement the --config
+argument for the command.
+
+Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+Reviewed-by: Ján Tomko <jtomko@redhat.com>
+(cherry picked from commit 3ff558c1c171f66da84b10c81937c1a6895ec6fb)
+Resolves: https://bugzilla.redhat.com/show_bug.cgi?id=2059511
+Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+---
+ tools/virsh-domain.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/tools/virsh-domain.c b/tools/virsh-domain.c
+index 43034f2f81..da63cc95ff 100644
+--- a/tools/virsh-domain.c
++++ b/tools/virsh-domain.c
+@@ -7831,6 +7831,7 @@ static const vshCmdOptDef opts_iothreadset[] = {
+      .type = VSH_OT_INT,
+      .help = N_("upper boundary for worker thread pool")
+     },
++    VIRSH_COMMON_OPT_DOMAIN_CONFIG,
+     VIRSH_COMMON_OPT_DOMAIN_LIVE,
+     VIRSH_COMMON_OPT_DOMAIN_CURRENT,
+     {.name = NULL}
+@@ -7842,6 +7843,8 @@ cmdIOThreadSet(vshControl *ctl, const vshCmd *cmd)
+     g_autoptr(virshDomain) dom = NULL;
+     int id = 0;
+     bool ret = false;
++    bool current = vshCommandOptBool(cmd, "current");
++    bool config = vshCommandOptBool(cmd, "config");
+     bool live = vshCommandOptBool(cmd, "live");
+     unsigned int flags = VIR_DOMAIN_AFFECT_CURRENT;
+     virTypedParameterPtr params = NULL;
+@@ -7852,8 +7855,13 @@ cmdIOThreadSet(vshControl *ctl, const vshCmd *cmd)
+     int thread_val;
+     int rc;
+ 
++    VSH_EXCLUSIVE_OPTIONS_VAR(current, live);
++    VSH_EXCLUSIVE_OPTIONS_VAR(current, config);
++
+     if (live)
+         flags |= VIR_DOMAIN_AFFECT_LIVE;
++    if (config)
++        flags |= VIR_DOMAIN_AFFECT_CONFIG;
+ 
+     if (!(dom = virshCommandOptDomain(ctl, cmd, NULL)))
+         return false;
+-- 
+2.35.1
+

@@ -1,0 +1,51 @@
+From c50cae68f0d083ad0c5ffcf85908cc62eeaa866d Mon Sep 17 00:00:00 2001
+Message-Id: <c50cae68f0d083ad0c5ffcf85908cc62eeaa866d@dist-git>
+From: Jiri Denemark <jdenemar@redhat.com>
+Date: Tue, 19 Jul 2022 13:48:44 +0200
+Subject: [PATCH] qemu_migration: Store original migration params in status XML
+
+We keep original values of migration parameters so that we can restore
+them at the end of migration to make sure later migration does not use
+some random values. However, this does not really work when libvirt
+daemon is restarted on the source host because we failed to explicitly
+save the status XML after getting the migration parameters from QEMU.
+Actually it might work if the status XML is written later for some other
+reason such as domain state change, but that's not how it should work.
+
+https://bugzilla.redhat.com/show_bug.cgi?id=2107892
+
+Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
+Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+(cherry picked from commit c7238941357f0d2e94524cf8c5ad7d9c82dcf2f9)
+Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
+---
+ src/qemu/qemu_migration.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/src/qemu/qemu_migration.c b/src/qemu/qemu_migration.c
+index 8a2f5b09a1..9289df81eb 100644
+--- a/src/qemu/qemu_migration.c
++++ b/src/qemu/qemu_migration.c
+@@ -3245,6 +3245,9 @@ qemuMigrationDstPrepareActive(virQEMUDriver *driver,
+                                  migParams, mig->caps->automatic) < 0)
+         goto error;
+ 
++    /* Save original migration parameters */
++    qemuDomainSaveStatus(vm);
++
+     /* Migrations using TLS need to add the "tls-creds-x509" object and
+      * set the migration TLS parameters */
+     if (flags & VIR_MIGRATE_TLS) {
+@@ -4822,6 +4825,9 @@ qemuMigrationSrcRun(virQEMUDriver *driver,
+                                  migParams, mig->caps->automatic) < 0)
+         goto error;
+ 
++    /* Save original migration parameters */
++    qemuDomainSaveStatus(vm);
++
+     if (flags & VIR_MIGRATE_TLS) {
+         const char *hostname = NULL;
+ 
+-- 
+2.35.1
+

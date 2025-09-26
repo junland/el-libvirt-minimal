@@ -1,0 +1,215 @@
+From 045c3fbdc6f4a5b98013a00fcaefcd3481c1df39 Mon Sep 17 00:00:00 2001
+Message-Id: <045c3fbdc6f4a5b98013a00fcaefcd3481c1df39@dist-git>
+From: Michal Privoznik <mprivozn@redhat.com>
+Date: Fri, 8 Jul 2022 12:45:42 +0200
+Subject: [PATCH] virsh: Require --xpath for *dumpxml
+
+Historically, the dumpxml command reject any unknown arguments,
+for instance:
+
+    virsh dumpxml fedora xxx
+
+However, after v8.5.0-rc1~31 the second argument ('xxx') is
+treated as an XPath, but it's not that clearly visible.
+Therefore, require the --xpath switch, like this:
+
+    virsh dumpxml fedora --xpath xxx
+
+Yes, this breaks already released virsh, but I think we can argue
+that the pool of users of this particular function is very small.
+We also document the argument being mandatory:
+
+   dumpxml [--inactive] [--security-info] [--update-cpu] [--migratable]
+           [--xpath EXPRESSION] [--wrap] domain
+
+The sooner we do this change, the better.
+
+The same applies for other *dumpxml functions (net-dumpxml,
+pool-dumpxml, vol-dumpxl to name a few).
+
+Resolves: https://bugzilla.redhat.com/show_bug.cgi?id=2103524
+Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+Reviewed-by: Peter Krempa <pkrempa@redhat.com>
+(cherry picked from commit e90d48ae6e22eaf1650f920abc0a6b87d2daa82b)
+Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+---
+ tools/virsh-backup.c     | 1 +
+ tools/virsh-checkpoint.c | 1 +
+ tools/virsh-domain.c     | 3 +++
+ tools/virsh-interface.c  | 1 +
+ tools/virsh-network.c    | 2 ++
+ tools/virsh-nodedev.c    | 1 +
+ tools/virsh-nwfilter.c   | 2 ++
+ tools/virsh-pool.c       | 1 +
+ tools/virsh-secret.c     | 1 +
+ tools/virsh-snapshot.c   | 1 +
+ tools/virsh-volume.c     | 1 +
+ 11 files changed, 15 insertions(+)
+
+diff --git a/tools/virsh-backup.c b/tools/virsh-backup.c
+index db122abc09..1bb2c63113 100644
+--- a/tools/virsh-backup.c
++++ b/tools/virsh-backup.c
+@@ -117,6 +117,7 @@ static const vshCmdOptDef opts_backup_dumpxml[] = {
+     VIRSH_COMMON_OPT_DOMAIN_FULL(VIR_CONNECT_LIST_DOMAINS_ACTIVE),
+     {.name = "xpath",
+      .type = VSH_OT_STRING,
++     .flags = VSH_OFLAG_REQ_OPT,
+      .completer = virshCompleteEmpty,
+      .help = N_("xpath expression to filter the XML document")
+     },
+diff --git a/tools/virsh-checkpoint.c b/tools/virsh-checkpoint.c
+index a7ef39849d..9605c893af 100644
+--- a/tools/virsh-checkpoint.c
++++ b/tools/virsh-checkpoint.c
+@@ -854,6 +854,7 @@ static const vshCmdOptDef opts_checkpoint_dumpxml[] = {
+     },
+     {.name = "xpath",
+      .type = VSH_OT_STRING,
++     .flags = VSH_OFLAG_REQ_OPT,
+      .completer = virshCompleteEmpty,
+      .help = N_("xpath expression to filter the XML document")
+     },
+diff --git a/tools/virsh-domain.c b/tools/virsh-domain.c
+index da63cc95ff..76d12d2b70 100644
+--- a/tools/virsh-domain.c
++++ b/tools/virsh-domain.c
+@@ -4529,6 +4529,7 @@ static const vshCmdOptDef opts_save_image_dumpxml[] = {
+     },
+     {.name = "xpath",
+      .type = VSH_OT_STRING,
++     .flags = VSH_OFLAG_REQ_OPT,
+      .completer = virshCompleteEmpty,
+      .help = N_("xpath expression to filter the XML document")
+     },
+@@ -4961,6 +4962,7 @@ static const vshCmdOptDef opts_managed_save_dumpxml[] = {
+     },
+     {.name = "xpath",
+      .type = VSH_OT_STRING,
++     .flags = VSH_OFLAG_REQ_OPT,
+      .completer = virshCompleteEmpty,
+      .help = N_("xpath expression to filter the XML document")
+     },
+@@ -10469,6 +10471,7 @@ static const vshCmdOptDef opts_dumpxml[] = {
+     },
+     {.name = "xpath",
+      .type = VSH_OT_STRING,
++     .flags = VSH_OFLAG_REQ_OPT,
+      .completer = virshCompleteEmpty,
+      .help = N_("xpath expression to filter the XML document")
+     },
+diff --git a/tools/virsh-interface.c b/tools/virsh-interface.c
+index b29ffc9bef..39ea53ec9d 100644
+--- a/tools/virsh-interface.c
++++ b/tools/virsh-interface.c
+@@ -472,6 +472,7 @@ static const vshCmdOptDef opts_interface_dumpxml[] = {
+     },
+     {.name = "xpath",
+      .type = VSH_OT_STRING,
++     .flags = VSH_OFLAG_REQ_OPT,
+      .completer = virshCompleteEmpty,
+      .help = N_("xpath expression to filter the XML document")
+     },
+diff --git a/tools/virsh-network.c b/tools/virsh-network.c
+index 99ced6ccc6..004719dad6 100644
+--- a/tools/virsh-network.c
++++ b/tools/virsh-network.c
+@@ -351,6 +351,7 @@ static const vshCmdOptDef opts_network_dumpxml[] = {
+     },
+     {.name = "xpath",
+      .type = VSH_OT_STRING,
++     .flags = VSH_OFLAG_REQ_OPT,
+      .completer = virshCompleteEmpty,
+      .help = N_("xpath expression to filter the XML document")
+     },
+@@ -1556,6 +1557,7 @@ static const vshCmdOptDef opts_network_port_dumpxml[] = {
+     VIRSH_COMMON_OPT_NETWORK_PORT(0),
+     {.name = "xpath",
+      .type = VSH_OT_STRING,
++     .flags = VSH_OFLAG_REQ_OPT,
+      .completer = virshCompleteEmpty,
+      .help = N_("xpath expression to filter the XML document")
+     },
+diff --git a/tools/virsh-nodedev.c b/tools/virsh-nodedev.c
+index 37e361c701..2adcad9c10 100644
+--- a/tools/virsh-nodedev.c
++++ b/tools/virsh-nodedev.c
+@@ -567,6 +567,7 @@ static const vshCmdOptDef opts_node_device_dumpxml[] = {
+     },
+     {.name = "xpath",
+      .type = VSH_OT_STRING,
++     .flags = VSH_OFLAG_REQ_OPT,
+      .completer = virshCompleteEmpty,
+      .help = N_("xpath expression to filter the XML document")
+     },
+diff --git a/tools/virsh-nwfilter.c b/tools/virsh-nwfilter.c
+index ff7f6f4026..d4112c8620 100644
+--- a/tools/virsh-nwfilter.c
++++ b/tools/virsh-nwfilter.c
+@@ -188,6 +188,7 @@ static const vshCmdOptDef opts_nwfilter_dumpxml[] = {
+     },
+     {.name = "xpath",
+      .type = VSH_OT_STRING,
++     .flags = VSH_OFLAG_REQ_OPT,
+      .completer = virshCompleteEmpty,
+      .help = N_("xpath expression to filter the XML document")
+     },
+@@ -610,6 +611,7 @@ static const vshCmdOptDef opts_nwfilter_binding_dumpxml[] = {
+     },
+     {.name = "xpath",
+      .type = VSH_OT_STRING,
++     .flags = VSH_OFLAG_REQ_OPT,
+      .completer = virshCompleteEmpty,
+      .help = N_("xpath expression to filter the XML document")
+     },
+diff --git a/tools/virsh-pool.c b/tools/virsh-pool.c
+index 820a61f889..8a98c6ae40 100644
+--- a/tools/virsh-pool.c
++++ b/tools/virsh-pool.c
+@@ -777,6 +777,7 @@ static const vshCmdOptDef opts_pool_dumpxml[] = {
+     },
+     {.name = "xpath",
+      .type = VSH_OT_STRING,
++     .flags = VSH_OFLAG_REQ_OPT,
+      .completer = virshCompleteEmpty,
+      .help = N_("xpath expression to filter the XML document")
+     },
+diff --git a/tools/virsh-secret.c b/tools/virsh-secret.c
+index 79fa3faf5a..17d2bbd88d 100644
+--- a/tools/virsh-secret.c
++++ b/tools/virsh-secret.c
+@@ -140,6 +140,7 @@ static const vshCmdOptDef opts_secret_dumpxml[] = {
+     },
+     {.name = "xpath",
+      .type = VSH_OT_STRING,
++     .flags = VSH_OFLAG_REQ_OPT,
+      .completer = virshCompleteEmpty,
+      .help = N_("xpath expression to filter the XML document")
+     },
+diff --git a/tools/virsh-snapshot.c b/tools/virsh-snapshot.c
+index 83fdfb9616..8fa64ba903 100644
+--- a/tools/virsh-snapshot.c
++++ b/tools/virsh-snapshot.c
+@@ -1609,6 +1609,7 @@ static const vshCmdOptDef opts_snapshot_dumpxml[] = {
+     },
+     {.name = "xpath",
+      .type = VSH_OT_STRING,
++     .flags = VSH_OFLAG_REQ_OPT,
+      .completer = virshCompleteEmpty,
+      .help = N_("xpath expression to filter the XML document")
+     },
+diff --git a/tools/virsh-volume.c b/tools/virsh-volume.c
+index bf72d8135f..300a0aa8e5 100644
+--- a/tools/virsh-volume.c
++++ b/tools/virsh-volume.c
+@@ -1161,6 +1161,7 @@ static const vshCmdOptDef opts_vol_dumpxml[] = {
+     VIRSH_COMMON_OPT_POOL_OPTIONAL,
+     {.name = "xpath",
+      .type = VSH_OT_STRING,
++     .flags = VSH_OFLAG_REQ_OPT,
+      .completer = virshCompleteEmpty,
+      .help = N_("xpath expression to filter the XML document")
+     },
+-- 
+2.35.1
+

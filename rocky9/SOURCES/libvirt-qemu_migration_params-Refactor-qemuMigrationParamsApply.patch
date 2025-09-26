@@ -1,0 +1,107 @@
+From 852927ea725deae6d4ef8a87383a78d9b0b1cd83 Mon Sep 17 00:00:00 2001
+Message-Id: <852927ea725deae6d4ef8a87383a78d9b0b1cd83@dist-git>
+From: Jiri Denemark <jdenemar@redhat.com>
+Date: Thu, 21 Jul 2022 15:59:51 +0200
+Subject: [PATCH] qemu_migration_params: Refactor qemuMigrationParamsApply
+
+qemuMigrationParamsApply restricts when capabilities can be set, but
+this is not useful in all cases. Let's create new helpers for setting
+migration capabilities and parameters which can be reused in more places
+without the restriction.
+
+https://bugzilla.redhat.com/show_bug.cgi?id=2107892
+
+Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
+Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+(cherry picked from commit c0824fd03802085db698c10fe62c98cc95a57941)
+Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
+---
+ src/qemu/qemu_migration_params.c | 55 +++++++++++++++++++++++---------
+ 1 file changed, 40 insertions(+), 15 deletions(-)
+
+diff --git a/src/qemu/qemu_migration_params.c b/src/qemu/qemu_migration_params.c
+index 0bce358ac3..7b9e5453f6 100644
+--- a/src/qemu/qemu_migration_params.c
++++ b/src/qemu/qemu_migration_params.c
+@@ -864,6 +864,43 @@ qemuMigrationCapsToJSON(virBitmap *caps,
+ }
+ 
+ 
++static int
++qemuMigrationParamsApplyCaps(virDomainObj *vm,
++                             virBitmap *states)
++{
++    qemuDomainObjPrivate *priv = vm->privateData;
++    g_autoptr(virJSONValue) json = NULL;
++
++    if (!(json = qemuMigrationCapsToJSON(priv->migrationCaps, states)))
++        return -1;
++
++    if (virJSONValueArraySize(json) > 0 &&
++        qemuMonitorSetMigrationCapabilities(priv->mon, &json) < 0)
++        return -1;
++
++    return 0;
++}
++
++
++static int
++qemuMigrationParamsApplyValues(virDomainObj *vm,
++                               qemuMigrationParams *params,
++                               bool postcopyResume)
++{
++    qemuDomainObjPrivate *priv = vm->privateData;
++    g_autoptr(virJSONValue) json = NULL;
++
++    if (!(json = qemuMigrationParamsToJSON(params, postcopyResume)))
++        return -1;
++
++    if (virJSONValueObjectKeysNumber(json) > 0 &&
++        qemuMonitorSetMigrationParams(priv->mon, &json) < 0)
++        return -1;
++
++    return 0;
++}
++
++
+ /**
+  * qemuMigrationParamsApply
+  * @driver: qemu driver
+@@ -885,9 +922,6 @@ qemuMigrationParamsApply(virQEMUDriver *driver,
+                          qemuMigrationParams *migParams,
+                          unsigned long apiFlags)
+ {
+-    qemuDomainObjPrivate *priv = vm->privateData;
+-    g_autoptr(virJSONValue) params = NULL;
+-    g_autoptr(virJSONValue) caps = NULL;
+     bool postcopyResume = !!(apiFlags & VIR_MIGRATE_POSTCOPY_RESUME);
+     int ret = -1;
+ 
+@@ -905,21 +939,12 @@ qemuMigrationParamsApply(virQEMUDriver *driver,
+                                  "a migration job"));
+                 goto cleanup;
+             }
+-        } else {
+-            if (!(caps = qemuMigrationCapsToJSON(priv->migrationCaps, migParams->caps)))
+-                goto cleanup;
+-
+-            if (virJSONValueArraySize(caps) > 0 &&
+-                qemuMonitorSetMigrationCapabilities(priv->mon, &caps) < 0)
+-                goto cleanup;
++        } else if (qemuMigrationParamsApplyCaps(vm, migParams->caps) < 0) {
++            goto cleanup;
+         }
+     }
+ 
+-    if (!(params = qemuMigrationParamsToJSON(migParams, postcopyResume)))
+-        goto cleanup;
+-
+-    if (virJSONValueObjectKeysNumber(params) > 0 &&
+-        qemuMonitorSetMigrationParams(priv->mon, &params) < 0)
++    if (qemuMigrationParamsApplyValues(vm, migParams, postcopyResume) < 0)
+         goto cleanup;
+ 
+     ret = 0;
+-- 
+2.35.1
+

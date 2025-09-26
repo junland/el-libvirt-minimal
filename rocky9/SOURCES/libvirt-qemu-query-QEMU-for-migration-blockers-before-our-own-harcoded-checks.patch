@@ -1,0 +1,80 @@
+From 9764a6c484d4f3586b0e0be33e8c53de63b11edd Mon Sep 17 00:00:00 2001
+Message-Id: <9764a6c484d4f3586b0e0be33e8c53de63b11edd@dist-git>
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+Date: Thu, 21 Jul 2022 19:29:13 +0200
+Subject: [PATCH] qemu: query QEMU for migration blockers before our own
+ harcoded checks
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Since QEMU 6.0, if QEMU knows that a migration would fail,
+'query-migrate' will return an array of error strings describing the
+migration blockers.  This can be used to check whether there are any
+devices/conditions blocking migration.
+
+This patch adds a call to this query at the top of
+qemuMigrationSrcIsAllowed().
+
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+Reviewed-by: Jiri Denemark <jdenemar@redhat.com>
+Reviewed-by: Laine Stump <laine@redhat.com>
+
+(cherry picked from commit 156e99f686690855be4e45d9b8b3194191a8bc31)
+Resolves: https://bugzilla.redhat.com/2092833
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+---
+ src/qemu/qemu_migration.c | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
+
+diff --git a/src/qemu/qemu_migration.c b/src/qemu/qemu_migration.c
+index 2a6b7b7819..cfb7626bb0 100644
+--- a/src/qemu/qemu_migration.c
++++ b/src/qemu/qemu_migration.c
+@@ -1415,6 +1415,22 @@ qemuMigrationSrcIsAllowedHostdev(const virDomainDef *def)
+ }
+ 
+ 
++static int
++qemuDomainGetMigrationBlockers(virQEMUDriver *driver,
++                               virDomainObj *vm,
++                               char ***blockers)
++{
++    qemuDomainObjPrivate *priv = vm->privateData;
++    int rc;
++
++    qemuDomainObjEnterMonitor(driver, vm);
++    rc = qemuMonitorGetMigrationBlockers(priv->mon, blockers);
++    qemuDomainObjExitMonitor(vm);
++
++    return rc;
++}
++
++
+ /**
+  * qemuMigrationSrcIsAllowed:
+  * @driver: qemu driver struct
+@@ -1440,6 +1456,20 @@ qemuMigrationSrcIsAllowed(virQEMUDriver *driver,
+     int pauseReason;
+     size_t i;
+ 
++    /* Ask qemu if it has a migration blocker */
++    if (virQEMUCapsGet(priv->qemuCaps, QEMU_CAPS_MIGRATION_BLOCKED_REASONS)) {
++        g_auto(GStrv) blockers = NULL;
++        if (qemuDomainGetMigrationBlockers(driver, vm, &blockers) < 0)
++            return false;
++
++        if (blockers && blockers[0]) {
++            g_autofree char *reasons = g_strjoinv("; ", blockers);
++            virReportError(VIR_ERR_OPERATION_INVALID,
++                           _("cannot migrate domain: %s"), reasons);
++            return false;
++        }
++    }
++
+     /* perform these checks only when migrating to remote hosts */
+     if (remote) {
+         nsnapshots = virDomainSnapshotObjListNum(vm->snapshots, NULL, 0);
+-- 
+2.35.1
+
