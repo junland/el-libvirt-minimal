@@ -49,15 +49,17 @@ jobs:
         # Copy source files to SOURCES directory
         cp -rv rocky${{ matrix.el_version }}/SOURCES/* /home/builder/rpmbuild/SOURCES/
 
-    - name: Download additional sources
-      run: |
-        # Download additional sources if needed
-        spectool -g -R /home/builder/rpmbuild/SPECS/libvirt.spec
+        chown -R builder:builder /home/builder/rpmbuild
 
     - name: Install build dependencies from spec file
       run: |
         dnf builddep -y /home/builder/rpmbuild/SPECS/libvirt.spec
         
+    - name: Download additional sources
+      run: |
+        # Download additional sources if needed
+        su builder -s /bin/bash -c "spectool -g -R /home/builder/rpmbuild/SPECS/libvirt.spec"
+
     - name: Build source RPM
       run: |
         su builder -s /bin/bash -c "rpmbuild -bs /home/builder/rpmbuild/SPECS/libvirt.spec"
