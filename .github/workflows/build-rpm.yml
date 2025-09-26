@@ -30,6 +30,9 @@ jobs:
         
     - name: Prepare build environment files
       run: |
+        # Ensure rpmbuild directories exist
+        mkdir -p ~/rpmbuild/SPECS ~/rpmbuild/SOURCES
+
         # Copy spec file to rpmbuild directory
         cp rocky${{ matrix.el_version }}/libvirt.spec ~/rpmbuild/SPECS/
 
