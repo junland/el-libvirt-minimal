@@ -14,8 +14,8 @@ RUN useradd -m builder && \
     chown -R builder:builder /home/builder
 
 # Copy SOURCES and SPECS
-COPY ./${HOST_WORKSPACE_DIR}/SOURCES /home/builder/rpmbuild/SOURCES/
-COPY ./${HOST_WORKSPACE_DIR}/SPECS /home/builder/rpmbuild/SPECS/
+COPY ${HOST_WORKSPACE_DIR}/SOURCES /home/builder/rpmbuild/SOURCES/
+COPY ${HOST_WORKSPACE_DIR}/SPECS /home/builder/rpmbuild/SPECS/
 
 # Get dependencies for all the spec files
 RUN dnf builddep -y /home/builder/rpmbuild/SPECS/*.spec && \
