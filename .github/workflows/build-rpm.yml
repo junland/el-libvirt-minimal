@@ -28,7 +28,7 @@ jobs:
       run: cp ${{ matrix.el_flavor }}${{ matrix.el_version }}/*.spec workspace/SPECS/
 
     - name: Copy source files
-      run: cp -r ${{ matrix.el_flavor }}${{ matrix.el_version }}/* workspace/SOURCES/
+      run: cp -r ${{ matrix.el_flavor }}${{ matrix.el_version }}/SOURCES/* workspace/SOURCES/
 
     - name: Build Docker image
       run: |
