@@ -2,6 +2,8 @@ ARG EL_VERSION=9
 ARG SPEC_FILE=libvirt.spec
 FROM rockylinux:${EL_VERSION} AS build
 
+ENV SPEC_FILE=${SPEC_FILE}
+
 # Enable CRB repository and install build dependencies
 RUN dnf upgrade -y && \
     dnf install -y dnf-plugins-core && \
@@ -34,10 +36,10 @@ USER builder
 WORKDIR /home/builder/rpmbuild
 
 # Build the SRPM
-RUN rpmbuild -bs "SPECS/$SPEC_FILE"
+RUN rpmbuild -bs SPECS/$SPEC_FILE
 
 # Build the binary RPM
-RUN rpmbuild -bb "SPECS/$SPEC_FILE"
+RUN rpmbuild -bb SPECS/$SPEC_FILE
 
 FROM scratch AS output
 COPY --from=build /home/builder/rpmbuild/RPMS/ /rpms/
