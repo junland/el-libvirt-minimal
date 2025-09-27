@@ -1,8 +1,9 @@
 ARG EL_VERSION=9
-ARG SPEC_FILE=libvirt.spec
+
 FROM rockylinux:${EL_VERSION} AS build
 
-ENV SPEC_FILE=${SPEC_FILE}
+ARG SPEC_FILE
+ENV SPEC_FILE=example.spec
 
 # Enable CRB repository and install build dependencies
 RUN dnf upgrade -y && \
