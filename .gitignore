@@ -53,3 +53,13 @@ dkms.conf
 
 # debug information files
 *.dwo
+
+# RPM build related directories and files
+RPMS/
+SRPMS/
+SOURCES/
+SPECS/
+BUILD/
+BUILDROOT/
+workspace/
+*.rpm

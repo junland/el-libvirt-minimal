@@ -15,68 +15,42 @@ jobs:
     strategy:
       matrix:
         el_version: [9]
-
-    container:
-      image: quay.io/rockylinux/rockylinux:${{ matrix.el_version }}
+        el_flavor: [rocky]
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Enable CRB repository
-      run: |
-        dnf install -y dnf-plugins-core
-        dnf config-manager --set-enabled crb
-        dnf clean all
+    - name: Create workspace directory
+      run: mkdir -vp workspace/{RPMS,SRPMS,SOURCES,SPECS}
 
-    - name: Install build dependencies
-      run: |
-        dnf install -y rpm-build rpmdevtools tar gzip 
+    - name: Copy spec file
+      run: cp ${{ matrix.el_flavor }}${{ matrix.el_version }}/*.spec workspace/SPECS/
 
-    - name: Add non-root user for building
+    - name: Build Docker image
       run: |
-        useradd -m builder
-        chown -R builder:builder /home/builder
-        
-    - name: Prepare build environment files
-      run: |
-        # Ensure rpmbuild directories exist
-        mkdir -vp /home/builder/rpmbuild/{SOURCES,SPECS,BUILD,RPMS,SRPMS}
+        docker build \
+               --build-arg EL_VERSION=${{ matrix.el_version }} \
+               --build-arg HOST_WORKSPACE_DIR=workspace \
+               --build-arg SPEC_FILE=libvirt.spec \
+               -t rpm-builder:${{ matrix.el_flavor }}${{ matrix.el_version }} .
 
-        # Copy spec file to rpmbuild directory
-        cp -v rocky${{ matrix.el_version }}/libvirt.spec /home/builder/rpmbuild/SPECS/
-
-        # Copy source files to SOURCES directory
-        cp -rv rocky${{ matrix.el_version }}/SOURCES/* /home/builder/rpmbuild/SOURCES/
-
-        chown -R builder:builder /home/builder/rpmbuild
-
-    - name: Install build dependencies from spec file
+    - name: Grab artifacts from container
       run: |
-        dnf builddep -y /home/builder/rpmbuild/SPECS/libvirt.spec
-        
-    - name: Download additional sources
-      run: |
-        # Download additional sources if needed
-        su builder -s /bin/bash -c "spectool -g -R /home/builder/rpmbuild/SPECS/libvirt.spec"
+        CONTAINER_ID=$(docker create rpm-builder:${{ matrix.el_flavor }}${{ matrix.el_version }})
+        docker cp $CONTAINER_ID:/home/builder/rpmbuild/RPMS ./workspace/RPMS
+        docker cp $CONTAINER_ID:/home/builder/rpmbuild/SRPMS ./workspace/SRPMS
+        docker rm $CONTAINER_ID 
 
-    - name: Build source RPM
-      run: |
-        su builder -s /bin/bash -c "rpmbuild -bs /home/builder/rpmbuild/SPECS/libvirt.spec"
-        
-    - name: Build binary RPM
-      run: |
-        su builder -s /bin/bash -c "rpmbuild -bb /home/builder/rpmbuild/SPECS/libvirt.spec"
-        
     - name: List built packages
       run: |
-        find /home/builder/rpmbuild -name "*.rpm" -type f -exec ls -la {} \;
+        find ./workspace/RPMS ./workspace/SRPMS -name "*.rpm" -type f -exec ls -la {} \;
 
     - name: Upload RPM artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: rpms-el${{ matrix.el_version }}
+        name: rpms-${{ matrix.el_flavor }}${{ matrix.el_version }}
         path: |
-          /home/builder/rpmbuild/RPMS
-          /home/builder/rpmbuild/SRPMS
+          ./workspace/RPMS
+          ./workspace/SRPMS
         retention-days: 30
