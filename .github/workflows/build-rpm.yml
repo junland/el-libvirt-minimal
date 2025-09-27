@@ -34,9 +34,8 @@ jobs:
       run: |
         docker build \
                --build-arg EL_VERSION=${{ matrix.el_version }} \
-               --build-arg HOST_WORKSPACE_DIR=workspace \
                --build-arg SPEC_FILE=libvirt.spec \
-               -t rpm-builder:${{ matrix.el_flavor }}${{ matrix.el_version }} .
+               -t rpm-builder:${{ matrix.el_flavor }}${{ matrix.el_version }} workspace
 
     - name: Grab artifacts from container
       run: |
