@@ -11,6 +11,8 @@ RUN dnf upgrade -y && \
     dnf config-manager --set-enabled crb && \
     dnf install -y rpm-build rpmdevtools tar gzip
 
+RUN echo "SPEC_FILE is set to $SPEC_FILE"
+
 # Add non-root user for building
 RUN useradd -m builder && \
     mkdir -vp /home/builder/rpmbuild/{SOURCES,SPECS,BUILD,RPMS,SRPMS} && \
