@@ -6,7 +6,7 @@ FROM rockylinux:${EL_VERSION} AS build
 RUN dnf upgrade -y && \
     dnf install -y dnf-plugins-core && \
     dnf config-manager --set-enabled crb && \
-    dnf install -y rpm-build rpmdevtools tar gzip spectool
+    dnf install -y rpm-build rpmdevtools tar gzip
 
 # Add non-root user for building
 RUN useradd -m builder && \
