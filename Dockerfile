@@ -2,7 +2,7 @@ ARG EL_VERSION=9
 
 FROM rockylinux:${EL_VERSION} AS build
 
-ARG SPEC_FILE=example.spec
+ARG SPEC_FILE=libvirt.spec
 
 RUN echo "SPEC_FILE is set to $SPEC_FILE"
 
@@ -14,37 +14,21 @@ RUN dnf upgrade -y && \
 
 # Add non-root user for building
 RUN useradd -m builder && \
-    mkdir -vp /home/builder/rpmbuild/{SOURCES,SPECS,BUILD,RPMS,SRPMS} && \
     chown -R builder:builder /home/builder
 
-# Copy SOURCES and SPECS
-COPY SOURCES /home/builder/rpmbuild/SOURCES/
-COPY SPECS /home/builder/rpmbuild/SPECS/
+# Copy the entire context (sources, specs, and build script)
+COPY --chown=builder:builder . /home/builder/
 
 # Get dependencies for all the spec files
-RUN dnf builddep -y /home/builder/rpmbuild/SPECS/*.spec && \
+RUN dnf builddep -y /home/builder/SPECS/*.spec && \
     dnf clean all
 
-# Get sources of all the spec files
-RUN spectool -g -C /home/builder/rpmbuild/SOURCES/ /home/builder/rpmbuild/SPECS/*.spec
-
-# Set ownership for builder user
-RUN chown -R builder:builder /home/builder
-
-# Switch to builder user
+# Switch to builder user and set working directory
 USER builder
+WORKDIR /home/builder
 
-# Set working directory
-WORKDIR /home/builder/rpmbuild
+# Set the spec file environment variable for the build script
+ENV SPEC_FILE=$SPEC_FILE
 
-# Build the SRPM
-RUN rpmbuild -bs SPECS/$SPEC_FILE
-
-RUN echo "rpmbuild -bb SPECS/$SPEC_FILE" > /home/builder/rpmbuild/build.sh
-
-# Build the binary RPM
-ENTRYPOINT ["sh", "/home/builder/rpmbuild/build.sh"]
-
-# FROM scratch AS output
-# COPY --from=build /home/builder/rpmbuild/RPMS/ /rpms/
-# COPY --from=build /home/builder/rpmbuild/SRPMS/ /srpms/
+# Use the consolidated build script as entrypoint
+ENTRYPOINT ["/home/builder/build-rpms.sh"]
