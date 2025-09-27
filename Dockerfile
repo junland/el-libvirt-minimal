@@ -40,8 +40,10 @@ WORKDIR /home/builder/rpmbuild
 # Build the SRPM
 RUN rpmbuild -bs SPECS/$SPEC_FILE
 
+RUN echo "rpmbuild -bb SPECS/$SPEC_FILE" > /home/builder/rpmbuild/build.sh
+
 # Build the binary RPM
-ENTRYPOINT ["rpmbuild", "-bb", "SPECS/$SPEC_FILE"]
+ENTRYPOINT ["sh", "/home/builder/rpmbuild/build.sh"]
 
 # FROM scratch AS output
 # COPY --from=build /home/builder/rpmbuild/RPMS/ /rpms/
