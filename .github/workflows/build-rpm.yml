@@ -38,6 +38,11 @@ jobs:
                -f Dockerfile \
                -t rpm-builder:${{ matrix.el_flavor }}${{ matrix.el_version }} workspace
 
+    - name: Run builder container
+      run: |
+        docker run --rm -t \
+          rpm-builder:${{ matrix.el_flavor }}${{ matrix.el_version }}
+
     - name: Grab artifacts from container
       run: |
         CONTAINER_ID=$(docker create rpm-builder:${{ matrix.el_flavor }}${{ matrix.el_version }})

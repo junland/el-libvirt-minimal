@@ -41,8 +41,8 @@ WORKDIR /home/builder/rpmbuild
 RUN rpmbuild -bs SPECS/$SPEC_FILE
 
 # Build the binary RPM
-RUN rpmbuild -bb SPECS/$SPEC_FILE
+ENTRYPOINT ["rpmbuild", "-bb", "SPECS/$SPEC_FILE"]
 
-FROM scratch AS output
-COPY --from=build /home/builder/rpmbuild/RPMS/ /rpms/
-COPY --from=build /home/builder/rpmbuild/SRPMS/ /srpms/
+# FROM scratch AS output
+# COPY --from=build /home/builder/rpmbuild/RPMS/ /rpms/
+# COPY --from=build /home/builder/rpmbuild/SRPMS/ /srpms/
