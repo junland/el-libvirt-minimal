@@ -9,7 +9,7 @@ ENV SPEC_FILE=example.spec
 RUN dnf upgrade -y && \
     dnf install -y dnf-plugins-core && \
     dnf config-manager --set-enabled crb && \
-    dnf install -y rpm-build rpmdevtools tar gzip
+    dnf install -y rpm-build rpmdevtools tar gzip tree
 
 RUN echo "SPEC_FILE is set to $SPEC_FILE"
 
@@ -37,6 +37,8 @@ USER builder
 
 # Set working directory
 WORKDIR /home/builder/rpmbuild
+
+RUN tree .
 
 # Build the SRPM
 RUN rpmbuild -bs SPECS/$SPEC_FILE
