@@ -41,12 +41,12 @@ jobs:
 
     - name: Run builder container
       run: |
-        docker run --rm -t \
-          rpm-builder:${{ matrix.el_flavor }}${{ matrix.el_version }}
+        CONTAINER_ID=$(docker run -d -t rpm-builder:${{ matrix.el_flavor }}${{ matrix.el_version }})
+        docker wait $CONTAINER_ID
+        echo "CONTAINER_ID=$CONTAINER_ID" >> $GITHUB_ENV
 
     - name: Extract artifacts from container
       run: |
-        CONTAINER_ID=$(docker create rpm-builder:${{ matrix.el_flavor }}${{ matrix.el_version }})
         docker cp $CONTAINER_ID:/home/builder/rpmbuild/RPMS ./workspace/RPMS
         docker cp $CONTAINER_ID:/home/builder/rpmbuild/SRPMS ./workspace/SRPMS
         docker rm $CONTAINER_ID 
