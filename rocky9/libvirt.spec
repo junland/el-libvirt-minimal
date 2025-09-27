@@ -1708,7 +1708,7 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_libexecdir}/libvirt-guests.sh
 # Building on slow archs, like emulated s390x in Fedora copr, requires
 # raising the test timeout
 export VIR_TEST_DEBUG=1
-%meson_test --no-suite syntax-check --timeout-multiplier 10
+%meson_test --no-suite syntax-check --timeout-multiplier 15
 %endif
 
 %define libvirt_rpmstatedir %{_localstatedir}/lib/rpm-state/libvirt
