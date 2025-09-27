@@ -2,16 +2,15 @@ ARG EL_VERSION=9
 
 FROM rockylinux:${EL_VERSION} AS build
 
-ARG SPEC_FILE
-ENV SPEC_FILE=example.spec
+ARG SPEC_FILE=example.spec
+
+RUN echo "SPEC_FILE is set to $SPEC_FILE"
 
 # Enable CRB repository and install build dependencies
 RUN dnf upgrade -y && \
     dnf install -y dnf-plugins-core && \
     dnf config-manager --set-enabled crb && \
     dnf install -y rpm-build rpmdevtools tar gzip tree
-
-RUN echo "SPEC_FILE is set to $SPEC_FILE"
 
 # Add non-root user for building
 RUN useradd -m builder && \
@@ -37,8 +36,6 @@ USER builder
 
 # Set working directory
 WORKDIR /home/builder/rpmbuild
-
-RUN tree .
 
 # Build the SRPM
 RUN rpmbuild -bs SPECS/$SPEC_FILE
