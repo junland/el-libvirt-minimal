@@ -3,7 +3,8 @@ ARG SPEC_FILE=libvirt.spec
 FROM rockylinux:${EL_VERSION} AS build
 
 # Enable CRB repository and install build dependencies
-RUN dnf install -y dnf-plugins-core && \
+RUN dnf upgrade -y && \
+    dnf install -y dnf-plugins-core && \
     dnf config-manager --set-enabled crb && \
     dnf install -y rpm-build rpmdevtools tar gzip spectool
 
