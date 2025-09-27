@@ -34,10 +34,10 @@ USER builder
 WORKDIR /home/builder/rpmbuild
 
 # Build the SRPM
-RUN rpmbuild -bs SPECS/$SPEC_FILE
+RUN rpmbuild -bs "SPECS/$SPEC_FILE"
 
 # Build the binary RPM
-RUN rpmbuild -bb SPECS/$SPEC_FILE
+RUN rpmbuild -bb "SPECS/$SPEC_FILE"
 
 FROM scratch AS output
 COPY --from=build /home/builder/rpmbuild/RPMS/ /rpms/
