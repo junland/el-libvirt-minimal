@@ -1,6 +1,7 @@
 ARG EL_VERSION=9
+ARG EL_FLAVOR=rocky
 
-FROM rockylinux:${EL_VERSION} AS build
+FROM ${EL_FLAVOR}linux:${EL_VERSION} AS build
 
 ARG SPEC_FILE=example.spec
 

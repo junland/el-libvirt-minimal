@@ -15,6 +15,7 @@ jobs:
       matrix:
         el_flavor: [rocky, alma]
         el_version: [9, 10]
+        spec_file: [libvirt.spec]
     env:
       CONTAINER_RUN_NAME: rpm-builder-run-${{ matrix.el_flavor }}${{ matrix.el_version }}-${{ github.run_id }}-${{ github.run_attempt }}
       BUILD_CONTEXT_DIR: build-context
@@ -35,8 +36,9 @@ jobs:
     - name: Build Docker image
       run: |
         docker build \
+               --build-arg EL_FLAVOR=${{ matrix.el_flavor }} \
                --build-arg EL_VERSION=${{ matrix.el_version }} \
-               --build-arg SPEC_FILE=libvirt.spec \
+               --build-arg SPEC_FILE=${{ matrix.spec_file }} \
                -f Dockerfile \
                -t rpm-builder:${{ matrix.el_flavor }}${{ matrix.el_version }} "${{ env.BUILD_CONTEXT_DIR }}"
 
