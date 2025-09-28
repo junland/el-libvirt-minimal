@@ -20,6 +20,7 @@ jobs:
       CONTAINER_RUN_NAME: rpm-builder-run-${{ matrix.el_flavor }}${{ matrix.el_version }}-${{ github.run_id }}-${{ github.run_attempt }}
       BUILD_CONTEXT_DIR: build-context
       EL_IMAGE: ${{ matrix.el_flavor }}linux
+      REGISTRY_NAMESPACE: ${{ matrix.el_flavor }}linux
 
     steps:
     - name: Checkout code
@@ -39,6 +40,7 @@ jobs:
         docker build \
                --build-arg EL_IMAGE=${{ env.EL_IMAGE }} \
                --build-arg EL_VERSION=${{ matrix.el_version }} \
+               --build-arg REGISTRY_NAMESPACE=${{ env.REGISTRY_NAMESPACE }} \
                -f Dockerfile \
                -t rpm-builder:${{ matrix.el_flavor }}${{ matrix.el_version }} "${{ env.BUILD_CONTEXT_DIR }}"
 
