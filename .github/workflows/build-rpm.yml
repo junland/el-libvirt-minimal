@@ -28,8 +28,8 @@ jobs:
 
     - name: Prepare build context
       run: |
-        cp ${{ matrix.el_flavor }}${{ matrix.el_version }}/*.spec "${{ env.BUILD_CONTEXT }}/SPECS/"
-        cp -r ${{ matrix.el_flavor }}${{ matrix.el_version }}/SOURCES/* "${{ env.BUILD_CONTEXT }}/SOURCES/"
+        cp -vr ${{ matrix.el_flavor }}${{ matrix.el_version }}/*.spec "${{ env.BUILD_CONTEXT }}/SPECS/"
+        cp -vr ${{ matrix.el_flavor }}${{ matrix.el_version }}/SOURCES/* "${{ env.BUILD_CONTEXT }}/SOURCES/"
         cp -v *.sh "${{ env.BUILD_CONTEXT }}"
 
     - name: Build Docker image
