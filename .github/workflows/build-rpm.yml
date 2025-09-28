@@ -22,13 +22,14 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Create workspace directory
-      run: mkdir -vp workspace/{RPMS,SRPMS,SOURCES,SPECS}
+      run: mkdir -vp workspace/{RPMS,SRPMS}
 
-    - name: Copy spec file
-      run: cp ${{ matrix.el_flavor }}${{ matrix.el_version }}/*.spec workspace/SPECS/
-
-    - name: Copy source files
-      run: cp -r ${{ matrix.el_flavor }}${{ matrix.el_version }}/SOURCES/* workspace/SOURCES/
+    - name: Prepare build context
+      run: |
+        mkdir -vp build-context/{SOURCES,SPECS}
+        cp ${{ matrix.el_flavor }}${{ matrix.el_version }}/*.spec build-context/SPECS/
+        cp -r ${{ matrix.el_flavor }}${{ matrix.el_version }}/SOURCES/* build-context/SOURCES/
+        cp build-rpms.sh build-context/
 
     - name: Build Docker image
       run: |
@@ -36,16 +37,16 @@ jobs:
                --build-arg EL_VERSION=${{ matrix.el_version }} \
                --build-arg SPEC_FILE=libvirt.spec \
                -f Dockerfile \
-               -t rpm-builder:${{ matrix.el_flavor }}${{ matrix.el_version }} workspace
+               -t rpm-builder:${{ matrix.el_flavor }}${{ matrix.el_version }} build-context
 
     - name: Run builder container
       run: |
-        docker run --rm -t \
-          rpm-builder:${{ matrix.el_flavor }}${{ matrix.el_version }}
+        CONTAINER_ID=$(docker run -d -t rpm-builder:${{ matrix.el_flavor }}${{ matrix.el_version }})
+        docker wait $CONTAINER_ID
+        echo "CONTAINER_ID=$CONTAINER_ID" >> $GITHUB_ENV
 
-    - name: Grab artifacts from container
+    - name: Extract artifacts from container
       run: |
-        CONTAINER_ID=$(docker create rpm-builder:${{ matrix.el_flavor }}${{ matrix.el_version }})
         docker cp $CONTAINER_ID:/home/builder/rpmbuild/RPMS ./workspace/RPMS
         docker cp $CONTAINER_ID:/home/builder/rpmbuild/SRPMS ./workspace/SRPMS
         docker rm $CONTAINER_ID 
