@@ -2,7 +2,7 @@ ARG EL_VERSION=9
 
 FROM rockylinux:${EL_VERSION} AS build
 
-ARG SPEC_FILE=libvirt.spec
+ARG SPEC_FILE=example.spec
 
 RUN echo "SPEC_FILE is set to $SPEC_FILE"
 
@@ -29,6 +29,9 @@ RUN dnf builddep -y /home/builder/SPECS/*.spec && \
 # Copy consolidated build scripts to /usr/local/bin for easier access
 RUN cp -v /home/builder/build-rpm.sh /usr/local/bin/ && \
     chmod +x /usr/local/bin/build-rpm.sh
+
+# Put a marker file to indicate this is a container environment
+RUN touch /.containerenv
 
 # Switch to builder user and set working directory
 USER builder
