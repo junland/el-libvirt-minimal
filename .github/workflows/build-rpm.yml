@@ -18,7 +18,7 @@ jobs:
     env:
       CONTAINER_RUN_NAME: rpm-builder-run-${{ matrix.el_flavor }}${{ matrix.el_version }}-${{ github.run_id }}-${{ github.run_attempt }}
       BUILD_CONTEXT_DIR: build-context
-      BUILD_CONTEXT: ${{ github.workspace }}/${{ env.BUILD_CONTEXT_DIR }}
+      BUILD_CONTEXT: ${{ github.workspace }}/build-context
 
     steps:
     - name: Checkout code
