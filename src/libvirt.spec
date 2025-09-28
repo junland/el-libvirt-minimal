@@ -495,8 +495,6 @@ BuildRequires: /usr/bin/qemu-img
     %if %{with_nbdkit}
 BuildRequires: libnbd-devel
     %endif
-# For LVM drivers
-BuildRequires: lvm2
 # For pool type=iscsi
 BuildRequires: iscsi-initiator-utils
     %if %{with_storage_iscsi_direct}
@@ -797,16 +795,6 @@ The storage driver plugin for the libvirtd daemon, providing
 an implementation of the storage APIs using files, local disks, LVM, SCSI,
 iSCSI, and multipath storage.
 
-%package daemon-driver-storage-logical
-Summary: Storage driver plugin for lvm volumes
-Requires: libvirt-daemon-driver-storage-core = %{version}-%{release}
-Requires: libvirt-libs = %{version}-%{release}
-Requires: lvm2
-
-%description daemon-driver-storage-logical
-The storage driver backend adding implementation of the storage APIs for block
-volumes using lvm.
-
 %package daemon-driver-storage-disk
 Summary: Storage driver plugin for disk
 Requires: libvirt-daemon-driver-storage-core = %{version}-%{release}
@@ -904,7 +892,6 @@ ZFS volumes.
 Summary: Storage driver plugin including all backends for the libvirtd daemon
 Requires: libvirt-daemon-driver-storage-core = %{version}-%{release}
 Requires: libvirt-daemon-driver-storage-disk = %{version}-%{release}
-Requires: libvirt-daemon-driver-storage-logical = %{version}-%{release}
 Requires: libvirt-daemon-driver-storage-scsi = %{version}-%{release}
 Requires: libvirt-daemon-driver-storage-iscsi = %{version}-%{release}
 Requires: libvirt-daemon-driver-storage-mpath = %{version}-%{release}
@@ -1458,7 +1445,7 @@ export SOURCE_DATE_EPOCH=$(stat --printf='%Y' %{_specdir}/libvirt.spec)
            -Ddriver_interface=enabled \
            -Ddriver_network=enabled \
            -Dstorage_fs=enabled \
-           -Dstorage_lvm=enabled \
+           -Dstorage_lvm=disabled \
            -Dstorage_iscsi=enabled \
            %{?arg_storage_iscsi_direct} \
            -Dstorage_scsi=enabled \
@@ -2335,9 +2322,6 @@ exit 0
 
 %files daemon-driver-storage-disk
 %{_libdir}/libvirt/storage-backend/libvirt_storage_backend_disk.so
-
-%files daemon-driver-storage-logical
-%{_libdir}/libvirt/storage-backend/libvirt_storage_backend_logical.so
 
 %files daemon-driver-storage-scsi
 %{_libdir}/libvirt/storage-backend/libvirt_storage_backend_scsi.so
