@@ -61,4 +61,4 @@ rpmbuild -bb "$BUILD_ROOT/SPECS/$SPEC_FILE"
 
 echo "=== RPM build completed successfully ==="
 echo "Built packages:"
-find "$BUILD_ROOT/RPMS" "$BUILD_ROOT/SRPMS" -name "*.rpm" -type f -exec ls -la {} \; 2>/dev/null || echo "No RPM files found"
+find "$BUILD_ROOT/RPMS" "$BUILD_ROOT/SRPMS" -name "*.rpm" -type f -exec ls -lhG {} \; 2>/dev/null || echo "No RPM files found"
