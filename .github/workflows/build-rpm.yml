@@ -47,13 +47,13 @@ jobs:
 
     - name: Copy built packages from container
       run: |
-        docker cp "$CONTAINER_RUN_NAME":/root/rpmbuild/RPMS/. ~/rpmbuild/RPMS/
-        docker cp "$CONTAINER_RUN_NAME":/root/rpmbuild/SRPMS/. ~/rpmbuild/SRPMS/
+        docker cp "$CONTAINER_RUN_NAME":/home/builder/rpmbuild/RPMS/. workspace/RPMS/
+        docker cp "$CONTAINER_RUN_NAME":/home/builder/rpmbuild/SRPMS/. workspace/SRPMS/
         docker rm "$CONTAINER_RUN_NAME"
 
     - name: List built packages for upload
       run: |
-        find ./workspace/RPMS ./workspace/SRPMS -name "*.rpm" -type f -exec ls -la {} \;
+        find workspace/RPMS workspace/SRPMS -name "*.rpm" -type f -exec ls -la {} \;
 
     - name: Upload RPM artifacts
       uses: actions/upload-artifact@v4
