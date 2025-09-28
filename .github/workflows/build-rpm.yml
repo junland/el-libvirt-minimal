@@ -45,24 +45,18 @@ jobs:
         docker run -t --name "$CONTAINER_RUN_NAME" rpm-builder:${{ matrix.el_flavor }}${{ matrix.el_version }}
         docker wait "$CONTAINER_RUN_NAME"
 
-    - name: Copy built packages from container
+    - name: Copy built SRPMS and RPM artifacts
       run: |
         docker cp "$CONTAINER_RUN_NAME":/home/builder/rpmbuild/RPMS/. "${{ env.BUILD_CONTEXT_DIR }}/RPMS/"
         docker cp "$CONTAINER_RUN_NAME":/home/builder/rpmbuild/SRPMS/. "${{ env.BUILD_CONTEXT_DIR }}/SRPMS/"
         docker rm "$CONTAINER_RUN_NAME"
 
-    - name: List built packages for upload
+    - name: List SRPMS and RPM artifacts
       run: |
-        find "${{ env.BUILD_CONTEXT_DIR }}/SRPMS" "${{ env.BUILD_CONTEXT_DIR }}/RPMS" -name "*.rpm" -type f -exec ls -lhG {} \;
+        find "${{ env.BUILD_CONTEXT_DIR }}/SRPMS" "${{ env.BUILD_CONTEXT_DIR }}/RPMS" -name "*.rpm" -type f -exec ls -lhG {} \; | sort
 
-    - name: Upload SRPMS artifacts
+    - name: Upload SRPMS and RPM artifacts
       uses: actions/upload-artifact@v4
       with:
-        path: "${{ env.BUILD_CONTEXT_DIR }}/SRPMS/**/*.rpm"
-        retention-days: 30
-
-    - name: Upload RPM artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        path: "${{ env.BUILD_CONTEXT_DIR }}/RPMS/**/*.rpm"
+        path: "${{ env.BUILD_CONTEXT_DIR }}/[S]RPMS/**/*.rpm"
         retention-days: 30
