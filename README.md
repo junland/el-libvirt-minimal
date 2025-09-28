@@ -13,10 +13,10 @@ This repository uses a consolidated build process with a single entrypoint scrip
 
 ```bash
 # Build the Docker image
-docker build --build-arg EL_VERSION=9 --build-arg SPEC_FILE=libvirt.spec -t rpm-builder .
+docker build --build-arg EL_VERSION=9 -t rpm-builder .
 
 # Run the build
-docker run --rm -t --name rpm-builder-$(date +%s) rpm-builder
+docker run --rm -t --name rpm-builder-$(date +%s) rpm-builder libvirt.spec
 ```
 
 ### Direct execution

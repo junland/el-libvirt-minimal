@@ -39,7 +39,6 @@ jobs:
         docker build \
                --build-arg EL_IMAGE=${{ env.EL_IMAGE }} \
                --build-arg EL_VERSION=${{ matrix.el_version }} \
-               --build-arg SPEC_FILE=${{ matrix.spec_file }} \
                -f Dockerfile \
                -t rpm-builder:${{ matrix.el_flavor }}${{ matrix.el_version }} "${{ env.BUILD_CONTEXT_DIR }}"
 

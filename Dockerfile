@@ -5,8 +5,6 @@ ARG REGISTRY_NAMESPACE=rocky
 
 FROM ${REGISTRY}/${REGISTRY_NAMESPACE}/${EL_IMAGE}:${EL_VERSION} AS build
 
-ARG SPEC_FILE=example.spec
-
 RUN echo "SPEC_FILE is set to $SPEC_FILE"
 
 # Enable CRB repository and install build dependencies
