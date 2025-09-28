@@ -40,8 +40,5 @@ RUN touch /.containerenv
 USER builder
 WORKDIR /home/builder
 
-# Set the spec file environment variable for the build script
-ENV SPEC_FILE=$SPEC_FILE
-
 # Use the consolidated build script as entrypoint
 ENTRYPOINT ["/home/builder/build-rpm.sh"]

@@ -10,10 +10,20 @@ if [ ! -f /.containerenv ]; then
     exit 1
 fi
 
+if [ $# -eq 0 ]; then
+    echo "Error: No arguments provided."
+    echo "Usage: $0 <spec-file>"
+    exit 1
+elif [ $# -gt 1 ]; then
+    echo "Error: Too many arguments."
+    echo "Usage: $0 <spec-file>"
+    exit 1
+fi
+
+# If we reach here, exactly one argument was passed
+SPEC_FILE="$1"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BUILD_ROOT="/home/builder/rpmbuild"
-SPEC_FILE="${SPEC_FILE:-example.spec}"
-
 
 
 echo "=== Starting RPM build process ==="
