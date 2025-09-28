@@ -5,8 +5,6 @@ ARG REGISTRY_NAMESPACE=rockylinux
 
 FROM ${REGISTRY}/${REGISTRY_NAMESPACE}/${EL_IMAGE}:${EL_VERSION} AS build
 
-RUN echo "SPEC_FILE is set to $SPEC_FILE"
-
 # Enable CRB repository and install build dependencies
 RUN dnf upgrade -y && \
     dnf install -y dnf-plugins-core rpm-build rpmdevtools tar gzip tree && \
