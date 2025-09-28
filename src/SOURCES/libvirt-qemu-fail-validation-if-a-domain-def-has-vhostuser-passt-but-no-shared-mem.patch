@@ -1,5 +1,5 @@
-From 1010499de016dd5babf375c203baa62d9799e190 Mon Sep 17 00:00:00 2001
-Message-ID: <1010499de016dd5babf375c203baa62d9799e190.1739824249.git.jdenemar@redhat.com>
+From bd90132d08a4222f4103873b8532fb8b5d999018 Mon Sep 17 00:00:00 2001
+Message-ID: <bd90132d08a4222f4103873b8532fb8b5d999018.1739815540.git.jdenemar@redhat.com>
 From: Laine Stump <laine@redhat.com>
 Date: Fri, 14 Feb 2025 13:10:19 -0500
 Subject: [PATCH] qemu: fail validation if a domain def has vhostuser/passt but
@@ -15,7 +15,7 @@ Signed-off-by: Laine Stump <laine@redhat.com>
 Reviewed-by: Ján Tomko <jtomko@redhat.com>
 (cherry picked from commit 70bce2e6ee7a6b738d08fa79d14342969f51668b)
 
-https://issues.redhat.com/browse/RHEL-69455
+https://issues.redhat.com/browse/RHEL-77086
 Signed-off-by: Laine Stump <laine@redhat.com>
 ---
  src/qemu/qemu_validate.c                      |  9 ++-

@@ -1,5 +1,5 @@
-From 556d3cac6b834a7f5630e31bac2f4f594392bde6 Mon Sep 17 00:00:00 2001
-Message-ID: <556d3cac6b834a7f5630e31bac2f4f594392bde6.1738940191.git.jdenemar@redhat.com>
+From c85ea17d124a3dd2d25818758e963612c803474c Mon Sep 17 00:00:00 2001
+Message-ID: <c85ea17d124a3dd2d25818758e963612c803474c.1738937224.git.jdenemar@redhat.com>
 From: Peter Krempa <pkrempa@redhat.com>
 Date: Mon, 3 Feb 2025 17:48:05 +0100
 Subject: [PATCH] qemu: process: Export qemuPrepareNVRAM for use in snapshot
@@ -14,7 +14,7 @@ Signed-off-by: Peter Krempa <pkrempa@redhat.com>
 Reviewed-by: Pavel Hrdina <phrdina@redhat.com>
 (cherry picked from commit a377404ed912e8d17e88ef3eb8e71143eff88f7d)
 
-https://issues.redhat.com/browse/RHEL-73315
+https://issues.redhat.com/browse/RHEL-78186
 ---
  src/qemu/qemu_process.c | 26 ++++++++++++++------------
  src/qemu/qemu_process.h |  4 ++++

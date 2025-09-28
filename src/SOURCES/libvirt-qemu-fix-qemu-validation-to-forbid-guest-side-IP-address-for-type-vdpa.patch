@@ -1,5 +1,5 @@
-From 6c7d0cc41954ed8f57dbf10dcf98396576f98922 Mon Sep 17 00:00:00 2001
-Message-ID: <6c7d0cc41954ed8f57dbf10dcf98396576f98922.1739824249.git.jdenemar@redhat.com>
+From eb843b8d21a68b245d53c0e54ec064918eb1e775 Mon Sep 17 00:00:00 2001
+Message-ID: <eb843b8d21a68b245d53c0e54ec064918eb1e775.1739815540.git.jdenemar@redhat.com>
 From: Laine Stump <laine@redhat.com>
 Date: Tue, 4 Feb 2025 16:06:18 -0500
 Subject: [PATCH] qemu: fix qemu validation to forbid guest-side IP address for
@@ -28,7 +28,7 @@ Signed-off-by: Laine Stump <laine@redhat.com>
 Reviewed-by: Ján Tomko <jtomko@redhat.com>
 (cherry picked from commit 6345ee60d87a6490a51a58527dc9b47e4d0264f9)
 
-https://issues.redhat.com/browse/RHEL-69455
+https://issues.redhat.com/browse/RHEL-77086
 Signed-off-by: Laine Stump <laine@redhat.com>
 ---
  src/qemu/qemu_validate.c | 24 +++++++++++++-----------

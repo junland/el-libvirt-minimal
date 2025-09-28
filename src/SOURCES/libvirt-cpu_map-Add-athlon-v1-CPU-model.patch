@@ -1,5 +1,5 @@
-From 74bf67730d74babf7f32e3c3328eb64a980fb0dc Mon Sep 17 00:00:00 2001
-Message-ID: <74bf67730d74babf7f32e3c3328eb64a980fb0dc.1734433246.git.jdenemar@redhat.com>
+From 70e3771c2d845924934ae776f0419ca9aa52eed5 Mon Sep 17 00:00:00 2001
+Message-ID: <70e3771c2d845924934ae776f0419ca9aa52eed5.1734429554.git.jdenemar@redhat.com>
 From: Jiri Denemark <jdenemar@redhat.com>
 Date: Thu, 5 Dec 2024 15:43:25 +0100
 Subject: [PATCH] cpu_map: Add athlon-v1 CPU model
@@ -8,7 +8,7 @@ Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
 Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
 (cherry picked from commit 6b775a68ec90595c2a0892c70985ca0784f87c10)
 
-https://issues.redhat.com/browse/RHEL-70052
+https://issues.redhat.com/browse/RHEL-70129
 
 Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
 ---

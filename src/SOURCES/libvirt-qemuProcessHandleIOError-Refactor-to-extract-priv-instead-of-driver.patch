@@ -1,5 +1,5 @@
-From 8ae4a9c8e3f66dd7a94cfa4f12614c7ba3e3b1c3 Mon Sep 17 00:00:00 2001
-Message-ID: <8ae4a9c8e3f66dd7a94cfa4f12614c7ba3e3b1c3.1738940190.git.jdenemar@redhat.com>
+From 2edd047dcd0b7544ea6f49248686c22e1b6cb868 Mon Sep 17 00:00:00 2001
+Message-ID: <2edd047dcd0b7544ea6f49248686c22e1b6cb868.1738937224.git.jdenemar@redhat.com>
 From: Peter Krempa <pkrempa@redhat.com>
 Date: Fri, 24 Jan 2025 17:16:35 +0100
 Subject: [PATCH] qemuProcessHandleIOError: Refactor to extract 'priv' instead
@@ -15,7 +15,7 @@ Signed-off-by: Peter Krempa <pkrempa@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 (cherry picked from commit 72142dcde34dd7e1dfb3ea0d841f567badd80539)
 
-https://issues.redhat.com/browse/RHEL-77884
+https://issues.redhat.com/browse/RHEL-76802
 ---
  src/qemu/qemu_process.c | 13 ++++++-------
  1 file changed, 6 insertions(+), 7 deletions(-)

@@ -1,5 +1,5 @@
-From 7ffdf87f44ae20be4f2a1d1d18b4da969414edc2 Mon Sep 17 00:00:00 2001
-Message-ID: <7ffdf87f44ae20be4f2a1d1d18b4da969414edc2.1739824249.git.jdenemar@redhat.com>
+From cdc86b7722beaf209df71b57f76dfbb30c6c7305 Mon Sep 17 00:00:00 2001
+Message-ID: <cdc86b7722beaf209df71b57f76dfbb30c6c7305.1739815540.git.jdenemar@redhat.com>
 From: Laine Stump <laine@redhat.com>
 Date: Wed, 12 Feb 2025 16:16:44 -0500
 Subject: [PATCH] qemu: complete vhostuser + passt support
@@ -37,7 +37,7 @@ efficiency of a vhost-user data path, and all without requiring
 special privileges or capabilities *anywhere* (i.e. it works for
 unprivileged libvirt (qemu:///session) as well as privileged libvirt).
 
-Resolves: https://issues.redhat.com/browse/RHEL-69455
+Resolves: https://issues.redhat.com/browse/RHEL-77086
 Signed-off-by: Laine Stump <laine@redhat.com>
 Reviewed-by: Ján Tomko <jtomko@redhat.com>
 (cherry picked from commit 1e9054b9c79d721a55f413c2983c5370044f8f60)

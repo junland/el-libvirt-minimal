@@ -1,5 +1,5 @@
-From ebe771353b9511ec5850a1415b82399a53fa2c71 Mon Sep 17 00:00:00 2001
-Message-ID: <ebe771353b9511ec5850a1415b82399a53fa2c71.1738940191.git.jdenemar@redhat.com>
+From 1b184bd766a04506a7a4f115dd46afbbb8ce07c5 Mon Sep 17 00:00:00 2001
+Message-ID: <1b184bd766a04506a7a4f115dd46afbbb8ce07c5.1738937224.git.jdenemar@redhat.com>
 From: Peter Krempa <pkrempa@redhat.com>
 Date: Fri, 24 Jan 2025 16:26:54 +0100
 Subject: [PATCH] include: libvirt-domain: Add 'message' @reason of
@@ -31,7 +31,7 @@ Signed-off-by: Peter Krempa <pkrempa@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 (cherry picked from commit 97c47333cbdc2531260f7b11b1fa9ba828878343)
 
-https://issues.redhat.com/browse/RHEL-77884
+https://issues.redhat.com/browse/RHEL-76802
 ---
  include/libvirt/libvirt-domain.h | 4 ++++
  src/qemu/qemu_process.c          | 2 ++

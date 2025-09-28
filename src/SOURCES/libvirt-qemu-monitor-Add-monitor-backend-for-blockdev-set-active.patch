@@ -1,5 +1,5 @@
-From 662a2be65c232cf811e3b7618bb51a32c3c74ad6 Mon Sep 17 00:00:00 2001
-Message-ID: <662a2be65c232cf811e3b7618bb51a32c3c74ad6.1739824249.git.jdenemar@redhat.com>
+From 2eede6a92213c7f72fda218616635cd71efdab34 Mon Sep 17 00:00:00 2001
+Message-ID: <2eede6a92213c7f72fda218616635cd71efdab34.1739815540.git.jdenemar@redhat.com>
 From: Peter Krempa <pkrempa@redhat.com>
 Date: Mon, 10 Feb 2025 17:51:31 +0100
 Subject: [PATCH] qemu: monitor: Add monitor backend for 'blockdev-set-active'
@@ -14,7 +14,7 @@ Signed-off-by: Peter Krempa <pkrempa@redhat.com>
 Reviewed-by: Jiri Denemark <jdenemar@redhat.com>
 (cherry picked from commit d8f9cfb5e45111da0bd39f334f0643c0ab22ef49)
 
-https://issues.redhat.com/browse/RHEL-79095
+https://issues.redhat.com/browse/RHEL-78398
 ---
  src/qemu/qemu_monitor.c      | 21 +++++++++++++++++++++
  src/qemu/qemu_monitor.h      |  5 +++++

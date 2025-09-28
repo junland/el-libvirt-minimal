@@ -1,5 +1,5 @@
-From d32138717aa3212542a788a4824a832766cedd51 Mon Sep 17 00:00:00 2001
-Message-ID: <d32138717aa3212542a788a4824a832766cedd51.1734433246.git.jdenemar@redhat.com>
+From d147eccd3b750ded3dbf3d65fcc50f2a1cb209e4 Mon Sep 17 00:00:00 2001
+Message-ID: <d147eccd3b750ded3dbf3d65fcc50f2a1cb209e4.1734429554.git.jdenemar@redhat.com>
 From: Jiri Denemark <jdenemar@redhat.com>
 Date: Thu, 5 Dec 2024 16:01:20 +0100
 Subject: [PATCH] cpu_map: Add Opteron_G5-v1 CPU model
@@ -8,7 +8,7 @@ Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
 Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
 (cherry picked from commit 9bc479a3c0e0453e50ceb149abc41c5787e61735)
 
-https://issues.redhat.com/browse/RHEL-70052
+https://issues.redhat.com/browse/RHEL-70129
 
 Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
 ---

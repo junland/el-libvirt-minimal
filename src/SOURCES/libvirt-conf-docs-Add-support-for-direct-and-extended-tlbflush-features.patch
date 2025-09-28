@@ -1,5 +1,5 @@
-From 2acec098dbc64f20d36f2b7592c2867885196141 Mon Sep 17 00:00:00 2001
-Message-ID: <2acec098dbc64f20d36f2b7592c2867885196141.1737030652.git.jdenemar@redhat.com>
+From fe06935a2497f26850fce25e3e461cd020697b4c Mon Sep 17 00:00:00 2001
+Message-ID: <fe06935a2497f26850fce25e3e461cd020697b4c.1737018560.git.jdenemar@redhat.com>
 From: Martin Kletzander <mkletzan@redhat.com>
 Date: Fri, 20 Dec 2024 12:27:22 +0100
 Subject: [PATCH] conf, docs: Add support for direct and extended tlbflush
@@ -12,7 +12,7 @@ Signed-off-by: Martin Kletzander <mkletzan@redhat.com>
 Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
 (cherry picked from commit ac08b362da724f1dd7aa6f05c0a9e7a960a7f024)
 
-https://issues.redhat.com/browse/RHEL-7122
+https://issues.redhat.com/browse/RHEL-73088
 
 Signed-off-by: Martin Kletzander <mkletzan@redhat.com>
 ---

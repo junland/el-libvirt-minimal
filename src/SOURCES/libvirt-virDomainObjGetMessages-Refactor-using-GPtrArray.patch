@@ -1,5 +1,5 @@
-From d3ebbc9040b3f58dcf790a6d53f09c2eb5119bfd Mon Sep 17 00:00:00 2001
-Message-ID: <d3ebbc9040b3f58dcf790a6d53f09c2eb5119bfd.1738940191.git.jdenemar@redhat.com>
+From dca26cc7b1814ec8fe50d5aafeb7956898d6c006 Mon Sep 17 00:00:00 2001
+Message-ID: <dca26cc7b1814ec8fe50d5aafeb7956898d6c006.1738937224.git.jdenemar@redhat.com>
 From: Peter Krempa <pkrempa@redhat.com>
 Date: Mon, 27 Jan 2025 17:38:51 +0100
 Subject: [PATCH] virDomainObjGetMessages: Refactor using GPtrArray
@@ -16,7 +16,7 @@ Signed-off-by: Peter Krempa <pkrempa@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 (cherry picked from commit 1a02760cc6d79422dc4dd17b943915cd0ac15987)
 
-https://issues.redhat.com/browse/RHEL-77884
+https://issues.redhat.com/browse/RHEL-76802
 ---
  src/conf/domain_conf.c   | 36 +++++++-----------------------------
  src/conf/domain_conf.h   |  4 ++--

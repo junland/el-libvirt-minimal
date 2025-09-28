@@ -1,5 +1,5 @@
-From 8baa9e689e641fca914b59e5d27966a1cd925991 Mon Sep 17 00:00:00 2001
-Message-ID: <8baa9e689e641fca914b59e5d27966a1cd925991.1737731143.git.jdenemar@redhat.com>
+From 26cc07514673cbd346579c58d91045acd2b9813d Mon Sep 17 00:00:00 2001
+Message-ID: <26cc07514673cbd346579c58d91045acd2b9813d.1737724457.git.jdenemar@redhat.com>
 From: Peter Krempa <pkrempa@redhat.com>
 Date: Thu, 9 Jan 2025 09:52:36 +0100
 Subject: [PATCH] storage_file: de-modularize the local file backend
@@ -32,7 +32,7 @@ Signed-off-by: Peter Krempa <pkrempa@redhat.com>
 Reviewed-by: Ján Tomko <jtomko@redhat.com>
 (cherry picked from commit f8558a87ac8525b16f4cbba4f24e0885fde2b79e)
 
-https://issues.redhat.com/browse/RHEL-73507
+https://issues.redhat.com/browse/RHEL-73506
 ---
  libvirt.spec.in                         |  1 -
  src/storage_file/meson.build            | 16 ----------------

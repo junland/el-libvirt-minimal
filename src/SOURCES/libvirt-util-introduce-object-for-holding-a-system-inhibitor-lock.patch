@@ -1,5 +1,5 @@
-From 9f2c4a2117eec85d5146e7dedd628585bb55df01 Mon Sep 17 00:00:00 2001
-Message-ID: <9f2c4a2117eec85d5146e7dedd628585bb55df01.1744361502.git.jdenemar@redhat.com>
+From f1d0e4303e7e9d91fb6524cc6fbba6f8057dfe88 Mon Sep 17 00:00:00 2001
+Message-ID: <f1d0e4303e7e9d91fb6524cc6fbba6f8057dfe88.1744363085.git.jdenemar@redhat.com>
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Date: Mon, 16 Dec 2024 15:19:34 +0000
 Subject: [PATCH] util: introduce object for holding a system inhibitor lock
@@ -34,7 +34,7 @@ The new virInhibitor object addresses these:
 Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 (cherry picked from commit d2e5aa4f4e1501149c9e3095d38ebc04c9a4ba31)
-Resolves: https://issues.redhat.com/browse/RHEL-83076
+Resolves: https://issues.redhat.com/browse/RHEL-83067
 ---
  po/POTFILES              |   1 +
  src/libvirt_private.syms |   7 ++

@@ -1,5 +1,5 @@
-From b4154f389e688beafc9cbfae7e868fa406c8448d Mon Sep 17 00:00:00 2001
-Message-ID: <b4154f389e688beafc9cbfae7e868fa406c8448d.1738940191.git.jdenemar@redhat.com>
+From 1ebedd8b6e75216988d4dda44a4b4002d39dac0c Mon Sep 17 00:00:00 2001
+Message-ID: <1ebedd8b6e75216988d4dda44a4b4002d39dac0c.1738937224.git.jdenemar@redhat.com>
 From: Peter Krempa <pkrempa@redhat.com>
 Date: Mon, 27 Jan 2025 19:13:43 +0100
 Subject: [PATCH] virDomainGetMessages: Introduce VIR_DOMAIN_MESSAGE_IOERRORS
@@ -19,7 +19,7 @@ Signed-off-by: Peter Krempa <pkrempa@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 (cherry picked from commit 666219f5f166ac3cebe4854bcefddd449a98ad04)
 
-https://issues.redhat.com/browse/RHEL-77884
+https://issues.redhat.com/browse/RHEL-76802
 ---
  include/libvirt/libvirt-domain.h |  3 ++
  src/conf/domain_conf.c           | 50 ++++++++++++++++++++++++++++++++

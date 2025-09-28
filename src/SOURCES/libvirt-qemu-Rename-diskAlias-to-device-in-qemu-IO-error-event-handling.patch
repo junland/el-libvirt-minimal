@@ -1,5 +1,5 @@
-From 88fab9d6fe37abb85c3c4b51c046b49e1601b5da Mon Sep 17 00:00:00 2001
-Message-ID: <88fab9d6fe37abb85c3c4b51c046b49e1601b5da.1738940191.git.jdenemar@redhat.com>
+From de943558accd1623655f121fe9864b8b7ffc44e2 Mon Sep 17 00:00:00 2001
+Message-ID: <de943558accd1623655f121fe9864b8b7ffc44e2.1738937224.git.jdenemar@redhat.com>
 From: Peter Krempa <pkrempa@redhat.com>
 Date: Mon, 27 Jan 2025 13:42:36 +0100
 Subject: [PATCH] qemu: Rename 'diskAlias' to 'device' in qemu IO error event
@@ -14,7 +14,7 @@ Signed-off-by: Peter Krempa <pkrempa@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 (cherry picked from commit 2d6bd6f05fc57839093850ebfc06c9b4e02b4f67)
 
-https://issues.redhat.com/browse/RHEL-77884
+https://issues.redhat.com/browse/RHEL-76802
 ---
  src/qemu/qemu_monitor.c | 4 ++--
  src/qemu/qemu_monitor.h | 4 ++--

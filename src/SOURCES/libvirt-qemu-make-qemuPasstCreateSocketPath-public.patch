@@ -1,5 +1,5 @@
-From 3d9f51a59292b1a910b11fac00f9cb52210169d1 Mon Sep 17 00:00:00 2001
-Message-ID: <3d9f51a59292b1a910b11fac00f9cb52210169d1.1739824249.git.jdenemar@redhat.com>
+From 7128909f7a0227a2977345e56ccc0516cc07ea05 Mon Sep 17 00:00:00 2001
+Message-ID: <7128909f7a0227a2977345e56ccc0516cc07ea05.1739815540.git.jdenemar@redhat.com>
 From: Laine Stump <laine@redhat.com>
 Date: Wed, 12 Feb 2025 12:12:04 -0500
 Subject: [PATCH] qemu: make qemuPasstCreateSocketPath() public
@@ -16,7 +16,7 @@ Signed-off-by: Laine Stump <laine@redhat.com>
 Reviewed-by: Ján Tomko <jtomko@redhat.com>
 (cherry picked from commit 7b7c56c3b81c0f525c6b2f1c89e0ef070bb4fb19)
 
-https://issues.redhat.com/browse/RHEL-69455
+https://issues.redhat.com/browse/RHEL-77086
 Signed-off-by: Laine Stump <laine@redhat.com>
 ---
  src/qemu/qemu_passt.c | 2 +-

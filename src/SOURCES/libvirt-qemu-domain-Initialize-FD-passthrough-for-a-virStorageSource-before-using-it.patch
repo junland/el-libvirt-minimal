@@ -1,5 +1,5 @@
-From 763d97401abc5d656b13967b811c04688061e760 Mon Sep 17 00:00:00 2001
-Message-ID: <763d97401abc5d656b13967b811c04688061e760.1738940191.git.jdenemar@redhat.com>
+From 76ca496fe71d36346389f6e3e8959f360c4eead2 Mon Sep 17 00:00:00 2001
+Message-ID: <76ca496fe71d36346389f6e3e8959f360c4eead2.1738937224.git.jdenemar@redhat.com>
 From: Peter Krempa <pkrempa@redhat.com>
 Date: Thu, 6 Feb 2025 16:20:45 +0100
 Subject: [PATCH] qemu: domain: Initialize FD passthrough for a
@@ -20,7 +20,7 @@ Signed-off-by: Peter Krempa <pkrempa@redhat.com>
 Reviewed-by: Jiri Denemark <jdenemar@redhat.com>
 (cherry picked from commit 5830e564bbeb798cccce2988094d1218f6dc5a60)
 
-https://issues.redhat.com/browse/RHEL-37519
+https://issues.redhat.com/browse/RHEL-78353
 ---
  src/qemu/qemu_domain.c                                 |  6 +++---
  .../qemuxmlconfdata/disk-source-fd.x86_64-latest.args  | 10 ++++++----

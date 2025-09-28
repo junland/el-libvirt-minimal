@@ -1,5 +1,5 @@
-From 68d485113af90e52dfa52c40f2192b524f31de4f Mon Sep 17 00:00:00 2001
-Message-ID: <68d485113af90e52dfa52c40f2192b524f31de4f.1739824249.git.jdenemar@redhat.com>
+From f9698e648654cf75af7ef2366c4ad7c2b8c19f6d Mon Sep 17 00:00:00 2001
+Message-ID: <f9698e648654cf75af7ef2366c4ad7c2b8c19f6d.1739815540.git.jdenemar@redhat.com>
 From: Jiri Denemark <jdenemar@redhat.com>
 Date: Wed, 15 Jan 2025 15:59:22 +0100
 Subject: [PATCH] qemu_migration: Refactor qemuMigrationSrcRestoreDomainState
@@ -11,7 +11,7 @@ Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
 Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
 (cherry picked from commit e46e64be501cd670a3f224fabd97705fb01c6f85)
 
-https://issues.redhat.com/browse/RHEL-79168
+https://issues.redhat.com/browse/RHEL-1071
 ---
  src/qemu/qemu_migration.c | 64 +++++++++++++++++----------------------
  1 file changed, 28 insertions(+), 36 deletions(-)

@@ -1,5 +1,5 @@
-From 64a914839cf44c7ed309fb827ab40c94dcb7c0d0 Mon Sep 17 00:00:00 2001
-Message-ID: <64a914839cf44c7ed309fb827ab40c94dcb7c0d0.1739824249.git.jdenemar@redhat.com>
+From 8012f23fe028ca0a4392094e2185d361ca568455 Mon Sep 17 00:00:00 2001
+Message-ID: <8012f23fe028ca0a4392094e2185d361ca568455.1739815540.git.jdenemar@redhat.com>
 From: Peter Krempa <pkrempa@redhat.com>
 Date: Mon, 10 Feb 2025 19:49:10 +0100
 Subject: [PATCH] qemu: migration: Reactivate block nodes after migration if VM
@@ -36,8 +36,6 @@ Resolves: https://issues.redhat.com/browse/RHEL-78398
 Signed-off-by: Peter Krempa <pkrempa@redhat.com>
 Reviewed-by: Jiri Denemark <jdenemar@redhat.com>
 (cherry picked from commit 2626fa0569781c0f42db247f4b7116c33cd88b43)
-
-https://issues.redhat.com/browse/RHEL-79095
 ---
  src/qemu/qemu_migration.c | 55 ++++++++++++++++++++++++++++++++++++---
  1 file changed, 52 insertions(+), 3 deletions(-)

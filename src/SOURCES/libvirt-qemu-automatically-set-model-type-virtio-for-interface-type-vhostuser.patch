@@ -1,5 +1,5 @@
-From e0e1ea834898b77afece7fec6463b6bc74b943d9 Mon Sep 17 00:00:00 2001
-Message-ID: <e0e1ea834898b77afece7fec6463b6bc74b943d9.1739824249.git.jdenemar@redhat.com>
+From e1e0d3f8b4b6d6694a57425e6a3f85015cee9225 Mon Sep 17 00:00:00 2001
+Message-ID: <e1e0d3f8b4b6d6694a57425e6a3f85015cee9225.1739815540.git.jdenemar@redhat.com>
 From: Laine Stump <laine@redhat.com>
 Date: Sun, 9 Feb 2025 18:23:03 -0500
 Subject: [PATCH] qemu: automatically set model type='virtio' for interface
@@ -17,7 +17,7 @@ Signed-off-by: Laine Stump <laine@redhat.com>
 Reviewed-by: Ján Tomko <jtomko@redhat.com>
 (cherry picked from commit c4746418d7e952888c0989db3a5c723d888fc32d)
 
-https://issues.redhat.com/browse/RHEL-69455
+https://issues.redhat.com/browse/RHEL-77086
 Signed-off-by: Laine Stump <laine@redhat.com>
 ---
  src/qemu/qemu_postparse.c | 3 ++-

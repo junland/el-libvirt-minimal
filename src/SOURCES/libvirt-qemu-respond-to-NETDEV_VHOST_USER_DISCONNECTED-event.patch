@@ -1,5 +1,5 @@
-From 874251dd0b6fdbf3a0be8e494f83001e5f028868 Mon Sep 17 00:00:00 2001
-Message-ID: <874251dd0b6fdbf3a0be8e494f83001e5f028868.1744361503.git.jdenemar@redhat.com>
+From b670b370991800e47f4bb1fa8e80db3a3b0b1f19 Mon Sep 17 00:00:00 2001
+Message-ID: <b670b370991800e47f4bb1fa8e80db3a3b0b1f19.1744363085.git.jdenemar@redhat.com>
 From: Laine Stump <laine@redhat.com>
 Date: Fri, 4 Apr 2025 17:16:43 -0400
 Subject: [PATCH] qemu: respond to NETDEV_VHOST_USER_DISCONNECTED event
@@ -25,7 +25,7 @@ src/qemu/qemu_driver.c:
   processNicRxFilterChangedEvent() changed upstream (due to upstream
   commit 50981052a5f)
 
-https://issues.redhat.com/browse/RHEL-84782
+https://issues.redhat.com/browse/RHEL-84784
 Signed-off-by: Laine Stump <laine@redhat.com>
 ---
  src/qemu/qemu_domain.c       |  1 +

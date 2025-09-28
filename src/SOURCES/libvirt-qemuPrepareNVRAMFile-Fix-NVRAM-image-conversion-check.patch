@@ -1,5 +1,5 @@
-From 164d32e435c715b71b0d604d3f4e2d09ceb52bac Mon Sep 17 00:00:00 2001
-Message-ID: <164d32e435c715b71b0d604d3f4e2d09ceb52bac.1750849847.git.jdenemar@redhat.com>
+From 724c5699fc03117632a47e69b67faf7675dd4b75 Mon Sep 17 00:00:00 2001
+Message-ID: <724c5699fc03117632a47e69b67faf7675dd4b75.1750851951.git.jdenemar@redhat.com>
 From: Peter Krempa <pkrempa@redhat.com>
 Date: Fri, 28 Feb 2025 14:00:23 +0100
 Subject: [PATCH] qemuPrepareNVRAMFile: Fix NVRAM image conversion check
@@ -23,7 +23,7 @@ Fixes: 2aa644a2fc8
 Signed-off-by: Peter Krempa <pkrempa@redhat.com>
 Reviewed-by: Jiri Denemark <jdenemar@redhat.com>
 (cherry picked from commit e088895a6246ac3b7f160e1895f2940c4b13b0cc)
-https://issues.redhat.com/browse/RHEL-97757
+https://issues.redhat.com/browse/RHEL-97761
 ---
  src/conf/domain_conf.h  | 7 +++++++
  src/qemu/qemu_process.c | 5 ++++-

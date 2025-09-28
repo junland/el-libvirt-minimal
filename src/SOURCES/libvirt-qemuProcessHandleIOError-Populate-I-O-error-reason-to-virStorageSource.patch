@@ -1,5 +1,5 @@
-From d67189b0a37a76b60bab7d9e1f527bf4d984be16 Mon Sep 17 00:00:00 2001
-Message-ID: <d67189b0a37a76b60bab7d9e1f527bf4d984be16.1738940191.git.jdenemar@redhat.com>
+From 61829441be56a5d24f727056cde31907ef3cfdeb Mon Sep 17 00:00:00 2001
+Message-ID: <61829441be56a5d24f727056cde31907ef3cfdeb.1738937224.git.jdenemar@redhat.com>
 From: Peter Krempa <pkrempa@redhat.com>
 Date: Mon, 27 Jan 2025 19:17:16 +0100
 Subject: [PATCH] qemuProcessHandleIOError: Populate I/O error reason to
@@ -18,7 +18,7 @@ Signed-off-by: Peter Krempa <pkrempa@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 (cherry picked from commit 300f7e9bd4ee4e043cac1a84059fe4a60b101cf1)
 
-https://issues.redhat.com/browse/RHEL-77884
+https://issues.redhat.com/browse/RHEL-76802
 ---
  src/qemu/qemu_process.c | 10 ++++++++++
  1 file changed, 10 insertions(+)

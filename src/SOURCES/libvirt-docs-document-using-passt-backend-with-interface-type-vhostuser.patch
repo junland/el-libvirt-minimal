@@ -1,5 +1,5 @@
-From 3bcec68251696b1255be7dc2504378b927ef5123 Mon Sep 17 00:00:00 2001
-Message-ID: <3bcec68251696b1255be7dc2504378b927ef5123.1739824250.git.jdenemar@redhat.com>
+From 1be247ee9a7df932a3f2ff2126714755433fc94b Mon Sep 17 00:00:00 2001
+Message-ID: <1be247ee9a7df932a3f2ff2126714755433fc94b.1739815540.git.jdenemar@redhat.com>
 From: Laine Stump <laine@redhat.com>
 Date: Fri, 14 Feb 2025 23:35:56 -0500
 Subject: [PATCH] docs: document using passt backend with <interface
@@ -22,7 +22,7 @@ Signed-off-by: Laine Stump <laine@redhat.com>
 Reviewed-by: Ján Tomko <jtomko@redhat.com>
 (cherry picked from commit 96fd17a99b514e585a94d43d40ab9a74907c7a5b)
 
-https://issues.redhat.com/browse/RHEL-69455
+https://issues.redhat.com/browse/RHEL-77086
 Signed-off-by: Laine Stump <laine@redhat.com>
 ---
  docs/formatdomain.rst | 73 ++++++++++++++++++++++++++++++++++++-------

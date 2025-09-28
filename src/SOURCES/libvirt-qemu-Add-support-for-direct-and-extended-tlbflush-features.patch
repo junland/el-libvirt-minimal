@@ -1,5 +1,5 @@
-From 64ca9249f100a61cf39e800ad67f0dd520aabb5d Mon Sep 17 00:00:00 2001
-Message-ID: <64ca9249f100a61cf39e800ad67f0dd520aabb5d.1737030652.git.jdenemar@redhat.com>
+From fe11cbb1c588d045c69ed1242a0b4b95f309ba92 Mon Sep 17 00:00:00 2001
+Message-ID: <fe11cbb1c588d045c69ed1242a0b4b95f309ba92.1737018560.git.jdenemar@redhat.com>
 From: Martin Kletzander <mkletzan@redhat.com>
 Date: Fri, 20 Dec 2024 12:28:24 +0100
 Subject: [PATCH] qemu: Add support for direct and extended tlbflush features
@@ -13,7 +13,7 @@ Signed-off-by: Martin Kletzander <mkletzan@redhat.com>
 Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
 (cherry picked from commit 247357cc292a83c8628592562cbb4fa621cdc5b0)
 
-https://issues.redhat.com/browse/RHEL-7122
+https://issues.redhat.com/browse/RHEL-73088
 
 Signed-off-by: Martin Kletzander <mkletzan@redhat.com>
 ---

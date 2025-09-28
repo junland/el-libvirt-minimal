@@ -1,5 +1,5 @@
-From ace165fe4fa45ceb7e26cfd7f2fafead7cfeb503 Mon Sep 17 00:00:00 2001
-Message-ID: <ace165fe4fa45ceb7e26cfd7f2fafead7cfeb503.1737731143.git.jdenemar@redhat.com>
+From fad20657181e26f10d94ef216f7655b54947be73 Mon Sep 17 00:00:00 2001
+Message-ID: <fad20657181e26f10d94ef216f7655b54947be73.1737724457.git.jdenemar@redhat.com>
 From: Laine Stump <laine@redhat.com>
 Date: Mon, 25 Nov 2024 22:51:04 -0500
 Subject: [PATCH] qemu: re-use existing ActualNetDef for more interface types
@@ -45,7 +45,7 @@ Signed-off-by: Laine Stump <laine@redhat.com>
 Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
 (cherry picked from commit 4e987a86b5e4c9faf36aa5abad47fe6db6314950)
 
-https://issues.redhat.com/browse/RHEL-7036
+https://issues.redhat.com/browse/RHEL-74492
 
 Signed-off-by: Laine Stump <laine@redhat.com>
 ---

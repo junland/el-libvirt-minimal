@@ -1,5 +1,5 @@
-From 8a4acd4ce68b416a9de21b3ad7ca976cfc3b01ee Mon Sep 17 00:00:00 2001
-Message-ID: <8a4acd4ce68b416a9de21b3ad7ca976cfc3b01ee.1738940191.git.jdenemar@redhat.com>
+From eaf365d8e054543ff33489a93f5fe25cc41939d7 Mon Sep 17 00:00:00 2001
+Message-ID: <eaf365d8e054543ff33489a93f5fe25cc41939d7.1738937224.git.jdenemar@redhat.com>
 From: Peter Krempa <pkrempa@redhat.com>
 Date: Mon, 27 Jan 2025 13:07:24 +0100
 Subject: [PATCH] qemuProcessHandleIOError: Rename local variables
@@ -15,7 +15,7 @@ Signed-off-by: Peter Krempa <pkrempa@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 (cherry picked from commit 590a5765c190230ab3df87e7eda42f621766347b)
 
-https://issues.redhat.com/browse/RHEL-77884
+https://issues.redhat.com/browse/RHEL-76802
 ---
  src/qemu/qemu_process.c | 15 ++++++---------
  1 file changed, 6 insertions(+), 9 deletions(-)

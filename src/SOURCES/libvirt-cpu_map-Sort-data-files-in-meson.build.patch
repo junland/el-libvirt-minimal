@@ -1,5 +1,5 @@
-From 9c52c91dd1d901dc23105c475ea01631315b827e Mon Sep 17 00:00:00 2001
-Message-ID: <9c52c91dd1d901dc23105c475ea01631315b827e.1734433245.git.jdenemar@redhat.com>
+From 00f259cc2d6abfd44424b7faf485fbe3301bfe49 Mon Sep 17 00:00:00 2001
+Message-ID: <00f259cc2d6abfd44424b7faf485fbe3301bfe49.1734429553.git.jdenemar@redhat.com>
 From: Jiri Denemark <jdenemar@redhat.com>
 Date: Thu, 28 Nov 2024 13:24:49 +0100
 Subject: [PATCH] cpu_map: Sort data files in meson.build
@@ -8,7 +8,7 @@ Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
 Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
 (cherry picked from commit 50c6d727b6f0cc00333a1bc26925ab5f26f8f781)
 
-https://issues.redhat.com/browse/RHEL-70052
+https://issues.redhat.com/browse/RHEL-70129
 
 Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
 ---

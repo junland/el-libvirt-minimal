@@ -1,5 +1,5 @@
-From 45c5f48cef27f4233a4964337d33db78ab51740b Mon Sep 17 00:00:00 2001
-Message-ID: <45c5f48cef27f4233a4964337d33db78ab51740b.1737731143.git.jdenemar@redhat.com>
+From 46220fe4e8747a4743cbc4557ec75290352db68c Mon Sep 17 00:00:00 2001
+Message-ID: <46220fe4e8747a4743cbc4557ec75290352db68c.1737724457.git.jdenemar@redhat.com>
 From: Peter Krempa <pkrempa@redhat.com>
 Date: Thu, 9 Jan 2025 14:53:49 +0100
 Subject: [PATCH] storage_file: Refuse qcow2 images with empty string as
@@ -25,8 +25,6 @@ Resolves: https://issues.redhat.com/browse/RHEL-70627
 Signed-off-by: Peter Krempa <pkrempa@redhat.com>
 Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
 (cherry picked from commit 87a4fe2906b712d3a6ea3e9c8d9faa98b9ec5632)
-
-https://issues.redhat.com/browse/RHEL-73504
 ---
  src/storage_file/storage_source.c | 10 ++++++++++
  1 file changed, 10 insertions(+)

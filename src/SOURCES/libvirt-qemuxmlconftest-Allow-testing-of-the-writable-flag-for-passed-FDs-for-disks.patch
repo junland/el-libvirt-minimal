@@ -1,5 +1,5 @@
-From 81ccb43343bfd63358b610ef5a44082e2c5081f4 Mon Sep 17 00:00:00 2001
-Message-ID: <81ccb43343bfd63358b610ef5a44082e2c5081f4.1738940191.git.jdenemar@redhat.com>
+From 66adc93cf4d1bb64b753617da4d4c942d191542a Mon Sep 17 00:00:00 2001
+Message-ID: <66adc93cf4d1bb64b753617da4d4c942d191542a.1738937224.git.jdenemar@redhat.com>
 From: Peter Krempa <pkrempa@redhat.com>
 Date: Thu, 6 Feb 2025 15:50:35 +0100
 Subject: [PATCH] qemuxmlconftest: Allow testing of the 'writable' flag for
@@ -12,7 +12,7 @@ Signed-off-by: Peter Krempa <pkrempa@redhat.com>
 Reviewed-by: Jiri Denemark <jdenemar@redhat.com>
 (cherry picked from commit 500d985a130ff7910ca6cdeac42046d7301da43f)
 
-https://issues.redhat.com/browse/RHEL-37519
+https://issues.redhat.com/browse/RHEL-78353
 ---
  tests/qemuxmlconftest.c | 6 +++---
  tests/testutilsqemu.c   | 2 ++

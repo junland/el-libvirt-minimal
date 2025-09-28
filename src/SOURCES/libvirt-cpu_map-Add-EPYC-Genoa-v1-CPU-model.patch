@@ -1,5 +1,5 @@
-From c849388f86989e8bced51ad498b58c7cd40af179 Mon Sep 17 00:00:00 2001
-Message-ID: <c849388f86989e8bced51ad498b58c7cd40af179.1734433247.git.jdenemar@redhat.com>
+From 98dc35fe2c13d75f8e866f6ca3f580bf7d7e0207 Mon Sep 17 00:00:00 2001
+Message-ID: <98dc35fe2c13d75f8e866f6ca3f580bf7d7e0207.1734429554.git.jdenemar@redhat.com>
 From: Jiri Denemark <jdenemar@redhat.com>
 Date: Thu, 5 Dec 2024 16:02:17 +0100
 Subject: [PATCH] cpu_map: Add EPYC-Genoa-v1 CPU model
@@ -8,7 +8,7 @@ Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
 Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
 (cherry picked from commit da2439b746c5da1b6544d6e1cc0d6dd6b9691a1b)
 
-https://issues.redhat.com/browse/RHEL-70052
+https://issues.redhat.com/browse/RHEL-70129
 
 Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
 ---

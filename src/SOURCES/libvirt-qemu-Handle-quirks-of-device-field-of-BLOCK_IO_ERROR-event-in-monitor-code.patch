@@ -1,5 +1,5 @@
-From 62e633d298639fd7b7e9c12e6b9d095872c8e6a3 Mon Sep 17 00:00:00 2001
-Message-ID: <62e633d298639fd7b7e9c12e6b9d095872c8e6a3.1738940191.git.jdenemar@redhat.com>
+From 53a7b2cc3a550791f69d6b78d12cadb02a43d247 Mon Sep 17 00:00:00 2001
+Message-ID: <53a7b2cc3a550791f69d6b78d12cadb02a43d247.1738937224.git.jdenemar@redhat.com>
 From: Peter Krempa <pkrempa@redhat.com>
 Date: Mon, 27 Jan 2025 13:03:58 +0100
 Subject: [PATCH] qemu: Handle quirks of 'device' field of BLOCK_IO_ERROR event
@@ -21,7 +21,7 @@ Signed-off-by: Peter Krempa <pkrempa@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 (cherry picked from commit 2f8359f827ce92e0b454eca55640a928367131fd)
 
-https://issues.redhat.com/browse/RHEL-77884
+https://issues.redhat.com/browse/RHEL-76802
 ---
  src/qemu/qemu_monitor_json.c | 9 ++++++++-
  src/qemu/qemu_process.c      | 3 ---

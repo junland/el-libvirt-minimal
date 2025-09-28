@@ -1,5 +1,5 @@
-From 8aac60b3f07513fea6968b1f9d340f7408a3a8e6 Mon Sep 17 00:00:00 2001
-Message-ID: <8aac60b3f07513fea6968b1f9d340f7408a3a8e6.1739824249.git.jdenemar@redhat.com>
+From 6cecf1cbd813f6b197920001a422e87d0999442a Mon Sep 17 00:00:00 2001
+Message-ID: <6cecf1cbd813f6b197920001a422e87d0999442a.1739815540.git.jdenemar@redhat.com>
 From: Laine Stump <laine@redhat.com>
 Date: Sun, 9 Feb 2025 22:52:54 -0500
 Subject: [PATCH] conf/qemu: make <source> element *almost* optional for
@@ -35,7 +35,7 @@ Signed-off-by: Laine Stump <laine@redhat.com>
 Reviewed-by: Ján Tomko <jtomko@redhat.com>
 (cherry picked from commit fb4bfa78589f7f556b6b0a176f109c94516d3cdd)
 
-https://issues.redhat.com/browse/RHEL-69455
+https://issues.redhat.com/browse/RHEL-77086
 Signed-off-by: Laine Stump <laine@redhat.com>
 ---
  src/conf/domain_conf.c            | 56 ++++++++++++-------------------

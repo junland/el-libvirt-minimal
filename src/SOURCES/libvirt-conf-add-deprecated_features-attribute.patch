@@ -1,5 +1,5 @@
-From 1f2939355139bb56af0db6b4d575bc3aa9831394 Mon Sep 17 00:00:00 2001
-Message-ID: <1f2939355139bb56af0db6b4d575bc3aa9831394.1749027246.git.jdenemar@redhat.com>
+From c0d1ddd4ed7c27044d401f5ccbc40cde652aafe3 Mon Sep 17 00:00:00 2001
+Message-ID: <c0d1ddd4ed7c27044d401f5ccbc40cde652aafe3.1749631608.git.jdenemar@redhat.com>
 From: Collin Walling <walling@linux.ibm.com>
 Date: Mon, 16 Dec 2024 18:03:58 -0500
 Subject: [PATCH] conf: add deprecated_features attribute
@@ -28,7 +28,7 @@ features in the future.
 Signed-off-by: Collin Walling <walling@linux.ibm.com>
 Reviewed-by: Jiri Denemark <jdenemar@redhat.com>
 (cherry picked from commit 62658bbf060784c757f96c9de3935f27885834aa)
-JIRA: https://issues.redhat.com/browse/RHEL-89977
+JIRA: https://issues.redhat.com/browse/RHEL-95956
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
  src/conf/cpu_conf.c                           | 11 +++++++

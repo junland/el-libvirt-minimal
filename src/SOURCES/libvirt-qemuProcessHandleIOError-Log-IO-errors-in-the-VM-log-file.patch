@@ -1,5 +1,5 @@
-From 0ad096e3448a2b6e366995220f4266af34dd9010 Mon Sep 17 00:00:00 2001
-Message-ID: <0ad096e3448a2b6e366995220f4266af34dd9010.1738940191.git.jdenemar@redhat.com>
+From c192df0a82c97d04b58de428836a7221fc11f7f2 Mon Sep 17 00:00:00 2001
+Message-ID: <c192df0a82c97d04b58de428836a7221fc11f7f2.1738937224.git.jdenemar@redhat.com>
 From: Peter Krempa <pkrempa@redhat.com>
 Date: Fri, 24 Jan 2025 17:01:34 +0100
 Subject: [PATCH] qemuProcessHandleIOError: Log IO errors in the VM log file
@@ -16,7 +16,7 @@ Signed-off-by: Peter Krempa <pkrempa@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 (cherry picked from commit 18f8d572be4caaa0c55a8d68a4048ef2360a03c5)
 
-https://issues.redhat.com/browse/RHEL-77884
+https://issues.redhat.com/browse/RHEL-76802
 ---
  src/qemu/qemu_process.c | 5 ++++-
  1 file changed, 4 insertions(+), 1 deletion(-)

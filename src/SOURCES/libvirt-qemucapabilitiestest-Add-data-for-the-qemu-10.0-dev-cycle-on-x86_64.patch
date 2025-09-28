@@ -1,5 +1,5 @@
-From d056b57fff98c30ef64a695dec44a2ddfcc1c55b Mon Sep 17 00:00:00 2001
-Message-ID: <d056b57fff98c30ef64a695dec44a2ddfcc1c55b.1739824249.git.jdenemar@redhat.com>
+From b8b43bd2a4754e976deee41950ed15939073cef8 Mon Sep 17 00:00:00 2001
+Message-ID: <b8b43bd2a4754e976deee41950ed15939073cef8.1739815540.git.jdenemar@redhat.com>
 From: Peter Krempa <pkrempa@redhat.com>
 Date: Tue, 4 Feb 2025 17:12:00 +0100
 Subject: [PATCH] qemucapabilitiestest: Add data for the qemu-10.0 dev cycle on
@@ -34,16 +34,15 @@ Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
     Conflicts:
         - 'migrate-incoming.exit-on-error' capability flag not backported
         - 'ibpb-brtype' cpu feature not backported
-        - 'GraniteRapids-v2' cpu type not backported
 
-https://issues.redhat.com/browse/RHEL-79095
+https://issues.redhat.com/browse/RHEL-78398
 ---
- .../domaincapsdata/qemu_10.0.0-q35.x86_64.xml |  1644 +
- .../domaincapsdata/qemu_10.0.0-tcg.x86_64.xml |  1763 +
- tests/domaincapsdata/qemu_10.0.0.x86_64.xml   |  1644 +
+ .../domaincapsdata/qemu_10.0.0-q35.x86_64.xml |  1701 +
+ .../domaincapsdata/qemu_10.0.0-tcg.x86_64.xml |  1810 +
+ tests/domaincapsdata/qemu_10.0.0.x86_64.xml   |  1701 +
  .../caps_10.0.0_x86_64.replies                | 44998 ++++++++++++++++
  .../caps_10.0.0_x86_64.xml                    |  4159 ++
- 5 files changed, 54208 insertions(+)
+ 5 files changed, 54369 insertions(+)
  create mode 100644 tests/domaincapsdata/qemu_10.0.0-q35.x86_64.xml
  create mode 100644 tests/domaincapsdata/qemu_10.0.0-tcg.x86_64.xml
  create mode 100644 tests/domaincapsdata/qemu_10.0.0.x86_64.xml
@@ -52,10 +51,10 @@ https://issues.redhat.com/browse/RHEL-79095
 
 diff --git a/tests/domaincapsdata/qemu_10.0.0-q35.x86_64.xml b/tests/domaincapsdata/qemu_10.0.0-q35.x86_64.xml
 new file mode 100644
-index 0000000000..e4d8862569
+index 0000000000..f1a7963d34
 --- /dev/null
 +++ b/tests/domaincapsdata/qemu_10.0.0-q35.x86_64.xml
-@@ -0,0 +1,1644 @@
+@@ -0,0 +1,1701 @@
 +<domainCapabilities>
 +  <path>/usr/bin/qemu-system-x86_64</path>
 +  <domain>kvm</domain>
@@ -616,6 +615,63 @@ index 0000000000..e4d8862569
 +        <feature name='sbdr-ssdp-no'/>
 +        <feature name='serialize'/>
 +        <feature name='spec-ctrl'/>
++        <feature name='taa-no'/>
++        <feature name='tsx-ldtrk'/>
++        <feature name='vaes'/>
++        <feature name='vpclmulqdq'/>
++        <feature name='xfd'/>
++        <feature name='xsaves'/>
++      </blockers>
++      <model usable='no' vendor='Intel'>GraniteRapids-v2</model>
++      <blockers model='GraniteRapids-v2'>
++        <feature name='amx-bf16'/>
++        <feature name='amx-fp16'/>
++        <feature name='amx-int8'/>
++        <feature name='amx-tile'/>
++        <feature name='avx-vnni'/>
++        <feature name='avx10'/>
++        <feature name='avx10-128'/>
++        <feature name='avx10-256'/>
++        <feature name='avx10-512'/>
++        <feature name='avx512-bf16'/>
++        <feature name='avx512-fp16'/>
++        <feature name='avx512-vpopcntdq'/>
++        <feature name='avx512bitalg'/>
++        <feature name='avx512bw'/>
++        <feature name='avx512cd'/>
++        <feature name='avx512dq'/>
++        <feature name='avx512f'/>
++        <feature name='avx512ifma'/>
++        <feature name='avx512vbmi'/>
++        <feature name='avx512vbmi2'/>
++        <feature name='avx512vl'/>
++        <feature name='avx512vnni'/>
++        <feature name='bus-lock-detect'/>
++        <feature name='cldemote'/>
++        <feature name='erms'/>
++        <feature name='fbsdp-no'/>
++        <feature name='fsrc'/>
++        <feature name='fsrm'/>
++        <feature name='fsrs'/>
++        <feature name='fzrm'/>
++        <feature name='gfni'/>
++        <feature name='hle'/>
++        <feature name='ibrs-all'/>
++        <feature name='invpcid'/>
++        <feature name='la57'/>
++        <feature name='mcdt-no'/>
++        <feature name='movdir64b'/>
++        <feature name='movdiri'/>
++        <feature name='pbrsb-no'/>
++        <feature name='pcid'/>
++        <feature name='pku'/>
++        <feature name='prefetchiti'/>
++        <feature name='psdp-no'/>
++        <feature name='rtm'/>
++        <feature name='sbdr-ssdp-no'/>
++        <feature name='serialize'/>
++        <feature name='spec-ctrl'/>
++        <feature name='ss'/>
 +        <feature name='taa-no'/>
 +        <feature name='tsx-ldtrk'/>
 +        <feature name='vaes'/>
@@ -1702,10 +1758,10 @@ index 0000000000..e4d8862569
 +</domainCapabilities>
 diff --git a/tests/domaincapsdata/qemu_10.0.0-tcg.x86_64.xml b/tests/domaincapsdata/qemu_10.0.0-tcg.x86_64.xml
 new file mode 100644
-index 0000000000..a21ed4997e
+index 0000000000..9a7d39c1f8
 --- /dev/null
 +++ b/tests/domaincapsdata/qemu_10.0.0-tcg.x86_64.xml
-@@ -0,0 +1,1763 @@
+@@ -0,0 +1,1810 @@
 +<domainCapabilities>
 +  <path>/usr/bin/qemu-system-x86_64</path>
 +  <domain>qemu</domain>
@@ -2435,6 +2491,53 @@ index 0000000000..a21ed4997e
 +        <feature name='spec-ctrl'/>
 +        <feature name='ssbd'/>
 +        <feature name='tsc-deadline'/>
++        <feature name='tsx-ldtrk'/>
++        <feature name='vpclmulqdq'/>
++        <feature name='xfd'/>
++        <feature name='xsavec'/>
++        <feature name='xsaves'/>
++      </blockers>
++      <model usable='no' vendor='Intel'>GraniteRapids-v2</model>
++      <blockers model='GraniteRapids-v2'>
++        <feature name='amx-bf16'/>
++        <feature name='amx-fp16'/>
++        <feature name='amx-int8'/>
++        <feature name='amx-tile'/>
++        <feature name='arch-capabilities'/>
++        <feature name='avx-vnni'/>
++        <feature name='avx10'/>
++        <feature name='avx10-128'/>
++        <feature name='avx10-256'/>
++        <feature name='avx10-512'/>
++        <feature name='avx512-bf16'/>
++        <feature name='avx512-fp16'/>
++        <feature name='avx512-vpopcntdq'/>
++        <feature name='avx512bitalg'/>
++        <feature name='avx512bw'/>
++        <feature name='avx512cd'/>
++        <feature name='avx512dq'/>
++        <feature name='avx512f'/>
++        <feature name='avx512ifma'/>
++        <feature name='avx512vbmi'/>
++        <feature name='avx512vbmi2'/>
++        <feature name='avx512vl'/>
++        <feature name='avx512vnni'/>
++        <feature name='bus-lock-detect'/>
++        <feature name='cldemote'/>
++        <feature name='gfni'/>
++        <feature name='hle'/>
++        <feature name='invpcid'/>
++        <feature name='mcdt-no'/>
++        <feature name='movdir64b'/>
++        <feature name='movdiri'/>
++        <feature name='pcid'/>
++        <feature name='prefetchiti'/>
++        <feature name='rtm'/>
++        <feature name='serialize'/>
++        <feature name='spec-ctrl'/>
++        <feature name='ssbd'/>
++        <feature name='tsc-deadline'/>
++        <feature name='tsc_adjust'/>
 +        <feature name='tsx-ldtrk'/>
 +        <feature name='vpclmulqdq'/>
 +        <feature name='xfd'/>
@@ -3471,10 +3574,10 @@ index 0000000000..a21ed4997e
 +</domainCapabilities>
 diff --git a/tests/domaincapsdata/qemu_10.0.0.x86_64.xml b/tests/domaincapsdata/qemu_10.0.0.x86_64.xml
 new file mode 100644
-index 0000000000..f4989749ce
+index 0000000000..64dc451eda
 --- /dev/null
 +++ b/tests/domaincapsdata/qemu_10.0.0.x86_64.xml
-@@ -0,0 +1,1644 @@
+@@ -0,0 +1,1701 @@
 +<domainCapabilities>
 +  <path>/usr/bin/qemu-system-x86_64</path>
 +  <domain>kvm</domain>
@@ -4034,6 +4137,63 @@ index 0000000000..f4989749ce
 +        <feature name='sbdr-ssdp-no'/>
 +        <feature name='serialize'/>
 +        <feature name='spec-ctrl'/>
++        <feature name='taa-no'/>
++        <feature name='tsx-ldtrk'/>
++        <feature name='vaes'/>
++        <feature name='vpclmulqdq'/>
++        <feature name='xfd'/>
++        <feature name='xsaves'/>
++      </blockers>
++      <model usable='no' vendor='Intel'>GraniteRapids-v2</model>
++      <blockers model='GraniteRapids-v2'>
++        <feature name='amx-bf16'/>
++        <feature name='amx-fp16'/>
++        <feature name='amx-int8'/>
++        <feature name='amx-tile'/>
++        <feature name='avx-vnni'/>
++        <feature name='avx10'/>
++        <feature name='avx10-128'/>
++        <feature name='avx10-256'/>
++        <feature name='avx10-512'/>
++        <feature name='avx512-bf16'/>
++        <feature name='avx512-fp16'/>
++        <feature name='avx512-vpopcntdq'/>
++        <feature name='avx512bitalg'/>
++        <feature name='avx512bw'/>
++        <feature name='avx512cd'/>
++        <feature name='avx512dq'/>
++        <feature name='avx512f'/>
++        <feature name='avx512ifma'/>
++        <feature name='avx512vbmi'/>
++        <feature name='avx512vbmi2'/>
++        <feature name='avx512vl'/>
++        <feature name='avx512vnni'/>
++        <feature name='bus-lock-detect'/>
++        <feature name='cldemote'/>
++        <feature name='erms'/>
++        <feature name='fbsdp-no'/>
++        <feature name='fsrc'/>
++        <feature name='fsrm'/>
++        <feature name='fsrs'/>
++        <feature name='fzrm'/>
++        <feature name='gfni'/>
++        <feature name='hle'/>
++        <feature name='ibrs-all'/>
++        <feature name='invpcid'/>
++        <feature name='la57'/>
++        <feature name='mcdt-no'/>
++        <feature name='movdir64b'/>
++        <feature name='movdiri'/>
++        <feature name='pbrsb-no'/>
++        <feature name='pcid'/>
++        <feature name='pku'/>
++        <feature name='prefetchiti'/>
++        <feature name='psdp-no'/>
++        <feature name='rtm'/>
++        <feature name='sbdr-ssdp-no'/>
++        <feature name='serialize'/>
++        <feature name='spec-ctrl'/>
++        <feature name='ss'/>
 +        <feature name='taa-no'/>
 +        <feature name='tsx-ldtrk'/>
 +        <feature name='vaes'/>

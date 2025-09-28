@@ -1,5 +1,5 @@
-From 4d951963cb08a659ab1a3077cabd6111d586f39f Mon Sep 17 00:00:00 2001
-Message-ID: <4d951963cb08a659ab1a3077cabd6111d586f39f.1734433246.git.jdenemar@redhat.com>
+From ca37c1656ba02cdc78667f3ce07c316d9d3ab41e Mon Sep 17 00:00:00 2001
+Message-ID: <ca37c1656ba02cdc78667f3ce07c316d9d3ab41e.1734429554.git.jdenemar@redhat.com>
 From: Jiri Denemark <jdenemar@redhat.com>
 Date: Thu, 5 Dec 2024 15:38:08 +0100
 Subject: [PATCH] cpu_map: Add Conroe-v1 CPU model
@@ -8,7 +8,7 @@ Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
 Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
 (cherry picked from commit 2d061eba8c2b7907cad1fe80fb6e2b1707417ed3)
 
-https://issues.redhat.com/browse/RHEL-70052
+https://issues.redhat.com/browse/RHEL-70129
 
 Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
 ---

@@ -1,5 +1,5 @@
-From e34ac564b018b166a7d6f955f2abe80a9e62f07e Mon Sep 17 00:00:00 2001
-Message-ID: <e34ac564b018b166a7d6f955f2abe80a9e62f07e.1737030652.git.jdenemar@redhat.com>
+From 0fec05230ebee98159489f1b301d869f75a502f4 Mon Sep 17 00:00:00 2001
+Message-ID: <0fec05230ebee98159489f1b301d869f75a502f4.1737018560.git.jdenemar@redhat.com>
 From: Martin Kletzander <mkletzan@redhat.com>
 Date: Mon, 6 Jan 2025 16:11:01 +0100
 Subject: [PATCH] conf: Adjust hyperv tlbflush formatting
@@ -15,7 +15,7 @@ Signed-off-by: Ján Tomko <jtomko@redhat.com>
 Reviewed-by: Martin Kletzander <mkletzan@redhat.com>
 (cherry picked from commit 9df14f51735eeb4221a25ccd408a2dccf0a35b59)
 
-https://issues.redhat.com/browse/RHEL-7122
+https://issues.redhat.com/browse/RHEL-73088
 
 Signed-off-by: Martin Kletzander <mkletzan@redhat.com>
 ---

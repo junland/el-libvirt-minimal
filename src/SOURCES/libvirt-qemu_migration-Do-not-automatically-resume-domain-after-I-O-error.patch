@@ -1,5 +1,5 @@
-From cfb90039fe0972c316fc28ca1d6bcc6343431fc3 Mon Sep 17 00:00:00 2001
-Message-ID: <cfb90039fe0972c316fc28ca1d6bcc6343431fc3.1739824249.git.jdenemar@redhat.com>
+From 33c6c5a2061321e75fa1455a5ad9fa192b1a7825 Mon Sep 17 00:00:00 2001
+Message-ID: <33c6c5a2061321e75fa1455a5ad9fa192b1a7825.1739815540.git.jdenemar@redhat.com>
 From: Jiri Denemark <jdenemar@redhat.com>
 Date: Wed, 15 Jan 2025 16:02:00 +0100
 Subject: [PATCH] qemu_migration: Do not automatically resume domain after I/O
@@ -13,7 +13,7 @@ Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
 Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
 (cherry picked from commit 3766891c5954c53370d7eb9c7a0a8e6ba3854ca4)
 
-https://issues.redhat.com/browse/RHEL-79168
+https://issues.redhat.com/browse/RHEL-1071
 ---
  src/qemu/qemu_migration.c | 5 +++++
  1 file changed, 5 insertions(+)

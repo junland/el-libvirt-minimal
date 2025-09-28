@@ -1,5 +1,5 @@
-From cf77e1956a7d128b379f3608d38ec93c424c3ca2 Mon Sep 17 00:00:00 2001
-Message-ID: <cf77e1956a7d128b379f3608d38ec93c424c3ca2.1739824249.git.jdenemar@redhat.com>
+From 0dc1ceab2611a06d5f108c8f74e1c876de05cd44 Mon Sep 17 00:00:00 2001
+Message-ID: <0dc1ceab2611a06d5f108c8f74e1c876de05cd44.1739815540.git.jdenemar@redhat.com>
 From: Laine Stump <laine@redhat.com>
 Date: Tue, 11 Feb 2025 16:30:11 -0500
 Subject: [PATCH] qemu: use switch instead of if in
@@ -26,7 +26,7 @@ Signed-off-by: Laine Stump <laine@redhat.com>
 Reviewed-by: Ján Tomko <jtomko@redhat.com>
 (cherry picked from commit 6fe3d765e506b2954931e228ecd233f1200dce1a)
 
-https://issues.redhat.com/browse/RHEL-69455
+https://issues.redhat.com/browse/RHEL-77086
 Signed-off-by: Laine Stump <laine@redhat.com>
 ---
  src/qemu/qemu_process.c | 75 ++++++++++++++++++++++++++---------------

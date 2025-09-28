@@ -1,5 +1,5 @@
-From f58977a1475e6222e40e0cb93e9eef76da48012e Mon Sep 17 00:00:00 2001
-Message-ID: <f58977a1475e6222e40e0cb93e9eef76da48012e.1734433245.git.jdenemar@redhat.com>
+From 1953c2ecd3a3e8858a79ad2634e7bea8e708588d Mon Sep 17 00:00:00 2001
+Message-ID: <1953c2ecd3a3e8858a79ad2634e7bea8e708588d.1734429553.git.jdenemar@redhat.com>
 From: Jiri Denemark <jdenemar@redhat.com>
 Date: Wed, 4 Dec 2024 11:53:47 +0100
 Subject: [PATCH] util: Fix typo in virNetDevOpenvswitchInterfaceSetQos
@@ -16,9 +16,6 @@ Fixes: a3b8753db975d8b92b122ccc7daee986974f8b18
 Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
 Reviewed-by: Ján Tomko <jtomko@redhat.com>
 (cherry picked from commit dba710374d92688f797bf64642cc0d640c301239)
-
-https://issues.redhat.com/browse/RHEL-69938
-
 Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
 ---
  src/util/virnetdevopenvswitch.c | 2 +-

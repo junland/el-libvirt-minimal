@@ -1,5 +1,5 @@
-From 7297a02322a0fcc19ab46d0a39f0adae25bbb1ed Mon Sep 17 00:00:00 2001
-Message-ID: <7297a02322a0fcc19ab46d0a39f0adae25bbb1ed.1734433246.git.jdenemar@redhat.com>
+From 084610a2718223fc68fe2ed4362dd3f7734a0bde Mon Sep 17 00:00:00 2001
+Message-ID: <084610a2718223fc68fe2ed4362dd3f7734a0bde.1734429554.git.jdenemar@redhat.com>
 From: Jiri Denemark <jdenemar@redhat.com>
 Date: Thu, 5 Dec 2024 15:37:01 +0100
 Subject: [PATCH] cpu_map: Add kvm64-v1 CPU model
@@ -8,7 +8,7 @@ Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
 Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
 (cherry picked from commit 6d25eafaec0f138a57fbaa5c3e51952548ffae18)
 
-https://issues.redhat.com/browse/RHEL-70052
+https://issues.redhat.com/browse/RHEL-70129
 
 Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
 ---

@@ -1,5 +1,5 @@
-From a12b87879f0a1dca59c5953ac3a91a36685d17ce Mon Sep 17 00:00:00 2001
-Message-ID: <a12b87879f0a1dca59c5953ac3a91a36685d17ce.1739824249.git.jdenemar@redhat.com>
+From 83cb107badafc54fcd29eb000121d784cde92d84 Mon Sep 17 00:00:00 2001
+Message-ID: <83cb107badafc54fcd29eb000121d784cde92d84.1739815540.git.jdenemar@redhat.com>
 From: Laine Stump <laine@redhat.com>
 Date: Sun, 9 Feb 2025 19:01:32 -0500
 Subject: [PATCH] qemu: do all vhostuser attribute validation in qemu driver
@@ -17,7 +17,7 @@ Signed-off-by: Laine Stump <laine@redhat.com>
 Reviewed-by: Ján Tomko <jtomko@redhat.com>
 (cherry picked from commit 56f4cc167a6c93ec420c82f15a265ec08469279d)
 
-https://issues.redhat.com/browse/RHEL-69455
+https://issues.redhat.com/browse/RHEL-77086
 Signed-off-by: Laine Stump <laine@redhat.com>
 ---
  src/conf/domain_validate.c | 10 +---------

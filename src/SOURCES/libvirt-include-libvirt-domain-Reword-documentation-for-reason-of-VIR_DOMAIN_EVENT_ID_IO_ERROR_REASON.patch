@@ -1,5 +1,5 @@
-From 5def2eb78e1152a78533e27647eda2352f1dbc4b Mon Sep 17 00:00:00 2001
-Message-ID: <5def2eb78e1152a78533e27647eda2352f1dbc4b.1738940191.git.jdenemar@redhat.com>
+From 5ce72113702e5b48bde5234c0d6b9c951d998a1d Mon Sep 17 00:00:00 2001
+Message-ID: <5ce72113702e5b48bde5234c0d6b9c951d998a1d.1738937224.git.jdenemar@redhat.com>
 From: Peter Krempa <pkrempa@redhat.com>
 Date: Mon, 27 Jan 2025 15:50:34 +0100
 Subject: [PATCH] include: libvirt-domain: Reword documentation for @reason of
@@ -15,7 +15,7 @@ Signed-off-by: Peter Krempa <pkrempa@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 (cherry picked from commit 3a3c5616eb2c50a58896f99f30d887937dab297a)
 
-https://issues.redhat.com/browse/RHEL-77884
+https://issues.redhat.com/browse/RHEL-76802
 ---
  include/libvirt/libvirt-domain.h | 12 +++++++-----
  1 file changed, 7 insertions(+), 5 deletions(-)

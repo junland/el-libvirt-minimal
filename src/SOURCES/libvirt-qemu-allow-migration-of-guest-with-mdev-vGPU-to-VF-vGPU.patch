@@ -1,5 +1,5 @@
-From 1a54514bba90d0541efaf3e905ab30205c6014bd Mon Sep 17 00:00:00 2001
-Message-ID: <1a54514bba90d0541efaf3e905ab30205c6014bd.1737731143.git.jdenemar@redhat.com>
+From ef22696c396c2e54510fd5b912ce9979f1381c96 Mon Sep 17 00:00:00 2001
+Message-ID: <ef22696c396c2e54510fd5b912ce9979f1381c96.1737724457.git.jdenemar@redhat.com>
 From: Laine Stump <laine@redhat.com>
 Date: Fri, 13 Dec 2024 12:47:39 -0500
 Subject: [PATCH] qemu: allow migration of guest with mdev vGPU to VF vGPU
@@ -26,9 +26,9 @@ Tested-by: Zhiyi Guo <zhguo@redhat.com>
 Reviewed-by: Zhiyi Guo <zhguo@redhat.com>
 (cherry picked from commit dd82e2baa84eed485fa0554eafd2bdc06a094081)
 
-https://issues.redhat.com/browse/RHEL-68064
+https://issues.redhat.com/browse/RHEL-68065
 
-Signed-off-by: Laine Stump <laine@redhat.com>
+Signed-off-by: Laine Stump laine@redhat.com
 ---
  src/conf/domain_conf.c | 28 +++++++++++++++++++++-------
  1 file changed, 21 insertions(+), 7 deletions(-)

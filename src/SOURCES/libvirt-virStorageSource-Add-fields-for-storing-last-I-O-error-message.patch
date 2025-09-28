@@ -1,5 +1,5 @@
-From 1e47a795e7a06152cfd8b6d7c80692875d2e00b9 Mon Sep 17 00:00:00 2001
-Message-ID: <1e47a795e7a06152cfd8b6d7c80692875d2e00b9.1738940191.git.jdenemar@redhat.com>
+From ea25e33134f5ff8b902f9795acbd2138418abb7f Mon Sep 17 00:00:00 2001
+Message-ID: <ea25e33134f5ff8b902f9795acbd2138418abb7f.1738937224.git.jdenemar@redhat.com>
 From: Peter Krempa <pkrempa@redhat.com>
 Date: Mon, 27 Jan 2025 16:20:43 +0100
 Subject: [PATCH] virStorageSource: Add fields for storing last I/O error
@@ -22,7 +22,7 @@ Signed-off-by: Peter Krempa <pkrempa@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 (cherry picked from commit 2f6c9fa4f6f4c0a36ffc2b24892eee78e1e4cf53)
 
-https://issues.redhat.com/browse/RHEL-77884
+https://issues.redhat.com/browse/RHEL-76802
 ---
  src/conf/storage_source_conf.c | 5 +++++
  src/conf/storage_source_conf.h | 6 ++++++

@@ -1,5 +1,5 @@
-From c184ba489a432d5748c3de3ff5719ccd8194c1e5 Mon Sep 17 00:00:00 2001
-Message-ID: <c184ba489a432d5748c3de3ff5719ccd8194c1e5.1734433245.git.jdenemar@redhat.com>
+From 9817be253ea8b374bd08cb9dc2239b88c2f9f6a8 Mon Sep 17 00:00:00 2001
+Message-ID: <9817be253ea8b374bd08cb9dc2239b88c2f9f6a8.1734429553.git.jdenemar@redhat.com>
 From: =?UTF-8?q?J=C3=A1n=20Tomko?= <jtomko@redhat.com>
 Date: Tue, 3 Dec 2024 12:00:08 +0100
 Subject: [PATCH] qemu: tpm: do not update profile name for transient domains
@@ -23,9 +23,6 @@ Signed-off-by: Ján Tomko <jtomko@redhat.com>
 Reviewed-by: Jiri Denemark <jdenemar@redhat.com>
 Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
 (cherry picked from commit 81da7a2c2a2d490cddaaa77d3e3b36e210b38bd7)
-
-https://issues.redhat.com/browse/RHEL-71072
-
 Signed-off-by: Ján Tomko <jtomko@redhat.com>
 ---
  src/qemu/qemu_extdevice.c | 13 ++++++++++++-

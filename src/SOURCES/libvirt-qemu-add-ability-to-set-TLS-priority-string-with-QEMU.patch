@@ -1,5 +1,5 @@
-From d9935026fcc24f52bf9672962c331b91c002e38a Mon Sep 17 00:00:00 2001
-Message-ID: <d9935026fcc24f52bf9672962c331b91c002e38a.1754419285.git.jdenemar@redhat.com>
+From 931664a0b5a03990113887ac1dc5fec06b3a5ae6 Mon Sep 17 00:00:00 2001
+Message-ID: <931664a0b5a03990113887ac1dc5fec06b3a5ae6.1754469801.git.jdenemar@redhat.com>
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Date: Wed, 16 Jul 2025 16:40:01 +0100
 Subject: [PATCH] qemu: add ability to set TLS priority string with QEMU
@@ -54,7 +54,7 @@ Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 (cherry picked from commit 14e41ac9f365b148e69088c5ffeb565a0f9ba326)
 - Added dummy vxhsTLSpriority field and adapted old test data files
 
-Resolves: https://issues.redhat.com/browse/RHEL-106277
+Resolves: https://issues.redhat.com/browse/RHEL-106278
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
  src/conf/storage_source_conf.c                |  2 +
@@ -160,7 +160,7 @@ index 3f018f39a0..711806b2a8 100644
     let nogfx_entry = bool_entry "nographics_allow_host_audio"
  
 diff --git a/src/qemu/qemu.conf.in b/src/qemu/qemu.conf.in
-index 988d176a28..8bf18d06b2 100644
+index 988d176a28..de324be208 100644
 --- a/src/qemu/qemu.conf.in
 +++ b/src/qemu/qemu.conf.in
 @@ -62,6 +62,18 @@
@@ -194,7 +194,7 @@ index 988d176a28..8bf18d06b2 100644
  # The default VNC password. Only 8 bytes are significant for
  # VNC passwords. This parameter is only used if the per-domain
  # XML config does not already provide a password. To allow
-@@ -278,6 +295,11 @@
+@@ -278,12 +295,17 @@
  #chardev_tls_x509_secret_uuid = "00000000-0000-0000-0000-000000000000"
  
  
@@ -202,10 +202,16 @@ index 988d176a28..8bf18d06b2 100644
 +#
 +#chardev_tls_priority = "@SYSTEM"
 +
-+
  # Enable use of TLS encryption for all VxHS network block devices that
  # don't specifically disable.
  #
+ # When the VxHS network block device server is set up appropriately,
+ # x509 certificates are required for authentication between the clients
+ # (qemu processes) and the remote VxHS server.
++# Override QEMU default GNUTLS priority string for character devices
+ #
+ # It is necessary to setup CA and issue the client certificate before
+ # enabling this.
 @@ -366,6 +388,11 @@
  #nbd_tls_x509_secret_uuid = "00000000-0000-0000-0000-000000000000"
  

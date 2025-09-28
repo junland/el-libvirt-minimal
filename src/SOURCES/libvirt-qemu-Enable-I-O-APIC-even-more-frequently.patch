@@ -1,5 +1,5 @@
-From 850e6f2459fa256a80988009a4fedfb9a52b9aed Mon Sep 17 00:00:00 2001
-Message-ID: <850e6f2459fa256a80988009a4fedfb9a52b9aed.1734700218.git.jdenemar@redhat.com>
+From 349536b9f6f1df1f652cee5e25b3d2eae42e8170 Mon Sep 17 00:00:00 2001
+Message-ID: <349536b9f6f1df1f652cee5e25b3d2eae42e8170.1734696366.git.jdenemar@redhat.com>
 From: Michal Privoznik <mprivozn@redhat.com>
 Date: Wed, 18 Dec 2024 11:07:26 +0100
 Subject: [PATCH] qemu: Enable I/O APIC even more frequently
@@ -24,7 +24,7 @@ Fixes: 2d222ecf6e73614a400b830ac56e9aaa1bc55ecc
 Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
 Reviewed-by: Jiri Denemark <jdenemar@redhat.com>
 (cherry picked from commit 0162f2008e36df489f6f04e4d6002543acfa171d)
-https://issues.redhat.com/browse/RHEL-65844
+https://issues.redhat.com/browse/RHEL-71414
 Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
 ---
  src/qemu/qemu_postparse.c                     | 21 +++++++++---

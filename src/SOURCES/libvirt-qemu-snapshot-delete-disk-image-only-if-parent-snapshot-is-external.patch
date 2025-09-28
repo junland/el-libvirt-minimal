@@ -1,5 +1,5 @@
-From b617eb7d706e30ffd241d86898cb02d42ab8e817 Mon Sep 17 00:00:00 2001
-Message-ID: <b617eb7d706e30ffd241d86898cb02d42ab8e817.1737731143.git.jdenemar@redhat.com>
+From 6d57b760d3c47e440d796059e307c494a5416e70 Mon Sep 17 00:00:00 2001
+Message-ID: <6d57b760d3c47e440d796059e307c494a5416e70.1737724457.git.jdenemar@redhat.com>
 From: Pavel Hrdina <phrdina@redhat.com>
 Date: Thu, 9 Jan 2025 16:23:44 +0100
 Subject: [PATCH] qemu: snapshot: delete disk image only if parent snapshot is
@@ -21,7 +21,7 @@ Signed-off-by: Pavel Hrdina <phrdina@redhat.com>
 Reviewed-by: Peter Krempa <pkrempa@redhat.com>
 (cherry picked from commit d51179fa82448f4720f1645f0b7100df80508cc4)
 
-https://issues.redhat.com/browse/RHEL-74041
+https://issues.redhat.com/browse/RHEL-74040
 
 Signed-off-by: Pavel Hrdina <phrdina@redhat.com>
 ---

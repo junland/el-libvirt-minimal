@@ -1,5 +1,5 @@
-From 50925d10476e7a61d25de6e501a4954bb427c327 Mon Sep 17 00:00:00 2001
-Message-ID: <50925d10476e7a61d25de6e501a4954bb427c327.1737030652.git.jdenemar@redhat.com>
+From b8b6465c2d637ad1f07469de7bc71004a312e7be Mon Sep 17 00:00:00 2001
+Message-ID: <b8b6465c2d637ad1f07469de7bc71004a312e7be.1737018560.git.jdenemar@redhat.com>
 From: Jiri Denemark <jdenemar@redhat.com>
 Date: Fri, 10 Jan 2025 18:25:20 +0100
 Subject: [PATCH] qemu_migration: Do not consider post-copy active in
@@ -31,6 +31,9 @@ https://issues.redhat.com/browse/RHEL-73085
 Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
 Reviewed-by: Michal Privoznik <mprivozn@redhat.com
 (cherry picked from commit a71985f6f3fec52e2a6f4e3991ed9bf6280bdb4b)
+
+https://issues.redhat.com/browse/RHEL-73699
+
 Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
 ---
  src/qemu/qemu_migration.c | 2 +-

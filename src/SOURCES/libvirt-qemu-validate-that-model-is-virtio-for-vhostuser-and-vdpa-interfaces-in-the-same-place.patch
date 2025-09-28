@@ -1,5 +1,5 @@
-From 64f9ffd6ba6384c3ce11312e645dac6cb3cab27e Mon Sep 17 00:00:00 2001
-Message-ID: <64f9ffd6ba6384c3ce11312e645dac6cb3cab27e.1739824249.git.jdenemar@redhat.com>
+From 5d7fa1e2def7a48f23dc908c504288d23f0bdafa Mon Sep 17 00:00:00 2001
+Message-ID: <5d7fa1e2def7a48f23dc908c504288d23f0bdafa.1739815540.git.jdenemar@redhat.com>
 From: Laine Stump <laine@redhat.com>
 Date: Sun, 9 Feb 2025 18:46:00 -0500
 Subject: [PATCH] qemu: validate that model is virtio for vhostuser and vdpa
@@ -26,7 +26,7 @@ Signed-off-by: Laine Stump <laine@redhat.com>
 Reviewed-by: Ján Tomko <jtomko@redhat.com>
 (cherry picked from commit 154d44a585c40d0b6cf3bae674da2a8ca11ddb95)
 
-https://issues.redhat.com/browse/RHEL-69455
+https://issues.redhat.com/browse/RHEL-77086
 Signed-off-by: Laine Stump <laine@redhat.com>
 ---
  src/conf/domain_validate.c |  6 ------

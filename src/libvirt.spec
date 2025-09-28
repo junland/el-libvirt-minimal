@@ -289,7 +289,7 @@
 Summary: Library providing a simple virtualization API
 Name: libvirt
 Version: 10.10.0
-Release: 7.7%{?dist}%{?extra_release}
+Release: 8.4%{?dist}%{?extra_release}
 License: GPL-2.0-or-later AND LGPL-2.1-only AND LGPL-2.1-or-later AND OFL-1.1
 URL: https://libvirt.org/
 
@@ -326,92 +326,87 @@ Patch26: libvirt-cpu_map-Add-Opteron_G4-v1-CPU-model.patch
 Patch27: libvirt-cpu_map-Add-Opteron_G5-v1-CPU-model.patch
 Patch28: libvirt-cpu_map-Add-EPYC-Genoa-v1-CPU-model.patch
 Patch29: libvirt-qemu-Enable-I-O-APIC-even-more-frequently.patch
-Patch30: libvirt-conf-docs-Add-support-for-direct-and-extended-tlbflush-features.patch
-Patch31: libvirt-qemu-Add-support-for-direct-and-extended-tlbflush-features.patch
-Patch32: libvirt-conf-refactor-hyperv-features-formatting.patch
-Patch33: libvirt-conf-Adjust-hyperv-tlbflush-formatting.patch
-Patch34: libvirt-qemu_migration-Do-not-consider-post-copy-active-in-postcopy-recover.patch
-Patch35: libvirt-qemu-allow-migration-of-guest-with-mdev-vGPU-to-VF-vGPU.patch
-Patch36: libvirt-storage_file-Refuse-qcow2-images-with-empty-string-as-data_file.patch
-Patch37: libvirt-virstoragetest-Add-case-for-qcow2-image-with-empty-string-as-data_file.patch
-Patch38: libvirt-qemu-snapshot-delete-disk-image-only-if-parent-snapshot-is-external.patch
-Patch39: libvirt-storage_file-de-modularize-the-local-file-backend.patch
-Patch40: libvirt-qemu-re-use-existing-ActualNetDef-for-more-interface-types-during-update-device.patch
-Patch41: libvirt-tools-ssh-proxy-Check-for-domain-status-before-parsing-its-CID.patch
-Patch42: libvirt-build-Bump-minimum-glib2-version-to-2.66.0.patch
-Patch43: libvirt-qemuProcessHandleIOError-Refactor-to-extract-priv-instead-of-driver.patch
-Patch44: libvirt-qemu-Handle-quirks-of-device-field-of-BLOCK_IO_ERROR-event-in-monitor-code.patch
-Patch45: libvirt-qemu-Rename-diskAlias-to-device-in-qemu-IO-error-event-handling.patch
-Patch46: libvirt-qemuProcessHandleIOError-Rename-local-variables.patch
-Patch47: libvirt-qemuMonitorJSONHandleIOError-Do-not-munge-reason-field-of-IO-error-event.patch
-Patch48: libvirt-qemuProcessHandleIOError-Prefer-lookup-by-node-name.patch
-Patch49: libvirt-qemuMonitorJSONHandleIOError-Propagate-new-qom-path-field.patch
-Patch50: libvirt-virStorageSource-Add-fields-for-storing-last-I-O-error-message.patch
-Patch51: libvirt-qemuProcessHandleIOError-Populate-I-O-error-reason-to-virStorageSource.patch
-Patch52: libvirt-qemuProcessHandleIOError-Log-IO-errors-in-the-VM-log-file.patch
-Patch53: libvirt-libxlDomainGetMessages-Add-existing-flags-to-virCheckFlags.patch
-Patch54: libvirt-virDomainObjGetMessages-Refactor-using-GPtrArray.patch
-Patch55: libvirt-virDomainGetMessages-Introduce-VIR_DOMAIN_MESSAGE_IOERRORS.patch
-Patch56: libvirt-include-libvirt-domain-Reword-documentation-for-reason-of-VIR_DOMAIN_EVENT_ID_IO_ERROR_REASON.patch
-Patch57: libvirt-include-libvirt-domain-Add-message-reason-of-VIR_DOMAIN_EVENT_ID_IO_ERROR_REASON.patch
-Patch58: libvirt-qemuSnapshotForEachQcow2-Don-t-initialize-nrollback.patch
-Patch59: libvirt-qemu-process-Export-qemuPrepareNVRAM-for-use-in-snapshot-code.patch
-Patch60: libvirt-qemu-snapshot-Ensure-that-NVRAM-image-exists-when-taking-inactive-internal-snapshot.patch
-Patch61: libvirt-qemuxmlconftest-Allow-testing-of-the-writable-flag-for-passed-FDs-for-disks.patch
-Patch62: libvirt-qemuxmlconftest-Add-testing-of-FDs-with-writable-flag-in-disk-source-fd.patch
-Patch63: libvirt-qemu-domain-Initialize-FD-passthrough-for-a-virStorageSource-before-using-it.patch
-Patch64: libvirt-qemu_migration-Refactor-qemuMigrationSrcRestoreDomainState.patch
-Patch65: libvirt-qemu_migration-Do-not-automatically-resume-domain-after-I-O-error.patch
-Patch66: libvirt-qemucapabilitiestest-Add-data-for-the-qemu-10.0-dev-cycle-on-x86_64.patch
-Patch67: libvirt-qemucapabilitiestest-Update-caps_10.0.0_x86_64-to-v9.2.0-1636-gffaf7f0376.patch
-Patch68: libvirt-qemu-capabilies-Introduce-QEMU_CAPS_BLOCKDEV_SET_ACTIVE.patch
-Patch69: libvirt-qemu-monitor-Add-monitor-backend-for-blockdev-set-active.patch
-Patch70: libvirt-qemu-migration-Reactivate-block-nodes-after-migration-if-VM-is-left-paused.patch
-Patch71: libvirt-conf-change-virDomainHostdevInsert-to-return-void.patch
-Patch72: libvirt-qemu-fix-qemu-validation-to-forbid-guest-side-IP-address-for-type-vdpa.patch
-Patch73: libvirt-qemu-validate-that-model-is-virtio-for-vhostuser-and-vdpa-interfaces-in-the-same-place.patch
-Patch74: libvirt-qemu-automatically-set-model-type-virtio-for-interface-type-vhostuser.patch
-Patch75: libvirt-qemu-do-all-vhostuser-attribute-validation-in-qemu-driver.patch
-Patch76: libvirt-conf-qemu-make-source-element-almost-optional-for-type-vhostuser.patch
-Patch77: libvirt-qemu-use-switch-instead-of-if-in-qemuProcessPrepareDomainNetwork.patch
-Patch78: libvirt-qemu-make-qemuPasstCreateSocketPath-public.patch
-Patch79: libvirt-qemu-complete-vhostuser-passt-support.patch
-Patch80: libvirt-qemu-fail-validation-if-a-domain-def-has-vhostuser-passt-but-no-shared-mem.patch
-Patch81: libvirt-docs-improve-type-user-docs-to-higlight-differences-between-SLIRP-and-passt.patch
-Patch82: libvirt-docs-document-using-passt-backend-with-interface-type-vhostuser.patch
-Patch83: libvirt-utils-Canonicalize-paths-before-comparing-them.patch
-Patch84: libvirt-remote-add-sysusers-file-to-create-libvirt-group.patch
-Patch85: libvirt-util-introduce-object-for-holding-a-system-inhibitor-lock.patch
-Patch86: libvirt-src-convert-drivers-over-to-new-virInhibitor-APIs.patch
-Patch87: libvirt-rpc-remove-logind-support-for-virNetDaemon.patch
-Patch88: libvirt-util-fix-off-by-1-in-inhibitor-constants.patch
-Patch89: libvirt-util-don-t-attempt-to-acquire-logind-inhibitor-if-not-requested.patch
-Patch90: libvirt-network-Free-inhibitor-in-networkStateCleanup.patch
-Patch91: libvirt-conf-parse-interface-source-dev-for-all-interface-types-with-backend-type-passt.patch
-Patch92: libvirt-qemu-remove-nonsensical-sanity-check-in-processNetdevStreamDisconnectedEvent.patch
-Patch93: libvirt-qemu-make-processNetDevStreamDisconnectedEvent-reusable.patch
-Patch94: libvirt-qemu-respond-to-NETDEV_VHOST_USER_DISCONNECTED-event.patch
-Patch95: libvirt-qemu-put-vhost-user-code-that-s-special-for-passt-in-a-helper-function.patch
-Patch96: libvirt-qemu-make-passt-vhostuser-reconnect-behave-identically-to-passt-user.patch
-Patch97: libvirt-Add-load-average-information-type-into-virDomainGetGuestInfo.patch
-Patch98: libvirt-qemu_agent-Add-qemuAgentGetLoadAvg.patch
-Patch99: libvirt-qemu-Add-support-for-VIR_DOMAIN_GUEST_INFO_LOAD.patch
-Patch100: libvirt-virsh-Add-support-for-VIR_DOMAIN_GUEST_INFO_LOAD.patch
-Patch101: libvirt-qemuMonitorJSONGetCPUModelExpansion-refactor-parsing-functions.patch
-Patch102: libvirt-qemu-parse-deprecated-props-from-query-cpu-model-expansion-response.patch
-Patch103: libvirt-qemu_capabilities-query-deprecated-features-for-host-model.patch
-Patch104: libvirt-libvirt-domain-introduce-VIR_CONNECT_GET_DOMAIN_CAPABILITIES_DISABLE_DEPRECATED_FEATURES.patch
-Patch105: libvirt-qemu_capabilities-filter-deprecated-features-if-requested.patch
-Patch106: libvirt-virsh-add-disable-deprecated-features-flag-to-domcapabilities.patch
-Patch107: libvirt-conf-add-deprecated_features-attribute.patch
-Patch108: libvirt-qemuPrepareNVRAMFile-Fix-NVRAM-image-conversion-check.patch
-Patch109: libvirt-esx-Allow-specifying-different-CA-bundle-for-remote-connections.patch
-Patch110: libvirt-qemu-fix-order-of-VNC-TLS-config-entries.patch
-Patch111: libvirt-qemu-sanitize-blank-lines-in-config-file.patch
-Patch112: libvirt-qemu-add-ability-to-set-TLS-priority-string-with-QEMU.patch
-Patch113: libvirt-qemuxmlconftest-Include-shared-memory-net-vhostuser-test-cases.patch
-Patch114: libvirt-qemuValidateDomainDeviceDefNetwork-Require-shared-memory-for-all-vhost-user-interfaces.patch
-Patch115: libvirt-qemu-process-Remove-un-updated-qemuProcessStartWarnShmem.patch
+Patch30: libvirt-cpu_map-Add-avx10-CPU-features.patch
+Patch31: libvirt-cpu_map-Add-GraniteRapids-v2-CPU-model.patch
+Patch32: libvirt-cpu_map-Add-sha512-sm3-and-sm4-CPU-features.patch
+Patch33: libvirt-conf-docs-Add-support-for-direct-and-extended-tlbflush-features.patch
+Patch34: libvirt-qemu-Add-support-for-direct-and-extended-tlbflush-features.patch
+Patch35: libvirt-conf-refactor-hyperv-features-formatting.patch
+Patch36: libvirt-conf-Adjust-hyperv-tlbflush-formatting.patch
+Patch37: libvirt-qemu_migration-Do-not-consider-post-copy-active-in-postcopy-recover.patch
+Patch38: libvirt-qemu-allow-migration-of-guest-with-mdev-vGPU-to-VF-vGPU.patch
+Patch39: libvirt-storage_file-Refuse-qcow2-images-with-empty-string-as-data_file.patch
+Patch40: libvirt-virstoragetest-Add-case-for-qcow2-image-with-empty-string-as-data_file.patch
+Patch41: libvirt-qemu-snapshot-delete-disk-image-only-if-parent-snapshot-is-external.patch
+Patch42: libvirt-storage_file-de-modularize-the-local-file-backend.patch
+Patch43: libvirt-tools-ssh-proxy-Check-for-domain-status-before-parsing-its-CID.patch
+Patch44: libvirt-qemu-re-use-existing-ActualNetDef-for-more-interface-types-during-update-device.patch
+Patch45: libvirt-build-Bump-minimum-glib2-version-to-2.66.0.patch
+Patch46: libvirt-qemuProcessHandleIOError-Refactor-to-extract-priv-instead-of-driver.patch
+Patch47: libvirt-qemu-Handle-quirks-of-device-field-of-BLOCK_IO_ERROR-event-in-monitor-code.patch
+Patch48: libvirt-qemu-Rename-diskAlias-to-device-in-qemu-IO-error-event-handling.patch
+Patch49: libvirt-qemuProcessHandleIOError-Rename-local-variables.patch
+Patch50: libvirt-qemuMonitorJSONHandleIOError-Do-not-munge-reason-field-of-IO-error-event.patch
+Patch51: libvirt-qemuProcessHandleIOError-Prefer-lookup-by-node-name.patch
+Patch52: libvirt-qemuMonitorJSONHandleIOError-Propagate-new-qom-path-field.patch
+Patch53: libvirt-virStorageSource-Add-fields-for-storing-last-I-O-error-message.patch
+Patch54: libvirt-qemuProcessHandleIOError-Populate-I-O-error-reason-to-virStorageSource.patch
+Patch55: libvirt-qemuProcessHandleIOError-Log-IO-errors-in-the-VM-log-file.patch
+Patch56: libvirt-libxlDomainGetMessages-Add-existing-flags-to-virCheckFlags.patch
+Patch57: libvirt-virDomainObjGetMessages-Refactor-using-GPtrArray.patch
+Patch58: libvirt-virDomainGetMessages-Introduce-VIR_DOMAIN_MESSAGE_IOERRORS.patch
+Patch59: libvirt-include-libvirt-domain-Reword-documentation-for-reason-of-VIR_DOMAIN_EVENT_ID_IO_ERROR_REASON.patch
+Patch60: libvirt-include-libvirt-domain-Add-message-reason-of-VIR_DOMAIN_EVENT_ID_IO_ERROR_REASON.patch
+Patch61: libvirt-qemuSnapshotForEachQcow2-Don-t-initialize-nrollback.patch
+Patch62: libvirt-qemu-process-Export-qemuPrepareNVRAM-for-use-in-snapshot-code.patch
+Patch63: libvirt-qemu-snapshot-Ensure-that-NVRAM-image-exists-when-taking-inactive-internal-snapshot.patch
+Patch64: libvirt-qemuxmlconftest-Allow-testing-of-the-writable-flag-for-passed-FDs-for-disks.patch
+Patch65: libvirt-qemuxmlconftest-Add-testing-of-FDs-with-writable-flag-in-disk-source-fd.patch
+Patch66: libvirt-qemu-domain-Initialize-FD-passthrough-for-a-virStorageSource-before-using-it.patch
+Patch67: libvirt-qemu_migration-Refactor-qemuMigrationSrcRestoreDomainState.patch
+Patch68: libvirt-qemu_migration-Do-not-automatically-resume-domain-after-I-O-error.patch
+Patch69: libvirt-qemucapabilitiestest-Add-data-for-the-qemu-10.0-dev-cycle-on-x86_64.patch
+Patch70: libvirt-qemucapabilitiestest-Update-caps_10.0.0_x86_64-to-v9.2.0-1636-gffaf7f0376.patch
+Patch71: libvirt-qemu-capabilies-Introduce-QEMU_CAPS_BLOCKDEV_SET_ACTIVE.patch
+Patch72: libvirt-qemu-monitor-Add-monitor-backend-for-blockdev-set-active.patch
+Patch73: libvirt-qemu-migration-Reactivate-block-nodes-after-migration-if-VM-is-left-paused.patch
+Patch74: libvirt-conf-change-virDomainHostdevInsert-to-return-void.patch
+Patch75: libvirt-qemu-fix-qemu-validation-to-forbid-guest-side-IP-address-for-type-vdpa.patch
+Patch76: libvirt-qemu-validate-that-model-is-virtio-for-vhostuser-and-vdpa-interfaces-in-the-same-place.patch
+Patch77: libvirt-qemu-automatically-set-model-type-virtio-for-interface-type-vhostuser.patch
+Patch78: libvirt-qemu-do-all-vhostuser-attribute-validation-in-qemu-driver.patch
+Patch79: libvirt-conf-qemu-make-source-element-almost-optional-for-type-vhostuser.patch
+Patch80: libvirt-qemu-use-switch-instead-of-if-in-qemuProcessPrepareDomainNetwork.patch
+Patch81: libvirt-qemu-make-qemuPasstCreateSocketPath-public.patch
+Patch82: libvirt-qemu-complete-vhostuser-passt-support.patch
+Patch83: libvirt-qemu-fail-validation-if-a-domain-def-has-vhostuser-passt-but-no-shared-mem.patch
+Patch84: libvirt-docs-improve-type-user-docs-to-higlight-differences-between-SLIRP-and-passt.patch
+Patch85: libvirt-docs-document-using-passt-backend-with-interface-type-vhostuser.patch
+Patch86: libvirt-utils-Canonicalize-paths-before-comparing-them.patch
+Patch87: libvirt-remote-add-sysusers-file-to-create-libvirt-group.patch
+Patch88: libvirt-util-introduce-object-for-holding-a-system-inhibitor-lock.patch
+Patch89: libvirt-src-convert-drivers-over-to-new-virInhibitor-APIs.patch
+Patch90: libvirt-rpc-remove-logind-support-for-virNetDaemon.patch
+Patch91: libvirt-util-fix-off-by-1-in-inhibitor-constants.patch
+Patch92: libvirt-util-don-t-attempt-to-acquire-logind-inhibitor-if-not-requested.patch
+Patch93: libvirt-network-Free-inhibitor-in-networkStateCleanup.patch
+Patch94: libvirt-conf-parse-interface-source-dev-for-all-interface-types-with-backend-type-passt.patch
+Patch95: libvirt-qemu-remove-nonsensical-sanity-check-in-processNetdevStreamDisconnectedEvent.patch
+Patch96: libvirt-qemu-make-processNetDevStreamDisconnectedEvent-reusable.patch
+Patch97: libvirt-qemu-respond-to-NETDEV_VHOST_USER_DISCONNECTED-event.patch
+Patch98: libvirt-qemu-put-vhost-user-code-that-s-special-for-passt-in-a-helper-function.patch
+Patch99: libvirt-qemu-make-passt-vhostuser-reconnect-behave-identically-to-passt-user.patch
+Patch100: libvirt-qemuMonitorJSONGetCPUModelExpansion-refactor-parsing-functions.patch
+Patch101: libvirt-qemu-parse-deprecated-props-from-query-cpu-model-expansion-response.patch
+Patch102: libvirt-qemu_capabilities-query-deprecated-features-for-host-model.patch
+Patch103: libvirt-libvirt-domain-introduce-VIR_CONNECT_GET_DOMAIN_CAPABILITIES_DISABLE_DEPRECATED_FEATURES.patch
+Patch104: libvirt-qemu_capabilities-filter-deprecated-features-if-requested.patch
+Patch105: libvirt-virsh-add-disable-deprecated-features-flag-to-domcapabilities.patch
+Patch106: libvirt-conf-add-deprecated_features-attribute.patch
+Patch107: libvirt-qemuPrepareNVRAMFile-Fix-NVRAM-image-conversion-check.patch
+Patch108: libvirt-qemu-fix-order-of-VNC-TLS-config-entries.patch
+Patch109: libvirt-qemu-sanitize-blank-lines-in-config-file.patch
+Patch110: libvirt-qemu-add-ability-to-set-TLS-priority-string-with-QEMU.patch
 
 
 Requires: libvirt-daemon = %{version}-%{release}
@@ -1708,7 +1703,7 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_libexecdir}/libvirt-guests.sh
 # Building on slow archs, like emulated s390x in Fedora copr, requires
 # raising the test timeout
 export VIR_TEST_DEBUG=1
-%meson_test --no-suite syntax-check --timeout-multiplier 15
+%meson_test --no-suite syntax-check --timeout-multiplier 10
 %endif
 
 %define libvirt_rpmstatedir %{_localstatedir}/lib/rpm-state/libvirt
@@ -2737,684 +2732,382 @@ exit 0
 %endif
 
 %changelog
-* Tue Aug  5 2025 Jiri Denemark <jdenemar@redhat.com> - 10.10.0-7.7.el9_6
-- qemu: fix order of VNC TLS config entries (RHEL-106277)
-- qemu: sanitize blank lines in config file (RHEL-106277)
-- qemu: add ability to set TLS priority string with QEMU (RHEL-106277)
-- qemuxmlconftest: Include shared memory 'net-vhostuser' test cases (RHEL-106504)
-- qemuValidateDomainDeviceDefNetwork: Require shared memory for all vhost-user interfaces (RHEL-106504)
-- qemu: process: Remove un-updated 'qemuProcessStartWarnShmem' (RHEL-106504)
+* Wed Aug  6 2025 Jiri Denemark <jdenemar@redhat.com> - 10.10.0-8.4.el10_0
+- qemu: fix order of VNC TLS config entries (RHEL-106278)
+- qemu: sanitize blank lines in config file (RHEL-106278)
+- qemu: add ability to set TLS priority string with QEMU (RHEL-106278)
 
-* Fri Jul 18 2025 Jiri Denemark <jdenemar@redhat.com> - 10.10.0-7.6.el9_6
-- esx: Allow specifying different CA bundle for remote connections (RHEL-98292)
+* Wed Jun 25 2025 Jiri Denemark <jdenemar@redhat.com> - 10.10.0-8.3.el10_0
+- qemuPrepareNVRAMFile: Fix NVRAM image conversion check (RHEL-97761)
 
-* Wed Jun 25 2025 Jiri Denemark <jdenemar@redhat.com> - 10.10.0-7.5.el9_6
-- qemuPrepareNVRAMFile: Fix NVRAM image conversion check (RHEL-97757)
+* Wed Jun 11 2025 Jiri Denemark <jdenemar@redhat.com> - 10.10.0-8.2.el10_0
+- qemuMonitorJSONGetCPUModelExpansion: refactor parsing functions (RHEL-95956)
+- qemu: parse deprecated-props from query-cpu-model-expansion response (RHEL-95956)
+- qemu_capabilities: query deprecated features for host-model (RHEL-95956)
+- libvirt-domain: introduce VIR_CONNECT_GET_DOMAIN_CAPABILITIES_DISABLE_DEPRECATED_FEATURES (RHEL-95956)
+- qemu_capabilities: filter deprecated features if requested (RHEL-95956)
+- virsh: add --disable-deprecated-features flag to domcapabilities (RHEL-95956)
+- conf: add deprecated_features attribute (RHEL-95956)
 
-* Wed Jun  4 2025 Jiri Denemark <jdenemar@redhat.com> - 10.10.0-7.4.el9_6
-- qemuMonitorJSONGetCPUModelExpansion: refactor parsing functions (RHEL-89977)
-- qemu: parse deprecated-props from query-cpu-model-expansion response (RHEL-89977)
-- qemu_capabilities: query deprecated features for host-model (RHEL-89977)
-- libvirt-domain: introduce VIR_CONNECT_GET_DOMAIN_CAPABILITIES_DISABLE_DEPRECATED_FEATURES (RHEL-89977)
-- qemu_capabilities: filter deprecated features if requested (RHEL-89977)
-- virsh: add --disable-deprecated-features flag to domcapabilities (RHEL-89977)
-- conf: add deprecated_features attribute (RHEL-89977)
+* Fri Apr 11 2025 Jiri Denemark <jdenemar@redhat.com> - 10.10.0-8.1.el10_0
+- util: introduce object for holding a system inhibitor lock (RHEL-83067)
+- src: convert drivers over to new virInhibitor APIs (RHEL-83067)
+- rpc: remove logind support for virNetDaemon (RHEL-83067)
+- util: fix off-by-1 in inhibitor constants (RHEL-83067)
+- util: don't attempt to acquire logind inhibitor if not requested (RHEL-83067)
+- network: Free inhibitor in networkStateCleanup() (RHEL-83067)
+- conf: parse interface/source/@dev for all interface types (with backend type='passt') (RHEL-84690)
+- qemu: remove nonsensical sanity check in processNetdevStreamDisconnectedEvent() (RHEL-84784)
+- qemu: make processNetDevStreamDisconnectedEvent() reusable (RHEL-84784)
+- qemu: respond to NETDEV_VHOST_USER_DISCONNECTED event (RHEL-84784)
+- qemu: put vhost-user code that's special for passt in a helper function (RHEL-84784)
+- qemu: make passt+vhostuser reconnect behave identically to passt+user (RHEL-84784)
 
-* Tue Apr 29 2025 Jiri Denemark <jdenemar@redhat.com> - 10.10.0-7.3.el9_6
-- Add load average information type into virDomainGetGuestInfo (RHEL-88449)
-- qemu_agent: Add qemuAgentGetLoadAvg() (RHEL-88449)
-- qemu: Add support for VIR_DOMAIN_GUEST_INFO_LOAD (RHEL-88449)
-- virsh: Add support for VIR_DOMAIN_GUEST_INFO_LOAD (RHEL-88449)
-
-* Fri Apr 11 2025 Jiri Denemark <jdenemar@redhat.com> - 10.10.0-7.2.el9_6
-- util: introduce object for holding a system inhibitor lock (RHEL-83076)
-- src: convert drivers over to new virInhibitor APIs (RHEL-83076)
-- rpc: remove logind support for virNetDaemon (RHEL-83076)
-- util: fix off-by-1 in inhibitor constants (RHEL-83076)
-- util: don't attempt to acquire logind inhibitor if not requested (RHEL-83076)
-- network: Free inhibitor in networkStateCleanup() (RHEL-83076)
-- conf: parse interface/source/@dev for all interface types (with backend type='passt') (RHEL-84689)
-- qemu: remove nonsensical sanity check in processNetdevStreamDisconnectedEvent() (RHEL-84782)
-- qemu: make processNetDevStreamDisconnectedEvent() reusable (RHEL-84782)
-- qemu: respond to NETDEV_VHOST_USER_DISCONNECTED event (RHEL-84782)
-- qemu: put vhost-user code that's special for passt in a helper function (RHEL-84782)
-- qemu: make passt+vhostuser reconnect behave identically to passt+user (RHEL-84782)
-
-* Fri Mar  7 2025 Jiri Denemark <jdenemar@redhat.com> - 10.10.0-7.1.el9_6
-- remote: add sysusers file to create 'libvirt' group (RHEL-81740)
+* Fri Mar  7 2025 Jiri Denemark <jdenemar@redhat.com> - 10.10.0-8
+- remote: add sysusers file to create 'libvirt' group (RHEL-81739)
 
 * Mon Feb 17 2025 Jiri Denemark <jdenemar@redhat.com> - 10.10.0-7
-- qemu_migration: Refactor qemuMigrationSrcRestoreDomainState (RHEL-79168)
-- qemu_migration: Do not automatically resume domain after I/O error (RHEL-79168)
-- qemucapabilitiestest: Add data for the qemu-10.0 dev cycle on x86_64 (RHEL-79095)
-- qemucapabilitiestest: Update 'caps_10.0.0_x86_64' to 'v9.2.0-1636-gffaf7f0376' (RHEL-79095)
-- qemu: capabilies: Introduce QEMU_CAPS_BLOCKDEV_SET_ACTIVE (RHEL-79095)
-- qemu: monitor: Add monitor backend for 'blockdev-set-active' (RHEL-79095)
-- qemu: migration: Reactivate block nodes after migration if VM is left paused (RHEL-79095)
-- conf: change virDomainHostdevInsert() to return void (RHEL-69455)
-- qemu: fix qemu validation to forbid guest-side IP address for type='vdpa' (RHEL-69455)
-- qemu: validate that model is virtio for vhostuser and vdpa interfaces in the same place (RHEL-69455)
-- qemu: automatically set model type='virtio' for interface type='vhostuser' (RHEL-69455)
-- qemu: do all vhostuser attribute validation in qemu driver (RHEL-69455)
-- conf/qemu: make <source> element *almost* optional for type=vhostuser (RHEL-69455)
-- qemu: use switch instead of if in qemuProcessPrepareDomainNetwork() (RHEL-69455)
-- qemu: make qemuPasstCreateSocketPath() public (RHEL-69455)
-- qemu: complete vhostuser + passt support (RHEL-69455)
-- qemu: fail validation if a domain def has vhostuser/passt but no shared mem (RHEL-69455)
-- docs: improve type='user' docs to higlight differences between SLIRP and passt (RHEL-69455)
-- docs: document using passt backend with <interface type='vhostuser'> (RHEL-69455)
-- utils: Canonicalize paths before comparing them (RHEL-79166)
+- qemu_migration: Refactor qemuMigrationSrcRestoreDomainState (RHEL-1071)
+- qemu_migration: Do not automatically resume domain after I/O error (RHEL-1071)
+- qemucapabilitiestest: Add data for the qemu-10.0 dev cycle on x86_64 (RHEL-78398)
+- qemucapabilitiestest: Update 'caps_10.0.0_x86_64' to 'v9.2.0-1636-gffaf7f0376' (RHEL-78398)
+- qemu: capabilies: Introduce QEMU_CAPS_BLOCKDEV_SET_ACTIVE (RHEL-78398)
+- qemu: monitor: Add monitor backend for 'blockdev-set-active' (RHEL-78398)
+- qemu: migration: Reactivate block nodes after migration if VM is left paused (RHEL-78398)
+- conf: change virDomainHostdevInsert() to return void (RHEL-77086)
+- qemu: fix qemu validation to forbid guest-side IP address for type='vdpa' (RHEL-77086)
+- qemu: validate that model is virtio for vhostuser and vdpa interfaces in the same place (RHEL-77086)
+- qemu: automatically set model type='virtio' for interface type='vhostuser' (RHEL-77086)
+- qemu: do all vhostuser attribute validation in qemu driver (RHEL-77086)
+- conf/qemu: make <source> element *almost* optional for type=vhostuser (RHEL-77086)
+- qemu: use switch instead of if in qemuProcessPrepareDomainNetwork() (RHEL-77086)
+- qemu: make qemuPasstCreateSocketPath() public (RHEL-77086)
+- qemu: complete vhostuser + passt support (RHEL-77086)
+- qemu: fail validation if a domain def has vhostuser/passt but no shared mem (RHEL-77086)
+- docs: improve type='user' docs to higlight differences between SLIRP and passt (RHEL-77086)
+- docs: document using passt backend with <interface type='vhostuser'> (RHEL-77086)
+- utils: Canonicalize paths before comparing them (RHEL-79165)
 
 * Fri Feb  7 2025 Jiri Denemark <jdenemar@redhat.com> - 10.10.0-6
-- build: Bump minimum glib2 version to 2.66.0 (RHEL-77884)
-- qemuProcessHandleIOError: Refactor to extract 'priv' instead of 'driver' (RHEL-77884)
-- qemu: Handle quirks of 'device' field of BLOCK_IO_ERROR event in monitor code (RHEL-77884)
-- qemu: Rename 'diskAlias' to 'device' in qemu IO error event handling (RHEL-77884)
-- qemuProcessHandleIOError: Rename local variables (RHEL-77884)
-- qemuMonitorJSONHandleIOError: Do not munge 'reason' field of IO error event (RHEL-77884)
-- qemuProcessHandleIOError: Prefer lookup by node name (RHEL-77884)
-- qemuMonitorJSONHandleIOError: Propagate new 'qom-path' field (RHEL-77884)
-- virStorageSource: Add fields for storing last I/O error message (RHEL-77884)
-- qemuProcessHandleIOError: Populate I/O error reason to virStorageSource (RHEL-77884)
-- qemuProcessHandleIOError: Log IO errors in the VM log file (RHEL-77884)
-- libxlDomainGetMessages: Add existing flags to 'virCheckFlags' (RHEL-77884)
-- virDomainObjGetMessages: Refactor using GPtrArray (RHEL-77884)
-- virDomainGetMessages: Introduce VIR_DOMAIN_MESSAGE_IOERRORS (RHEL-77884)
-- include: libvirt-domain: Reword documentation for @reason of VIR_DOMAIN_EVENT_ID_IO_ERROR_REASON (RHEL-77884)
-- include: libvirt-domain: Add 'message' @reason of VIR_DOMAIN_EVENT_ID_IO_ERROR_REASON (RHEL-77884)
-- qemuSnapshotForEachQcow2: Don't initialize 'nrollback' (RHEL-73315)
-- qemu: process: Export qemuPrepareNVRAM for use in snapshot code (RHEL-73315)
-- qemu: snapshot: Ensure that NVRAM image exists when taking inactive internal snapshot (RHEL-73315)
-- qemuxmlconftest: Allow testing of the 'writable' flag for passed FDs for disks (RHEL-37519)
-- qemuxmlconftest: Add testing of FDs with 'writable' flag in 'disk-source-fd' (RHEL-37519)
-- qemu: domain: Initialize FD passthrough for a virStorageSource before using it (RHEL-37519)
+- build: Bump minimum glib2 version to 2.66.0 (RHEL-76802)
+- qemuProcessHandleIOError: Refactor to extract 'priv' instead of 'driver' (RHEL-76802)
+- qemu: Handle quirks of 'device' field of BLOCK_IO_ERROR event in monitor code (RHEL-76802)
+- qemu: Rename 'diskAlias' to 'device' in qemu IO error event handling (RHEL-76802)
+- qemuProcessHandleIOError: Rename local variables (RHEL-76802)
+- qemuMonitorJSONHandleIOError: Do not munge 'reason' field of IO error event (RHEL-76802)
+- qemuProcessHandleIOError: Prefer lookup by node name (RHEL-76802)
+- qemuMonitorJSONHandleIOError: Propagate new 'qom-path' field (RHEL-76802)
+- virStorageSource: Add fields for storing last I/O error message (RHEL-76802)
+- qemuProcessHandleIOError: Populate I/O error reason to virStorageSource (RHEL-76802)
+- qemuProcessHandleIOError: Log IO errors in the VM log file (RHEL-76802)
+- libxlDomainGetMessages: Add existing flags to 'virCheckFlags' (RHEL-76802)
+- virDomainObjGetMessages: Refactor using GPtrArray (RHEL-76802)
+- virDomainGetMessages: Introduce VIR_DOMAIN_MESSAGE_IOERRORS (RHEL-76802)
+- include: libvirt-domain: Reword documentation for @reason of VIR_DOMAIN_EVENT_ID_IO_ERROR_REASON (RHEL-76802)
+- include: libvirt-domain: Add 'message' @reason of VIR_DOMAIN_EVENT_ID_IO_ERROR_REASON (RHEL-76802)
+- qemuSnapshotForEachQcow2: Don't initialize 'nrollback' (RHEL-78186)
+- qemu: process: Export qemuPrepareNVRAM for use in snapshot code (RHEL-78186)
+- qemu: snapshot: Ensure that NVRAM image exists when taking inactive internal snapshot (RHEL-78186)
+- qemuxmlconftest: Allow testing of the 'writable' flag for passed FDs for disks (RHEL-78353)
+- qemuxmlconftest: Add testing of FDs with 'writable' flag in 'disk-source-fd' (RHEL-78353)
+- qemu: domain: Initialize FD passthrough for a virStorageSource before using it (RHEL-78353)
 
 * Fri Jan 24 2025 Jiri Denemark <jdenemar@redhat.com> - 10.10.0-5
-- qemu: allow migration of guest with mdev vGPU to VF vGPU (RHEL-68064)
-- storage_file: Refuse qcow2 images with empty string as 'data_file' (RHEL-73504)
-- virstoragetest: Add case for qcow2 image with empty string as 'data_file' (RHEL-73504)
-- qemu: snapshot: delete disk image only if parent snapshot is external (RHEL-74041)
-- storage_file: de-modularize the local file backend (RHEL-73507)
-- libvirt.spec: Move ownership of 'storage-file' backends directory to gluster (RHEL-73507)
-- qemu: re-use existing ActualNetDef for more interface types during update-device (RHEL-7036)
-- tools: ssh-proxy: Check for domain status before parsing its CID (RHEL-75577)
+- qemu: allow migration of guest with mdev vGPU to VF vGPU (RHEL-68065)
+- storage_file: Refuse qcow2 images with empty string as 'data_file' (RHEL-70627)
+- virstoragetest: Add case for qcow2 image with empty string as 'data_file' (RHEL-70627)
+- qemu: snapshot: delete disk image only if parent snapshot is external (RHEL-74040)
+- storage_file: de-modularize the local file backend (RHEL-73506)
+- libvirt.spec: Move ownership of 'storage-file' backends directory to gluster (RHEL-73506)
+- tools: ssh-proxy: Check for domain status before parsing its CID (RHEL-75589)
+- qemu: re-use existing ActualNetDef for more interface types during update-device (RHEL-74492)
 
 * Thu Jan 16 2025 Jiri Denemark <jdenemar@redhat.com> - 10.10.0-4
-- conf, docs: Add support for direct and extended tlbflush features (RHEL-7122)
-- qemu: Add support for direct and extended tlbflush features (RHEL-7122)
-- conf: refactor hyperv features formatting (RHEL-7122)
-- conf: Adjust hyperv tlbflush formatting (RHEL-7122)
-- qemu_migration: Do not consider post-copy active in postcopy-recover (RHEL-73085)
+- conf, docs: Add support for direct and extended tlbflush features (RHEL-73088)
+- qemu: Add support for direct and extended tlbflush features (RHEL-73088)
+- conf: refactor hyperv features formatting (RHEL-73088)
+- conf: Adjust hyperv tlbflush formatting (RHEL-73088)
+- qemu_migration: Do not consider post-copy active in postcopy-recover (RHEL-73699)
 
 * Fri Dec 20 2024 Jiri Denemark <jdenemar@redhat.com> - 10.10.0-3
-- qemu: Enable I/O APIC even more frequently (RHEL-65844)
+- qemu: Enable I/O APIC even more frequently (RHEL-71414)
+- cpu_map: Add avx10* CPU features (RHEL-71897)
+- cpu_map: Add GraniteRapids-v2 CPU model (RHEL-71897)
+- cpu_map: Add sha512, sm3, and sm4 CPU features (RHEL-71898)
 
 * Tue Dec 17 2024 Jiri Denemark <jdenemar@redhat.com> - 10.10.0-2
-- util: Fix typo in virNetDevOpenvswitchInterfaceSetQos (RHEL-69938)
-- qemu: tpm: do not update profile name for transient domains (RHEL-71072)
-- qemu: Enable I/O APIC if needed (RHEL-65844)
-- cpu_map: Sort data files in meson.build (RHEL-70052)
-- sync_qemu_models_i386: Update meson.build (RHEL-70052)
-- sync_qemu_models_i386: Generate missing -v1 variants (RHEL-70052)
-- cpu_map: Add 486-v1 CPU model (RHEL-70052)
-- cpu_map: Add pentium-v1 CPU model (RHEL-70052)
-- cpu_map: Add pentium2-v1 CPU model (RHEL-70052)
-- cpu_map: Add pentium3-v1 CPU model (RHEL-70052)
-- cpu_map: Add coreduo-v1 CPU model (RHEL-70052)
-- cpu_map: Add n270-v1 CPU model (RHEL-70052)
-- cpu_map: Add core2duo-v1 CPU model (RHEL-70052)
-- cpu_map: Add qemu32-v1 CPU model (RHEL-70052)
-- cpu_map: Add kvm32-v1 CPU model (RHEL-70052)
-- cpu_map: Add qemu64-v1 CPU model (RHEL-70052)
-- cpu_map: Add kvm64-v1 CPU model (RHEL-70052)
-- cpu_map: Add Conroe-v1 CPU model (RHEL-70052)
-- cpu_map: Add Penryn-v1 CPU model (RHEL-70052)
-- cpu_map: Add KnightsMill-v1 CPU model (RHEL-70052)
-- cpu_map: Add athlon-v1 CPU model (RHEL-70052)
-- cpu_map: Add phenom-v1 CPU model (RHEL-70052)
-- cpu_map: Add Opteron_G1-v1 CPU model (RHEL-70052)
-- cpu_map: Add Opteron_G2-v1 CPU model (RHEL-70052)
-- cpu_map: Add Opteron_G3-v1 CPU model (RHEL-70052)
-- cpu_map: Add Opteron_G4-v1 CPU model (RHEL-70052)
-- cpu_map: Add Opteron_G5-v1 CPU model (RHEL-70052)
-- cpu_map: Add EPYC-Genoa-v1 CPU model (RHEL-70052)
+- util: Fix typo in virNetDevOpenvswitchInterfaceSetQos (RHEL-69840)
+- qemu: tpm: do not update profile name for transient domains (RHEL-69774)
+- qemu: Enable I/O APIC if needed (RHEL-71414)
+- cpu_map: Sort data files in meson.build (RHEL-70129)
+- sync_qemu_models_i386: Update meson.build (RHEL-70129)
+- sync_qemu_models_i386: Generate missing -v1 variants (RHEL-70129)
+- cpu_map: Add 486-v1 CPU model (RHEL-70129)
+- cpu_map: Add pentium-v1 CPU model (RHEL-70129)
+- cpu_map: Add pentium2-v1 CPU model (RHEL-70129)
+- cpu_map: Add pentium3-v1 CPU model (RHEL-70129)
+- cpu_map: Add coreduo-v1 CPU model (RHEL-70129)
+- cpu_map: Add n270-v1 CPU model (RHEL-70129)
+- cpu_map: Add core2duo-v1 CPU model (RHEL-70129)
+- cpu_map: Add qemu32-v1 CPU model (RHEL-70129)
+- cpu_map: Add kvm32-v1 CPU model (RHEL-70129)
+- cpu_map: Add qemu64-v1 CPU model (RHEL-70129)
+- cpu_map: Add kvm64-v1 CPU model (RHEL-70129)
+- cpu_map: Add Conroe-v1 CPU model (RHEL-70129)
+- cpu_map: Add Penryn-v1 CPU model (RHEL-70129)
+- cpu_map: Add KnightsMill-v1 CPU model (RHEL-70129)
+- cpu_map: Add athlon-v1 CPU model (RHEL-70129)
+- cpu_map: Add phenom-v1 CPU model (RHEL-70129)
+- cpu_map: Add Opteron_G1-v1 CPU model (RHEL-70129)
+- cpu_map: Add Opteron_G2-v1 CPU model (RHEL-70129)
+- cpu_map: Add Opteron_G3-v1 CPU model (RHEL-70129)
+- cpu_map: Add Opteron_G4-v1 CPU model (RHEL-70129)
+- cpu_map: Add Opteron_G5-v1 CPU model (RHEL-70129)
+- cpu_map: Add EPYC-Genoa-v1 CPU model (RHEL-70129)
 
 * Mon Dec  2 2024 Jiri Denemark <jdenemar@redhat.com> - 10.10.0-1
-- Rebased to libvirt-10.10.0 (RHEL-50574)
+- Rebased to libvirt-10.10.0 (RHEL-50577)
 - The rebase also fixes the following bugs:
-    RHEL-23607, RHEL-24850, RHEL-29267, RHEL-30842, RHEL-53963
-    RHEL-54325, RHEL-54326, RHEL-55240, RHEL-64341, RHEL-65372
-    RHEL-65780, RHEL-65844, RHEL-67702, RHEL-67836, RHEL-68614
-    RHEL-69417
+    RHEL-58152, RHEL-65187, RHEL-65268, RHEL-66222, RHEL-66223
+    RHEL-68066, RHEL-69449
 
 * Fri Nov  1 2024 Jiri Denemark <jdenemar@redhat.com> - 10.9.0-1
-- Rebased to libvirt-10.9.0 (RHEL-50574)
+- Rebased to libvirt-10.9.0 (RHEL-50577)
 - The rebase also fixes the following bugs:
-    RHEL-7036, RHEL-7122, RHEL-35752, RHEL-46870, RHEL-52314
-    RHEL-60030, RHEL-60033, RHEL-64341
+    RHEL-753, RHEL-62174
+
+* Tue Oct 29 2024 Troy Dawson <tdawson@redhat.com> - 10.8.0-3
+- Bump release for October 2024 mass rebuild:
+  Resolves: RHEL-64018
 
 * Thu Oct 10 2024 Jiri Denemark <jdenemar@redhat.com> - 10.8.0-2
-- Revert "network: *un*set the firewalld zone while shutting down a network" (RHEL-61576)
-- Revert "network: support setting firewalld zone for bridge device of open networks" (RHEL-61576)
-- network: call network(Add|Remove)FirewallRules() for forward mode='open' (RHEL-61576)
-- network: a different way of supporting firewalld zone for mode='open' networks (RHEL-61576)
-- network: a different implementation of *un*setting firewalld zone when network is destroyed (RHEL-61576)
+- Revert "network: *un*set the firewalld zone while shutting down a network" (RHEL-61752)
+- Revert "network: support setting firewalld zone for bridge device of open networks" (RHEL-61752)
+- network: call network(Add|Remove)FirewallRules() for forward mode='open' (RHEL-61752)
+- network: a different way of supporting firewalld zone for mode='open' networks (RHEL-61752)
+- network: a different implementation of *un*setting firewalld zone when network is destroyed (RHEL-61752)
 
-* Wed Oct  2 2024 Jiri Denemark <jdenemar@redhat.com> - 10.8.0-1
-- Rebased to libvirt-10.8.0 (RHEL-50574)
+* Tue Oct  1 2024 Jiri Denemark <jdenemar@redhat.com> - 10.8.0-1
+- Rebased to libvirt-10.8.0 (RHEL-50577)
 - The rebase also fixes the following bugs:
-    RHEL-688, RHEL-7122, RHEL-19379, RHEL-22166, RHEL-24746
-    RHEL-28827, RHEL-45200, RHEL-45952, RHEL-53964, RHEL-54550
-    RHEL-56611, RHEL-58446
+    RHEL-45518, RHEL-49607, RHEL-50968, RHEL-52449, RHEL-54235
+    RHEL-55707, RHEL-55749, RHEL-55769, RHEL-56699
 
 * Fri Aug  9 2024 Jiri Denemark <jdenemar@redhat.com> - 10.5.0-5
-- qemu: virtiofs: cache: use 'never' instead of 'none' (RHEL-50329)
-- qemu_domain: Strip <acpi/> from s390(x) definitions (RHEL-49516)
-- qemuxmlconftest: Add tests for the ACPI stripping hack on s390 (RHEL-49516)
-- vsh: Allow vshReadlineInit() to be called multiple times (RHEL-53560)
+- Synchronize with libvirt-10.5.0-4.el9 (RHEL-30177)
+- qemu: virtiofs: cache: use 'never' instead of 'none'
+- qemu_domain: Strip <acpi/> from s390(x) definitions
+- qemuxmlconftest: Add tests for the ACPI stripping hack on s390
+- vsh: Allow vshReadlineInit() to be called multiple times
 
-* Tue Jul 23 2024 Jiri Denemark <jdenemar@redhat.com> - 10.5.0-4
-- virt-host-validate: Allow longer list of CPU flags (RHEL-39969)
-
-* Mon Jul 22 2024 Jiri Denemark <jdenemar@redhat.com> - 10.5.0-3
-- vmx: Be even more lax when trying to comprehend serial ports (RHEL-32182)
-
-* Fri Jul 12 2024 Jiri Denemark <jdenemar@redhat.com> - 10.5.0-2
-- vmx: Do not require all ID data for VMWare Distributed Switch (RHEL-46099)
-- tests: vhostuser: add virtiofsd json descriptor (RHEL-7108, RHEL-40135)
-- tests: qemuxmlconf: adjust test case to new virtiofsd (RHEL-7108, RHEL-40135)
-- qemu: fill capabilities for virtiofsd (RHEL-7108, RHEL-40135)
-- qemu: do not use deprecated options for new virtiofsd (RHEL-7108)
-- qemu: migration: allow migration for virtiofs (RHEL-40135)
-- virt-host-validate: Drop extra "PASS" (RHEL-46868)
-- qemu: Don't leave beingDestroyed=true on inactive domain (RHEL-43309)
+* Thu Jul 25 2024 Jiri Denemark <jdenemar@redhat.com> - 10.5.0-4
+- Synchronize with libvirt-10.5.0-4.el9 (RHEL-30177)
+- virt-host-validate: Allow longer list of CPU flags
+- vmx: Be even more lax when trying to comprehend serial ports
+- vmx: Do not require all ID data for VMWare Distributed Switch
+- tests: vhostuser: add virtiofsd json descriptor
+- tests: qemuxmlconf: adjust test case to new virtiofsd
+- qemu: fill capabilities for virtiofsd
+- qemu: do not use deprecated options for new virtiofsd
+- qemu: migration: allow migration for virtiofs
+- virt-host-validate: Drop extra "PASS"
+- qemu: Don't leave beingDestroyed=true on inactive domain
 
 * Mon Jul  1 2024 Jiri Denemark <jdenemar@redhat.com> - 10.5.0-1
-- Rebased to libvirt-10.5.0 (RHEL-21381)
+- Rebased to libvirt-10.5.0 (RHEL-30177)
 - The rebase also fixes the following bugs:
-    RHEL-23833, RHEL-29642, RHEL-37542, RHEL-39969, RHEL-40899
-    RHEL-43309
+    RHEL-45185
 
-* Tue Jun  4 2024 Jiri Denemark <jdenemar@redhat.com> - 10.4.0-1
-- Rebased to libvirt-10.4.0 (RHEL-7489)
+* Mon Jun 24 2024 Troy Dawson <tdawson@redhat.com> - 10.4.0-2
+- Bump release for June 2024 mass rebuild
+
+* Wed Jun  5 2024 Jiri Denemark <jdenemar@redhat.com> - 10.4.0-1
+- Rebased to libvirt-10.4.0 (RHEL-29893)
 - The rebase also fixes the following bugs:
-    RHEL-29642, RHEL-30373, RHEL-32182, RHEL-33044, RHEL-33082
-    RHEL-34615, RHEL-35948, RHEL-36565, RHEL-36721, RHEL-39271
-    RHEL-39400
-
-* Mon May 27 2024 Jiri Denemark <jdenemar@redhat.com> - 10.3.0-2
-- qemu: fix qemu command for pci hostdevs and ramfb='off' (RHEL-28808)
-
-* Thu May  9 2024 Jiri Denemark <jdenemar@redhat.com> - 10.3.0-1
-- Rebased to libvirt-10.3.0 (RHEL-29642)
-- The rebase also fixes the following bugs:
-    RHEL-25993, RHEL-7101, RHEL-7461, RHEL-16333, RHEL-7343
-    RHEL-28808, RHEL-32880, RHEL-35879, RHEL-34112, RHEL-30373
-    RHEL-23416, RHEL-23608, RHEL-26276, RHEL-22728
-
-* Mon Apr 22 2024 Jiri Denemark <jdenemar@redhat.com> - 10.0.0-7
-- qemu: virtiofs: do not crash if cgroups are missing
-- qemu: virtiofs: set correct label when creating the socket
-- qemu: virtiofs: error out if getting the group or user name fails
-- Fix off-by-one error in udevListInterfacesByStatus (CVE-2024-1441)
-- remote: check for negative array lengths before allocation (CVE-2024-2494)
-- qemu: Fix migration with custom XML (RHEL-30622)
-
-* Tue Mar 19 2024 Jiri Denemark <jdenemar@redhat.com> - 10.0.0-5
-- cpu: x86: Add support for adding features to existing CPU models (RHEL-25995)
-- qemu: domain: Check arch in qemuDomainMakeCPUMigratable (RHEL-25995)
-- conf: cpu: Introduce virCPUDefListFeatures (RHEL-25995)
-- qemu: domain: Drop added features from migratable CPU (RHEL-25995)
-- Add vmx-* features to Broadwell* (RHEL-25995)
-- Add vmx-* features to Cascadelake* (RHEL-25995)
-- Add vmx-* features to Conroe (RHEL-25995)
-- Add vmx-* features to Cooperlake (RHEL-25995)
-- Add vmx-* features to core{,2}duo (RHEL-25995)
-- Add vmx-* features to Haswell* (RHEL-25995)
-- Add vmx-* features to Icelake* (RHEL-25995)
-- Add vmx-* features to IvyBridge* (RHEL-25995)
-- Add vmx-* features to kvm* (RHEL-25995)
-- Add vmx-* features to Nehalem* (RHEL-25995)
-- Add vmx-* features to Penryn (RHEL-25995)
-- Add vmx-* features to SandyBridge* (RHEL-25995)
-- Add vmx-* features to SapphireRapids (RHEL-25995)
-- Add vmx-* features to Skylake* (RHEL-25995)
-- Add vmx-* features to Snowridge (RHEL-25995)
-- Add vmx-* features to Westmere* (RHEL-25995)
-
-* Thu Feb 22 2024 Jiri Denemark <jdenemar@redhat.com> - 10.0.0-4
-- Set stubDriverName from hostdev driver model attribute during pci device setup (RHEL-25858)
-- qemuMigrationDstPrepareStorage: Use 'switch' statement to include all storage types (RHEL-24825)
-- qemuMigrationDstPrepareStorage: Properly consider path for 'vdpa' devices (RHEL-24825)
-- domain_validate: Account for NVDIMM label size properly when checking for memory conflicts (RHEL-4452)
-
-* Thu Feb  8 2024 Jiri Denemark <jdenemar@redhat.com> - 10.0.0-3
-- remote_driver: Restore special behavior of remoteDomainGetBlockIoTune() (RHEL-22800)
-- conf: Introduce dynamicMemslots attribute for virtio-mem (RHEL-15316)
-- qemu_capabilities: Add QEMU_CAPS_DEVICE_VIRTIO_MEM_PCI_DYNAMIC_MEMSLOTS capability (RHEL-15316)
-- qemu_validate: Check capability for virtio-mem dynamicMemslots (RHEL-15316)
-- qemu_command: Generate cmd line for virtio-mem dynamicMemslots (RHEL-15316)
-- qemu_snapshot: fix detection if non-leaf snapshot isn't in active chain (RHEL-23212)
-- qemu_snapshot: create: refactor external snapshot detection (RHEL-22797)
-- qemu_snapshot: create: don't require disk-only flag for offline external snapshot (RHEL-22797)
-- remoteDispatchAuthPolkit: Fix lock ordering deadlock if client closes connection during auth (RHEL-20337)
-- util: virtportallocator: Add VIR_DEBUG statements for port allocations and release (RHEL-21543)
-- qemu: migration: Properly handle reservation of manually specified NBD port (RHEL-21543)
-- qemuMigrationDstStartNBDServer: Refactor cleanup (RHEL-21543)
-- virPCIVPDResourceIsValidTextValue: Adjust comment to reflect actual code (RHEL-22314)
-- util: pcivpd: Refactor virPCIVPDResourceIsValidTextValue (RHEL-22314)
-- virNodeDeviceCapVPDFormatCustom*: Escape unsanitized strings (RHEL-22314)
-- virNodeDeviceCapVPDFormat: Properly escape system-originated strings (RHEL-22314)
-- schema: nodedev: Adjust allowed characters in 'vpdFieldValueFormat' (RHEL-22314)
-- tests: Test the previously mishandled PCI VPD characters (RHEL-22314)
-- Don't overwrite error message from 'virXPathNodeSet' (RHEL-22314)
-- tests: virpcivpdtest: Remove 'testVirPCIVPDReadVPDBytes' case (RHEL-22314)
-- util: virpcivpd: Unexport 'virPCIVPDReadVPDBytes' (RHEL-22314)
-- util: pcivpd: Unexport virPCIVPDParseVPDLargeResourceFields (RHEL-22314)
-- tests: virpcivpd: Remove 'testVirPCIVPDParseVPDStringResource' case (RHEL-22314)
-- util: virpcivpd: Unexport 'virPCIVPDParseVPDLargeResourceString' (RHEL-22314)
-- virPCIVPDResourceGetKeywordPrefix: Fix logging (RHEL-22314)
-- util: virpcivpd: Remove return value from virPCIVPDResourceCustomUpsertValue (RHEL-22314)
-- conf: virNodeDeviceCapVPDParse*: Remove pointless NULL checks (RHEL-22314)
-- virpcivpdtest: testPCIVPDResourceBasic: Remove tests for uninitialized 'ro'/'rw' section (RHEL-22314)
-- util: virPCIVPDResourceUpdateKeyword: Remove impossible checks (RHEL-22314)
-- conf: node_device: Refactor 'virNodeDeviceCapVPDParseCustomFields' to fix error reporting (RHEL-22314)
-- virNodeDeviceCapVPDParseXML: Fix error reporting (RHEL-22314)
-- util: virpcivpd: Remove return value from virPCIVPDResourceUpdateKeyword (RHEL-22314)
-- virPCIDeviceHasVPD: Refactor "debug" messages (RHEL-22314)
-- virPCIDeviceGetVPD: Fix multiple error handling bugs (RHEL-22314)
-- virPCIDeviceGetVPD: Handle errors in callers (RHEL-22314)
-- virPCIVPDReadVPDBytes: Refactor error handling (RHEL-22314)
-- virPCIVPDParseVPDLargeResourceString: Properly report errors (RHEL-22314)
-- virPCIVPDParseVPDLargeResourceFields: Merge logic conditions (RHEL-22314)
-- virPCIVPDParseVPDLargeResourceFields: Remove impossible 'default' switch case (RHEL-22314)
-- virPCIVPDParseVPDLargeResourceFields: Refactor processing of read data (RHEL-22314)
-- virPCIVPDParseVPDLargeResourceFields: Refactor return logic (RHEL-22314)
-- virPCIVPDParseVPDLargeResourceFields: Report proper errors (RHEL-22314)
-- virPCIVPDParse: Do reasonable error reporting (RHEL-22314)
-- virt-admin: Add warning when connection to default daemon fails (RHEL-23170)
-
-* Mon Jan 29 2024 Jiri Denemark <jdenemar@redhat.com> - 10.0.0-2
-- tests: Add hostcpudata for machine with CPU clusters (RHEL-7043)
-- conf: Report CPU clusters in capabilities XML (RHEL-7043)
-- conf: Allow specifying CPU clusters (RHEL-7043)
-- qemu: Introduce QEMU_CAPS_SMP_CLUSTERS (RHEL-7043)
-- qemu: Use CPU clusters for guests (RHEL-7043)
-- tests: Add test case for CPU clusters (RHEL-7043)
-- qemu: Make monitor aware of CPU clusters (RHEL-7043)
-- tests: Verify handling of CPU clusters in QMP data (RHEL-7043)
-- build: Make daemons depend on generated *_protocol.[ch] (RHEL-15267)
-- domain_validate: Check for domain address conflicts fully (RHEL-4452)
-- qemu_hotplug: Don't lose 'created' flag in qemuDomainChangeNet() (RHEL-22714)
-
-* Tue Jan 16 2024 Jiri Denemark <jdenemar@redhat.com> - 10.0.0-1
-- Rebased to libvirt-10.0.0 (RHEL-15267)
-- The rebase also fixes the following bugs:
-    RHEL-18782, RHEL-735, RHEL-18165, RHEL-4607, RHEL-700
-    RHEL-7100, RHEL-15480, RHEL-7416, RHEL-20609, RHEL-7570
-    RHEL-20444, RHEL-17596, RHEL-7569
-
-* Wed Dec 20 2023 Jiri Denemark <jdenemar@redhat.com> - 9.10.0-1
-- Rebased to libvirt-9.10.0 (rhbz#RHEL-15267)
-- The rebase also fixes the following bugs:
-    rhbz#RHEL-16878, rhbz#RHEL-14611, rhbz#RHEL-7384, rhbz#RHEL-16870, rhbz#RHEL-18439
-    rhbz#RHEL-16751, rhbz#RHEL-4452, rhbz#RHEL-17841, rhbz#RHEL-15288, rhbz#RHEL-7040
-
-* Tue Nov 21 2023 Jiri Denemark <jdenemar@redhat.com> - 9.9.0-1
-- Rebased to libvirt-9.9.0 (rhbz#RHEL-15267)
-- The rebase also fixes the following bugs:
-    rhbz#RHEL-7525, rhbz#RHEL-7570, rhbz#RHEL-7542, rhbz#RHEL-7568, rhbz#RHEL-7545
-    rhbz#RHEL-3231, rhbz#RHEL-7382, rhbz#RHEL-7345, rhbz#RHEL-1717, rhbz#RHEL-7528
-    rhbz#RHEL-1833, rhbz#RHEL-7569, rhbz#RHEL-4432, rhbz#RHEL-974, rhbz#RHEL-4994
-    rhbz#RHEL-7419
-
-* Fri Aug 25 2023 Jiri Denemark <jdenemar@redhat.com> - 9.5.0-6
-- tests: Use DO_TEST_CAPS_*_ABI_UPDATE() for ppc64 (rhbz#2196178)
-- tests: Switch to firmware autoselection for hvf (rhbz#2196178)
-- tests: Use virt-4.0 machine type for aarch64 (rhbz#2196178)
-- tests: Consistently use /path/to/guest_VARS.fd (rhbz#2196178)
-- tests: Turn abi-update.xml into a symlink (rhbz#2196178)
-- tests: Rename firmware-auto-efi-nvram-path (rhbz#2196178)
-- qemu: Fix return value for qemuFirmwareFillDomainLegacy() (rhbz#2196178)
-- qemu: Fix lookup against stateless/combined pflash (rhbz#2196178)
-- tests: Add some more DO_TEST*ABI_UPDATE* macros (rhbz#2196178)
-- tests: Add more tests for firmware selection (rhbz#2196178)
-- tests: Update firmware descriptor files (rhbz#2196178)
-- tests: Drop tags from BIOS firmware descriptor (rhbz#2196178)
-- tests: Include microvm in firmwaretest (rhbz#2196178)
-- qemu: Don't overwrite NVRAM template for legacy firmware (rhbz#2196178)
-- qemu: Generate NVRAM path in more cases (rhbz#2196178)
-- qemu: Filter firmware based on loader.readonly (rhbz#2196178)
-- qemu: Match NVRAM template extension for new domains (rhbz#2196178)
-- conf: Don't default to raw format for loader/NVRAM (rhbz#2196178)
-- tests: Rename firmware-auto-efi-format-loader-qcow2-nvram-path (rhbz#2196178)
-- tests: Reintroduce firmware-auto-efi-format-mismatch (rhbz#2196178)
-- rpm: Reorder scriptlets (rhbz#2210058)
-- rpm: Reduce use of with_modular_daemons (rhbz#2210058)
-- rpm: Remove custom libvirtd restart logic (rhbz#2210058)
-- rpm: Introduce new macros for handling of systemd units (rhbz#2210058)
-- rpm: Switch to new macros for handling of systemd units (rhbz#2210058)
-- rpm: Delete unused macros (rhbz#2210058)
-
-* Wed Aug  2 2023 Jiri Denemark <jdenemar@redhat.com> - 9.5.0-5
-- Revert "qemu_passt: Actually use @logfd" (rhbz#2209191)
-- Revert "qemu_passt: Precreate passt logfile" (rhbz#2209191)
-
-* Mon Jul 31 2023 Jiri Denemark <jdenemar@redhat.com> - 9.5.0-4
-- storage: Fix returning of locked objects from 'virStoragePoolObjListSearch' (CVE-2023-3750, rhbz#2221851)
-
-* Fri Jul 21 2023 Jiri Denemark <jdenemar@redhat.com> - 9.5.0-3
-- tests: remove acpi support from s390x ccw hotplug tests (rhbz#2168499)
-- tests: add capabilities for QEMU 8.1.0 on s390x (rhbz#2168499)
-- qemu: add run-with async-teardown capability (rhbz#2168499)
-- qemu: allow use of async teardown in domain (rhbz#2168499)
-- conf: domcaps: Add 'async-teardown' domain capability (rhbz#2168499)
-- qemu: S390 does not provide physical address size (rhbz#2224016)
-- nodedev: report mdev persistence properly (rhbz#2143158)
-- node_device: Don't leak error message buffer from virMdevctlListDefined|Active (rhbz#2143158)
-
-* Mon Jul 17 2023 Jiri Denemark <jdenemar@redhat.com> - 9.5.0-2
-- nodedev: transient mdev update on nodeDeviceCreateXML (rhbz#2143158)
-- nodedev: refactor mdevctl thread functions (rhbz#2143158)
-- nodedev: update mdevs from the mdevctl thread (rhbz#2143158)
-
-* Mon Jul  3 2023 Jiri Denemark <jdenemar@redhat.com> - 9.5.0-1
-- Rebased to libvirt-9.5.0 (rhbz#2175785)
-
-* Wed Jun 28 2023 Jiri Denemark <jdenemar@redhat.com> - 9.5.0-0rc1.1
-- Rebased to libvirt-9.5.0-rc1 (rhbz#2175785)
-- The rebase also fixes the following bugs:
-    rhbz#2160356, rhbz#2209191, rhbz#2210287, rhbz#2209853, rhbz#2171860
-    rhbz#2138150, rhbz#2171384
-
-* Fri Jun  2 2023 Jiri Denemark <jdenemar@redhat.com> - 9.4.0-1
-- Rebased to libvirt-9.4.0 (rhbz#2175785)
-- The rebase also fixes the following bugs:
-    rhbz#2119007, rhbz#2193315, rhbz#2209658, rhbz#2143158, rhbz#2208946
-    rhbz#2138150, rhbz#2203657, rhbz#2180679, rhbz#2203709
-
-* Tue May 16 2023 Jiri Denemark <jdenemar@redhat.com> - 9.3.0-2
-- qemu_domin: Account for NVMe disks when calculating memlock limit on hotplug (rhbz#2014030)
-
-* Fri May  5 2023 Jiri Denemark <jdenemar@redhat.com> - 9.3.0-1
-- Rebased to libvirt-9.3.0 (rhbz#2175785)
-- The rebase also fixes the following bugs:
-    rhbz#2181235, rhbz#2176215, rhbz#2187133, rhbz#2178885, rhbz#2174700
-    rhbz#2160435, rhbz#2184966, rhbz#2187278, rhbz#2014030, rhbz#2185184
-    rhbz#2156300
-
-* Mon Apr  3 2023 Jiri Denemark <jdenemar@redhat.com> - 9.2.0-1
-- Rebased to libvirt-9.2.0 (rhbz#2175785)
-- The rebase also fixes the following bugs:
-    rhbz#2178885, rhbz#2000410, rhbz#2175582, rhbz#2154750, rhbz#2175449
-    rhbz#2181234, rhbz#2078693, rhbz#2176924, rhbz#2156300, rhbz#2173142
-    rhbz#2171973, rhbz#2178866, rhbz#2182961, rhbz#2174397, rhbz#2179030
-    rhbz#2161965, rhbz#2035985
-
-* Mon Mar 13 2023 Jiri Denemark <jdenemar@redhat.com> - 9.1.0-1
-- Rebased to libvirt-9.1.0 (rhbz#2175785)
-- The rebase also fixes the following bugs:
-    rhbz#2004850, rhbz#2137346, rhbz#2166235, rhbz#1961326
-
-* Wed Feb 22 2023 Jiri Denemark <jdenemar@redhat.com> - 9.0.0-7
-- qemu_snapshot: remove memory snapshot when deleting external snapshot (rhbz#2170826)
-- qemu_snapshot: refactor qemuSnapshotDeleteExternalPrepare (rhbz#2170826)
-
-* Fri Feb 17 2023 Jiri Denemark <jdenemar@redhat.com> - 9.0.0-6
-- rpc: client: Don't check return value of virNetMessageNew (rhbz#2145188)
-- rpc: Don't warn about "max_client_requests" in single-threaded daemons (rhbz#2145188)
-
-* Mon Feb 13 2023 Jiri Denemark <jdenemar@redhat.com> - 9.0.0-5
-- qemu_extdevice: Do cleanup host only for VIR_DOMAIN_TPM_TYPE_EMULATOR (rhbz#2168762)
-- qemu: blockjob: Handle 'pending' blockjob state only when we need it (rhbz#2168769)
-
-* Thu Feb  9 2023 Jiri Denemark <jdenemar@redhat.com> - 9.0.0-4
-- qemuProcessStop: Fix detection of outgoing migration for external devices (rhbz#2161557)
-- qemuExtTPMStop: Restore TPM state label more often (rhbz#2161557)
-- qemuProcessLaunch: Tighten rules for external devices wrt incoming migration (rhbz#2161557)
-- qemu_process: Produce better debug message wrt domain namespaces (rhbz#2167302)
-- qemu_namespace: Deal with nested mounts when umount()-ing /dev (rhbz#2167302)
-- qemuProcessRefreshDisks: Don't skip filling of disk information if tray state didn't change (rhbz#2166411)
-
-* Wed Feb  1 2023 Jiri Denemark <jdenemar@redhat.com> - 9.0.0-3
-- src: Don't use virReportSystemError() on virProcessGetStatInfo() failure (rhbz#2148266)
-- qemu: Provide virDomainGetCPUStats() implementation for session connection (rhbz#2148266)
-- virsh: Make domif-setlink work more than once (rhbz#2165466)
-- qemu_fd: Remove declaration for 'qemuFDPassNewDirect' (rhbz#2040272)
-- qemuStorageSourcePrivateDataFormat: Rename 'tmp' to 'objectsChildBuf' (rhbz#2040272)
-- qemu: command: Handle FD passing commandline via qemuBuildBlockStorageSourceAttachDataCommandline (rhbz#2040272)
-- qemuFDPassTransferCommand: Mark that FD was passed (rhbz#2040272)
-- qemu: fd: Add helpers allowing storing FD set data in status XML (rhbz#2040272)
-- qemu: domain: Store fdset ID for disks passed to qemu via FD (rhbz#2040272)
-- qemu: block: Properly handle FD-passed disk hot-(un-)plug (rhbz#2040272)
-
-* Wed Jan 25 2023 Jiri Denemark <jdenemar@redhat.com> - 9.0.0-2
-- vircgroupv2: fix cpu.weight limits check (rhbz#2037998)
-- domain_validate: drop cpu.shares cgroup check (rhbz#2037998)
-- docs: document correct cpu shares limits with both cgroups v1 and v2 (rhbz#2037998)
-- qemu_interface: Fix managed='no' case when creating an ethernet interface (rhbz#2144738)
-- conf: clarify some external TPM error messages (rhbz#2063723)
-- qemu: hotplug: Remove legacy quirk for 'dimm' address generation (rhbz#2158701)
-- qemu: alias: Remove 'oldAlias' argument of qemuAssignDeviceMemoryAlias (rhbz#2158701)
-- qemu: Remove 'memAliasOrderMismatch' field from VM private data (rhbz#2158701)
-- rpc: Fix error message in virNetServerSetClientLimits (rhbz#2033879)
-
-* Mon Jan 16 2023 Jiri Denemark <jdenemar@redhat.com> - 9.0.0-1
-- Rebased to libvirt-9.0.0 (rhbz#2124466)
-- The rebase also fixes the following bugs:
-    rhbz#2151064, rhbz#1874163, rhbz#2130192, rhbz#2111948, rhbz#1824722
-    rhbz#2150455, rhbz#2063723, rhbz#1717611, rhbz#2160448, rhbz#2151869
-    rhbz#2040272, rhbz#2144738, rhbz#2159851, rhbz#2156289, rhbz#2033879
-    rhbz#1820437, rhbz#2151202
-
-* Tue Dec  6 2022 Jiri Denemark <jdenemar@redhat.com> - 8.10.0-2
-- qemu_process: Document qemuProcessPrepare{Domain,Host}() order (rhbz#2150760)
-- qemu_extdevice: Init paths in qemuExtDevicesPrepareDomain() (rhbz#2150760)
-- qemu_extdevice: Expose qemuExtDevicesInitPaths() (rhbz#2150760)
-- qemu: Init ext devices paths on reconnect (rhbz#2150760)
-
-* Thu Dec  1 2022 Jiri Denemark <jdenemar@redhat.com> - 8.10.0-1
-- Rebased to libvirt-8.10.0 (rhbz#2124466)
-- The rebase also fixes the following bugs:
-    rhbz#2128993, rhbz#2143235, rhbz#2143840, rhbz#1874163, rhbz#2000075
-    rhbz#2143838, rhbz#2104919, rhbz#2072204, rhbz#2137298
-
-* Wed Nov  2 2022 Jiri Denemark <jdenemar@redhat.com> - 8.9.0-2
-- RHEL: rpminspect: Disable abidiff inspection (rhbz#2124466)
-- spec: Fix python3-libvirt requirement in client-qemu package (rhbz#2124466)
-
-* Tue Nov  1 2022 Jiri Denemark <jdenemar@redhat.com> - 8.9.0-1
-- Rebased to libvirt-8.9.0 (rhbz#2124466)
-- The rebase also fixes the following bugs:
-    rhbz#2074559, rhbz#2134009, rhbz#1777212, rhbz#2013523, rhbz#2114866
-    rhbz#1964855
-
-* Mon Oct  3 2022 Jiri Denemark <jdenemar@redhat.com> - 8.8.0-1
-- Rebased to libvirt-8.8.0 (rhbz#2124466)
-- The rebase also fixes the following bugs:
-    rhbz#2122534, rhbz#2121262, rhbz#2130089, rhbz#2121276, rhbz#2121627
-    rhbz#2125111, rhbz#2129239, rhbz#1964855, rhbz#2114866
-
-* Tue Sep  6 2022 Jiri Denemark <jdenemar@redhat.com> - 8.7.0-1
-- Rebased to libvirt-8.7.0 (rhbz#2124466)
-- The rebase also fixes the following bugs:
-    rhbz#2084046, rhbz#2108483, rhbz#2123371, rhbz#2101633, rhbz#1988211
-    rhbz#2086677, rhbz#2103132, rhbz#2078805, rhbz#2111301, rhbz#2094641
-
-* Thu Aug  4 2022 Jiri Denemark <jdenemar@redhat.com> - 8.5.0-5
-- rpc: Pass OPENSSL_CONF through to ssh invocations (rhbz#2112348)
-
-* Fri Jul 29 2022 Jiri Denemark <jdenemar@redhat.com> - 8.5.0-4
-- qemu: Pass migration flags to qemuMigrationParamsApply (rhbz#2111070)
-- qemu_migration_params: Replace qemuMigrationParamTypes array (rhbz#2111070)
-- qemu_migration: Pass migParams to qemuMigrationSrcResume (rhbz#2111070)
-- qemu_migration: Apply max-postcopy-bandwidth on post-copy resume (rhbz#2111070)
-- qemu: Always assume support for QEMU_CAPS_MIGRATION_PARAM_XBZRLE_CACHE_SIZE (rhbz#2107892)
-- qemu_migration: Store original migration params in status XML (rhbz#2107892)
-- qemu_migration_params: Refactor qemuMigrationParamsApply (rhbz#2107892)
-- qemu_migration_params: Refactor qemuMigrationParamsReset (rhbz#2107892)
-- qemu_migration_params: Avoid deadlock in qemuMigrationParamsReset (rhbz#2107892)
-- qemu: Restore original memory locking limit on reconnect (rhbz#2107424)
-- qemu: Properly release job in qemuDomainSaveInternal (rhbz#1497907)
-- qemu: don't call qemuMigrationSrcIsAllowedHostdev() from qemuMigrationDstPrepareFresh() (rhbz#1497907)
-
-* Mon Jul 25 2022 Jiri Denemark <jdenemar@redhat.com> - 8.5.0-3
-- qemu: introduce capability QEMU_CAPS_MIGRATION_BLOCKED_REASONS (rhbz#2092833)
-- qemu: new function to retrieve migration blocker reasons from QEMU (rhbz#2092833)
-- qemu: query QEMU for migration blockers before our own harcoded checks (rhbz#2092833)
-- qemu: remove hardcoded migration fail for vDPA devices if we can ask QEMU (rhbz#2092833)
-- qemu_migration: Use EnterMonitorAsync in qemuDomainGetMigrationBlockers (rhbz#2092833)
-- qemu: don't try to query QEMU about migration blockers during offline migration (rhbz#2092833)
-- qemu_migration: Acquire correct job in qemuMigrationSrcIsAllowed (rhbz#2092833)
-- virsh: Require --xpath for *dumpxml (rhbz#2103524)
-- qemu: skip hardcoded hostdev migration check if QEMU can do it for us (rhbz#1497907)
-
-* Fri Jul 15 2022 Jiri Denemark <jdenemar@redhat.com> - 8.5.0-2
-- domain_conf: Format <defaultiothread/> more often (rhbz#2059511)
-- domain_conf: Format iothread IDs more often (rhbz#2059511)
-- qemu: Make IOThread changing more robust (rhbz#2059511)
-- qemuDomainSetIOThreadParams: Accept VIR_DOMAIN_AFFECT_CONFIG flag (rhbz#2059511)
-- virsh: Implement --config for iothreadset (rhbz#2059511)
-- docs: Document TPM portion of domcaps (rhbz#2103119)
-- virtpm: Introduce TPM-1.2 and TPM-2.0 capabilieis (rhbz#2103119)
-- domcaps: Introduce TPM backendVersion (rhbz#2103119)
-- qemu: Report supported TPM version in domcaps (rhbz#2103119)
-- vircpi: Add PCIe 5.0 and 6.0 link speeds (rhbz#2105231)
-
-* Fri Jul  1 2022 Jiri Denemark <jdenemar@redhat.com> - 8.5.0-1
-- Rebased to libvirt-8.5.0 (rhbz#2060313)
-- The rebase also fixes the following bugs:
-    rhbz#1475431, rhbz#2026765, rhbz#2059511, rhbz#2089431, rhbz#2102009
-
-* Fri Jun 24 2022 Jiri Denemark <jdenemar@redhat.com> - 8.4.0-3
-- qemu: fd: Fix monitor usage of qemuFDPassDirectGetPath (rhbz#2092856)
-
-* Tue Jun 14 2022 Jiri Denemark <jdenemar@redhat.com> - 8.4.0-2
-- Revert "RHEL: Fix virConnectGetMaxVcpus output" (rhbz#2095260)
-
-* Thu Jun  2 2022 Jiri Denemark <jdenemar@redhat.com> - 8.4.0-1
-- Rebased to libvirt-8.4.0 (rhbz#2060313)
-- The rebase also fixes the following bugs:
-    rhbz#2057768, rhbz#2081981, rhbz#2035163, rhbz#2075837, rhbz#2082540
-    rhbz#2075383
-
-* Fri May  6 2022 Jiri Denemark <jdenemar@redhat.com> - 8.3.0-1
-- Rebased to libvirt-8.3.0 (rhbz#2060313)
-- The rebase also fixes the following bugs:
-    rhbz#1653327, rhbz#2075765, rhbz#2075464, rhbz#2078274, rhbz#2070380
-    rhbz#2073887, rhbz#2073867
-
-* Fri Apr  1 2022 Jiri Denemark <jdenemar@redhat.com> - 8.2.0-1
-- Rebased to libvirt-8.2.0 (rhbz#2060313)
-- The rebase also fixes the following bugs:
-    rhbz#1866400, rhbz#2065381, rhbz#2063903, rhbz#1901394, rhbz#2065399
-
-* Fri Mar  4 2022 Jiri Denemark <jdenemar@redhat.com> - 8.1.0-1
-- Rebased to libvirt-8.1.0 (rhbz#2060313)
-- The rebase also fixes the following bugs:
-    rhbz#1643868, rhbz#2045953, rhbz#1910856, rhbz#2051451, rhbz#1745868
-    rhbz#2040548, rhbz#2041665, rhbz#1999372, rhbz#2038045, rhbz#2045959
-    rhbz#2046024, rhbz#2040555, rhbz#2057067, rhbz#2037146, rhbz#2036300
-
-* Thu Feb 24 2022 Jiri Denemark <jdenemar@redhat.com> - 8.0.0-5
-- Make systemd unit ordering more robust (rhbz#1868537)
-- util: Fix machined servicename (rhbz#1868537)
-
-* Thu Feb 10 2022 Jiri Denemark <jdenemar@redhat.com> - 8.0.0-4
-- qemu_command: Generate memory only after controllers (rhbz#2047271)
-- qemu: Validate domain definition even on migration (rhbz#2048435)
-
-* Wed Feb  2 2022 Jiri Denemark <jdenemar@redhat.com> - 8.0.0-3
-- qemuDomainSetupDisk: Initialize 'targetPaths' (rhbz#2046170)
-
-* Tue Jan 25 2022 Jiri Denemark <jdenemar@redhat.com> - 8.0.0-2
-- build: Only install libvirt-guests when building libvirtd (rhbz#2042529)
-- docs: Add man page for libvirt-guests (rhbz#2042529)
-- remove sysconfig files (rhbz#2042529)
-- spec: Run pre/post-install stuff on 'daemon-driver-storage-core' (rhbz#2025644)
-- qemu: fix inactive snapshot revert (rhbz#2039136)
-- Revert "report error when virProcessGetStatInfo() is unable to parse data" (rhbz#2043579)
-
-* Fri Jan 14 2022 Jiri Denemark <jdenemar@redhat.com> - 8.0.0-1
-- Rebased to libvirt-8.0.0 (rhbz#2001507)
-- The rebase also fixes the following bugs:
-    rhbz#2039246, rhbz#2039652, rhbz#2039651, rhbz#2039131
-
-* Mon Jan 10 2022 Jiri Denemark <jdenemar@redhat.com> - 8.0.0-0rc1.1
-- Rebased to libvirt-8.0.0-rc1 (rhbz#2001507)
-- The rebase also fixes the following bugs:
-    rhbz#2034539, rhbz#2027400, rhbz#1945420, rhbz#1851249, rhbz#2032410
-    rhbz#2026812, rhbz#2032365, rhbz#2035888, rhbz#2036895, rhbz#2026537
-
-* Wed Dec  1 2021 Jiri Denemark <jdenemar@redhat.com> - 7.10.0-1
-- Rebased to libvirt-7.10.0 (rhbz#2001507)
-- The rebase also fixes the following bugs:
-    rhbz#2024098, rhbz#1964223, rhbz#2018488, rhbz#2021437, rhbz#2022589
-    rhbz#2023605, rhbz#1431589, rhbz#2024435, rhbz#2016599, rhbz#1945501
-    rhbz#2023674
-
-* Fri Nov  5 2021 Jiri Denemark <jdenemar@redhat.com> - 7.9.0-1
-- Rebased to libvirt-7.9.0 (rhbz#2001507)
-- The rebase also fixes the following bugs:
-    rhbz#2007659, rhbz#2014487, rhbz#1806856, rhbz#2014139, rhbz#1964223
-    rhbz#2007168, rhbz#2012386, rhbz#2013573, rhbz#1897708
-
-* Tue Oct  5 2021 Jiri Denemark <jdenemar@redhat.com> - 7.8.0-1
-- Rebased to libvirt-7.8.0 (rhbz#2001507)
-- The rebase also fixes the following bugs:
-    rhbz#1999420, rhbz#2002761, rhbz#1998920, rhbz#1986066, rhbz#1822891
-    rhbz#2001627, rhbz#1819160, rhbz#2000861, rhbz#2003092
-
-* Wed Sep 22 2021 Jiri Denemark <jdenemar@redhat.com> - 7.7.0-3
-- virshDomainGetVcpuBitmap: Return bitmap when taking the fallback path (rhbz#2004429)
-
-* Tue Sep 21 2021 Jiri Denemark <jdenemar@redhat.com> - 7.7.0-2
-- Update gating.yaml by adding subject_type
-- Revert "RHEL: spec: Do not enable modular daemons yet" (rhbz#1920012)
-
-* Fri Sep 10 2021 Jiri Denemark <jdenemar@redhat.com> - 7.7.0-1
-- Rebased to libvirt-7.7.0 (rhbz#2001507)
-- The rebase also fixes the following bugs:
-    rhbz#2001326, rhbz#2001391, rhbz#2001322, rhbz#2001389, rhbz#1967187
-    rhbz#2001327, rhbz#1977155, rhbz#2001997, rhbz#2001323
-- RHEL: spec: Do not enable modular daemons yet (rhbz#2001507)
-
-* Mon Aug 09 2021 Mohan Boddu <mboddu@redhat.com> - 7.6.0-2
-- Rebuilt for IMA sigs, glibc 2.34, aarch64 flags
-  Related: rhbz#1991688
-
-* Wed Aug  4 2021 Jiri Denemark <jdenemar@redhat.com> - 7.6.0-1
-- Rebased to libvirt-7.6.0 (rhbz#1950948)
-- The rebase also fixes the following bugs:
-    rhbz#1986509, rhbz#1984318, rhbz#1810661, rhbz#1977776, rhbz#1948433
-    rhbz#1978526, rhbz#1976690
-
-* Wed Jul 14 2021 Jiri Denemark <jdenemar@redhat.com> - 7.5.0-1
-- Rebased to libvirt-7.5.0 (rhbz#1950948)
-- The rebase also fixes the following bugs:
-    rhbz#1949388, rhbz#1969354, rhbz#1970277, rhbz#1972145, rhbz#1973094
-    rhbz#1975071, rhbz#1972468, rhbz#1975677
-
-* Mon Jun  7 2021 Jiri Denemark <jdenemar@redhat.com> - 7.4.0-1
-- Rebased to libvirt-7.4.0 (rhbz#1950948)
-- The rebase also fixes the following bugs:
-    rhbz#1960993
-
-* Mon May 24 2021 Jiri Denemark <jdenemar@redhat.com> - 7.3.0-1
-- Rebased to libvirt-7.3.0 (rhbz#1950948)
-- The rebase also fixes the following bugs:
-    rhbz#1898526, rhbz#1910617, rhbz#1910618, rhbz#1943392, rhbz#1946918
-    rhbz#1947718, rhbz#1947720, rhbz#1947824, rhbz#1949342, rhbz#1950228
-    rhbz#1950301, rhbz#1950601, rhbz#1950948, rhbz#1953939, rhbz#1958302
-    rhbz#1962053
-- RHEL: Enable usage of x-blockdev-reopen (rhbz#1953939)
-- RHEL: Add gating.yaml for RHEL9 (rhbz#1950601)
-
-* Thu Apr 22 2021 Jiri Denemark <jdenemar@redhat.com> - 7.0.0-6
-- spec: Do not build qemu driver for Power on RHEL-9 (rhbz#1946529)
-
-* Fri Apr 16 2021 Mohan Boddu <mboddu@redhat.com> - 7.0.0-5
-- Rebuilt for RHEL 9 BETA on Apr 15th 2021. Related: rhbz#1947937
+    RHEL-30177, RHEL-35244, RHEL-39024
+
+* Thu Jan 25 2024 Fedora Release Engineering <releng@fedoraproject.org> - 10.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_40_Mass_Rebuild
+
+* Sun Jan 21 2024 Fedora Release Engineering <releng@fedoraproject.org> - 10.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_40_Mass_Rebuild
+
+* Tue Jan 16 2024 Cole Robinson <crobinso@redhat.com> - 10.0.0-1
+- Update to version 10.0.0
+
+* Wed Jan 03 2024 Jonathan Wright <jonathan@almalinux.org> - 9.10.0-4
+- conf: fix regression for default input bus
+
+* Fri Dec  8 2023 Richard W.M. Jones <rjones@redhat.com> - 9.10.0-3
+- Bump and rebuild for xen 4.18.0, third attempt
+
+* Tue Dec 05 2023 Adam Williamson <awilliam@redhat.com> - 9.10.0-2
+- Rebuild for xen 4.18.0 again
+
+* Sat Dec 02 2023 Cole Robinson <crobinso@redhat.com> - 9.10.0-1
+- Update to version 9.10.0
+
+* Thu Nov 30 2023 Richard W.M. Jones <rjones@redhat.com> - 9.9.0-3
+- Bump and rebuild for xen 4.18.0
+
+* Mon Nov 06 2023 Cole Robinson <crobinso@redhat.com> - 9.9.0-2
+- Fix crash with snapshot restore (bz #2247754)
+
+* Wed Nov 01 2023 Cole Robinson <crobinso@redhat.com> - 9.9.0-1
+- Update to version 9.9.0
+
+* Thu Oct 05 2023 Cole Robinson <crobinso@redhat.com> - 9.8.0-1
+- Update to version 9.8.0
+
+* Fri Sep  1 2023 Daniel P. Berrangé <berrange@redhat.com> - 9.7.0-1
+- Update to version 9.7.0
+
+* Tue Aug 01 2023 Cole Robinson <crobinso@redhat.com> - 9.6.0-1
+- Update to version 9.6.0
+
+* Thu Jul 20 2023 Fedora Release Engineering <releng@fedoraproject.org> - 9.5.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_39_Mass_Rebuild
+
+* Wed Jul 05 2023 Cole Robinson <crobinso@redhat.com> - 9.5.0-1
+- Update to version 9.5.0
+
+* Wed Jun 28 2023 Cole Robinson <crobinso@redhat.com> - 9.4.0-1
+- Update to version 9.4.0
+
+* Tue May 23 2023 Cole Robinson <crobinso@redhat.com> - 9.3.0-2
+- Drop numad usage, it is removed from f39
+
+* Tue May 02 2023 Cole Robinson <crobinso@redhat.com> - 9.3.0-1
+- Update to version 9.3.0
+
+* Wed Apr 05 2023 Cole Robinson <crobinso@redhat.com> - 9.2.0-1
+- Update to version 9.2.0
+
+* Wed Mar 01 2023 Cole Robinson <crobinso@redhat.com> - 9.1.0-1
+- Update to version 9.1.0
+
+* Thu Jan 19 2023 Fedora Release Engineering <releng@fedoraproject.org> - 9.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_38_Mass_Rebuild
+
+* Mon Jan 16 2023 Cole Robinson <crobinso@redhat.com> - 9.0.0-1
+- Update to version 9.0.0
+
+* Tue Jan 03 2023 Richard W.M. Jones <rjones@redhat.com> - 8.10.0-2
+- Rebuild for xen-4.17.0
+
+* Sat Dec 03 2022 Cole Robinson <crobinso@redhat.com> - 8.10.0-1
+- Update to version 8.10.0
+
+* Thu Nov 03 2022 Cole Robinson <crobinso@redhat.com> - 8.9.0-1
+- Update to version 8.9.0
+
+* Mon Oct 24 2022 Cole Robinson <crobinso@redhat.com> - 8.8.0-2
+- Rebuild for wireshark soname bump
+
+* Tue Oct 04 2022 Cole Robinson <crobinso@redhat.com> - 8.8.0-1
+- Update to version 8.8.0
+
+* Fri Sep  9 2022 Jens Petersen <petersen@redhat.com> - 8.7.0-2
+- F37 libvirt-daemon: depend on gettext-runtime instead of gettext (#2117209)
+
+* Tue Sep 06 2022 Cole Robinson <crobinso@redhat.com> - 8.7.0-1
+- Update to version 8.7.0
+
+* Tue Aug  9 2022 Daniel P. Berrangé <berrange@redhat.com> - 8.1.0-3
+- Pull in mingw sub-packages
+
+* Thu Aug 04 2022 Cole Robinson <crobinso@redhat.com> - 8.6.0-2
+- Use upstream 'glibc fix' commits
+
+* Mon Aug 01 2022 Cole Robinson <crobinso@redhat.com> - 8.6.0-1
+- Update to version 8.6.0
+
+* Thu Jul 21 2022 Cole Robinson <crobinso@redhat.com> - 8.5.0-1
+- Update to version 8.5.0
+
+* Sat Jun 11 2022 Cole Robinson <crobinso@redhat.com> - 8.4.0-2
+- Adjust for Xen dropping 32bit arches
+
+* Thu Jun 02 2022 Cole Robinson <crobinso@redhat.com> - 8.4.0-1
+- Update to version 8.4.0
+
+* Mon May 02 2022 Cole Robinson <crobinso@redhat.com> - 8.3.0-1
+- Update to version 8.3.0
+
+* Fri Apr 01 2022 Cole Robinson <crobinso@redhat.com> - 8.2.0-1
+- Update to version 8.2.0
+
+* Thu Mar  3 2022 Daniel P. Berrangé <berrange@redhat.com> - 8.1.0-2
+- Fix crash undefining VM without loader (rhbz#2060412)
+
+* Tue Mar 01 2022 Cole Robinson <crobinso@redhat.com> - 8.1.0-1
+- Update to version 8.1.0
+
+* Tue Feb 22 2022 Richard W.M. Jones <rjones@redhat.com> - 8.0.0-3
+- Include upstream patch which fixes virt-install bug.
+
+* Thu Jan 20 2022 Fedora Release Engineering <releng@fedoraproject.org> - 8.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
+
+* Fri Jan 14 2022 Cole Robinson <crobinso@redhat.com> - 8.0.0-1
+- Update to version 8.0.0
+
+* Tue Jan 11 2022 Richard W.M. Jones <rjones@redhat.com> - 7.10.0-2
+- Bump release and rebuild for new xen
+
+* Wed Dec  1 2021 Daniel P. Berrangé <berrange@redhat.com> - 7.10.0-1
+- Update to 7.10.0 release
+
+* Tue Nov  2 2021 Daniel P. Berrangé <berrange@redhat.com> - 7.9.0-1
+- Update to 7.9.0 release
+
+* Thu Oct 28 2021 Richard W.M. Jones <rjones@redhat.com> - 7.8.0-2
+- Bump and rebuild for fixed glusterfs on arm (RHBZ#2018182)
+
+* Fri Oct  1 2021 Daniel P. Berrangé <berrange@redhat.com> - 7.8.0-1
+- Update to 7.8.0 release
+
+* Thu Sep  2 2021 Daniel P. Berrangé <berrange@redhat.com> - 7.7.0-1
+- Update to 7.7.0 release
+
+* Tue Aug 31 2021 Daniel P. Berrangé <berrange@redhat.com> - 7.6.0-3
+- Fix repeated word in scriptlet name
+- Fix deps on virtlockd/virtlogd socket units
+- Fix test failure with newer QEMU
+
+* Wed Aug  4 2021 Daniel P. Berrangé <berrange@redhat.com> - 7.6.0-2
+- Switch to use modular daemons by default
+
+* Mon Aug  2 2021 Daniel P. Berrangé <berrange@redhat.com> - 7.6.0-1
+- Update to 7.6.0 release
+
+* Wed Jul 28 2021 Richard W.M. Jones <rjones@redhat.com> - 7.5.0-3
+- Add fix for discard + copy-on-read affecting virt-v2v (RHBZ#1986509)
+
+* Thu Jul 22 2021 Fedora Release Engineering <releng@fedoraproject.org> - 7.5.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
+
+* Thu Jul 01 2021 Cole Robinson <crobinso@redhat.com> - 7.5.0-1
+- Update to version 7.5.0
+
+* Mon Jun 07 2021 Cole Robinson <crobinso@redhat.com> - 7.4.0-2
+- Rebuild for xen 4.14
+
+* Tue Jun 01 2021 Cole Robinson <crobinso@redhat.com> - 7.4.0-1
+- Update to version 7.4.0
+
+* Tue May  4 2021 Daniel P. Berrangé <berrange@redhat.com> - 7.3.0-1
+- Update to 7.3.0 release
+- Remove libvirt-admin & libvirt-bash-completion subpackages
+
+* Mon Apr 05 2021 Cole Robinson <crobinso@redhat.com> - 7.2.0-1
+- Update to version 7.2.0
+
+* Tue Mar  9 2021 Richard W.M. Jones <rjones@redhat.com> - 7.1.0-2
+- Bump and rebuild for libwsman_client.so.4 -> .5
+
+* Mon Mar 01 2021 Cole Robinson <crobinso@redhat.com> - 7.1.0-1
+- Update to version 7.1.0
 
 * Wed Feb 03 2021 Cole Robinson <aintdiscole@gmail.com> - 7.0.0-4
 - Increase meson test timeout to fix builds on s390x copr
@@ -3427,81 +3120,3 @@ exit 0
 
 * Fri Jan 15 2021 Daniel P. Berrangé <berrange@redhat.com> - 7.0.0-1
 - Rebase to 7.0.0 release
-
-* Fri Dec 04 2020 Cole Robinson <aintdiscole@gmail.com> - 6.10.0-2.1
-- Rebuild for wireshark soname bump
-
-* Fri Dec 04 2020 Richard W.M. Jones <rjones@redhat.com> - 6.10.0-2
-- Build libvirt-daemon-kvm for riscv64.
-
-* Tue Dec 01 2020 Cole Robinson <crobinso@redhat.com> - 6.10.0-1
-- Update to version 6.10.0
-
-* Wed Nov  4 2020 Daniel P. Berrangé <berrange@redhat.com> - 6.9.0-2
-- Re-apply reverted fix for disabling glusterfs, curl, openswman and libiscsi
-
-* Tue Nov 03 2020 Cole Robinson <crobinso@redhat.com> - 6.9.0-1
-- Update to version 6.9.0
-
-* Mon Nov  2 2020 Daniel P. Berrangé <berrange@redhat.com> - 6.8.0-4
-- Really fix meson option for disabling glusterfs
-- Fix disabling curl, openswman and libiscsi
-
-* Mon Nov  2 2020 Daniel P. Berrangé <berrange@redhat.com> - 6.8.0-4
-- Fix name of meson option for disabling glusterfs
-
-* Fri Oct 30 2020 Daniel P. Berrangé <berrange@redhat.com> - 6.8.0-3
-- Fix stat() mocking for new glibc
-
-* Wed Oct 28 2020 Daniel P. Berrangé <berrange@redhat.com> - 6.8.0-2
-- Remove obsolete bash_completion conditional
-- Pass args to meson based on with_libssh/with_libssh2
-
-* Thu Oct 01 2020 Cole Robinson <crobinso@redhat.com> - 6.8.0-1
-- Update to version 6.8.0
-
-* Fri Sep  4 2020 Daniel P. Berrangé <berrange@redhat.com> - 6.7.0-2
-- Fix QEMU start when KVM is not loaded (rhbz#1875327)
-
-* Tue Sep 01 2020 Cole Robinson <crobinso@redhat.com> - 6.7.0-1
-- Update to version 6.7.0
-
-* Fri Aug 21 2020 Merlin Mathesius <mmathesi@redhat.com> - 6.6.0-3
-- Fix so no platforms depend upon ceph for 32-bit architectures
-- Include upstream patches to fix GCC 10 warnings
-
-* Fri Aug 21 2020 Daniel P. Berrangé <berrange@redhat.com> - 6.6.0-2
-- Fix creation of pools on non-btrfs (rhbz#1870197)
-
-* Tue Aug 04 2020 Cole Robinson <crobinso@redhat.com> - 6.6.0-1
-- Update to version 6.6.0
-
-* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.5.0-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
-
-* Fri Jul 03 2020 Cole Robinson <crobinso@redhat.com> - 6.5.0-1
-- Update to version 6.5.0
-
-* Tue Jun 02 2020 Cole Robinson <crobinso@redhat.com> - 6.4.0-1
-- Update to version 6.4.0
-
-* Tue May 05 2020 Cole Robinson <crobinso@redhat.com> - 6.3.0-1
-- Update to version 6.3.0
-
-* Thu Apr 02 2020 Cole Robinson <crobinso@redhat.com> - 6.2.0-1
-- Update to version 6.2.0
-
-* Tue Mar 24 2020 Felipe Borges <feborges@redhat.com> - 6.1.0-2
-- Check for disk type correctly in virDomainDiskTranslateSourcePool
-
-* Wed Mar 04 2020 Cole Robinson <crobinso@redhat.com> - 6.1.0-1
-- Update to version 6.1.0
-
-* Tue Feb 25 2020 Cole Robinson <crobinso@redhat.com> - 6.0.0-3
-- Rebuild for libiscsi soname bump
-
-* Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.0-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
-
-* Wed Jan 15 2020 Cole Robinson <crobinso@redhat.com> - 6.0.0-1
-- Update to version 6.0.0

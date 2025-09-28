@@ -1,5 +1,5 @@
-From 56a472de55c45c97fd5f201073327c2d7c6d43c3 Mon Sep 17 00:00:00 2001
-Message-ID: <56a472de55c45c97fd5f201073327c2d7c6d43c3.1738940191.git.jdenemar@redhat.com>
+From 036c41c36b59f7ac41228701097c2b0ae6b03053 Mon Sep 17 00:00:00 2001
+Message-ID: <036c41c36b59f7ac41228701097c2b0ae6b03053.1738937224.git.jdenemar@redhat.com>
 From: Peter Krempa <pkrempa@redhat.com>
 Date: Fri, 24 Jan 2025 17:17:51 +0100
 Subject: [PATCH] qemuProcessHandleIOError: Prefer lookup by node name
@@ -15,7 +15,7 @@ Signed-off-by: Peter Krempa <pkrempa@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 (cherry picked from commit 784538a470fe346cb1ab85786b8ece85cbe7ff9f)
 
-https://issues.redhat.com/browse/RHEL-77884
+https://issues.redhat.com/browse/RHEL-76802
 ---
  src/qemu/qemu_process.c | 22 +++++++++++++---------
  1 file changed, 13 insertions(+), 9 deletions(-)

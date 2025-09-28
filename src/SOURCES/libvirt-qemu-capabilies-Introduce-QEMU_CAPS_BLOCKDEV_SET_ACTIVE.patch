@@ -1,5 +1,5 @@
-From 8f41d0f749cd8b9944c32791cdfd3f3f7f806579 Mon Sep 17 00:00:00 2001
-Message-ID: <8f41d0f749cd8b9944c32791cdfd3f3f7f806579.1739824249.git.jdenemar@redhat.com>
+From a26297c129ec05c129fda6da57ef8b8330d626be Mon Sep 17 00:00:00 2001
+Message-ID: <a26297c129ec05c129fda6da57ef8b8330d626be.1739815540.git.jdenemar@redhat.com>
 From: Peter Krempa <pkrempa@redhat.com>
 Date: Mon, 10 Feb 2025 17:57:01 +0100
 Subject: [PATCH] qemu: capabilies: Introduce QEMU_CAPS_BLOCKDEV_SET_ACTIVE
@@ -21,7 +21,7 @@ Reviewed-by: Jiri Denemark <jdenemar@redhat.com>
             - QEMU_CAPS_MACHINE_VIRT_AIA
             - QEMU_CAPS_DEVICE_VIRTIO_MEM_CCW
 
-https://issues.redhat.com/browse/RHEL-79095
+https://issues.redhat.com/browse/RHEL-78398
 ---
  src/qemu/qemu_capabilities.c                      | 2 ++
  src/qemu/qemu_capabilities.h                      | 1 +

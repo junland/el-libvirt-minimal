@@ -1,5 +1,5 @@
-From 5e88ca84d3988e7943cace7b53cd1a249c55a99b Mon Sep 17 00:00:00 2001
-Message-ID: <5e88ca84d3988e7943cace7b53cd1a249c55a99b.1738940190.git.jdenemar@redhat.com>
+From 9a27bfdfb50f42b27acf6998f95721461fc0706a Mon Sep 17 00:00:00 2001
+Message-ID: <9a27bfdfb50f42b27acf6998f95721461fc0706a.1738937224.git.jdenemar@redhat.com>
 From: Peter Krempa <pkrempa@redhat.com>
 Date: Mon, 27 Jan 2025 17:42:34 +0100
 Subject: [PATCH] build: Bump minimum glib2 version to 2.66.0
@@ -24,7 +24,7 @@ Signed-off-by: Peter Krempa <pkrempa@redhat.com>
 Reviewed-by: Pavel Hrdina <phrdina@redhat.com>
 (cherry picked from commit 420c39d6bd66ccf4841878882f5a3e9e47103ebb)
 
-https://issues.redhat.com/browse/RHEL-77884
+https://issues.redhat.com/browse/RHEL-76802
 ---
  libvirt.spec.in          |  2 +-
  meson.build              |  2 +-

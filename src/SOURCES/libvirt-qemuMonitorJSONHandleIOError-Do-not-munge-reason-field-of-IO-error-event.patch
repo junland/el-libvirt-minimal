@@ -1,5 +1,5 @@
-From 321a694cb6e4c401f9b2ea130ebae046a3f0c88b Mon Sep 17 00:00:00 2001
-Message-ID: <321a694cb6e4c401f9b2ea130ebae046a3f0c88b.1738940191.git.jdenemar@redhat.com>
+From 00ec6644dfd6ffc7ca51e45f69c4b3cdd3c868d7 Mon Sep 17 00:00:00 2001
+Message-ID: <00ec6644dfd6ffc7ca51e45f69c4b3cdd3c868d7.1738937224.git.jdenemar@redhat.com>
 From: Peter Krempa <pkrempa@redhat.com>
 Date: Mon, 27 Jan 2025 13:53:36 +0100
 Subject: [PATCH] qemuMonitorJSONHandleIOError: Do not munge 'reason' field of
@@ -17,7 +17,7 @@ Signed-off-by: Peter Krempa <pkrempa@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 (cherry picked from commit f8f8d5a253633aaae93b04d92bdcbed5b954149f)
 
-https://issues.redhat.com/browse/RHEL-77884
+https://issues.redhat.com/browse/RHEL-76802
 ---
  src/qemu/qemu_monitor.c      |  3 ++-
  src/qemu/qemu_monitor.h      |  2 ++

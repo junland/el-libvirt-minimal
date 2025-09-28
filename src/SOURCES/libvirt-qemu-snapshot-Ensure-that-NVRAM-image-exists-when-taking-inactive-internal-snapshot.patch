@@ -1,5 +1,5 @@
-From 45fe2375b04f05ff9f9cb0f84dd3c5408718353f Mon Sep 17 00:00:00 2001
-Message-ID: <45fe2375b04f05ff9f9cb0f84dd3c5408718353f.1738940191.git.jdenemar@redhat.com>
+From 82076c65791dbe33aa61c8523f2786cc2fc8c02e Mon Sep 17 00:00:00 2001
+Message-ID: <82076c65791dbe33aa61c8523f2786cc2fc8c02e.1738937224.git.jdenemar@redhat.com>
 From: Peter Krempa <pkrempa@redhat.com>
 Date: Mon, 3 Feb 2025 17:52:50 +0100
 Subject: [PATCH] qemu: snapshot: Ensure that NVRAM image exists when taking
@@ -16,7 +16,7 @@ Signed-off-by: Peter Krempa <pkrempa@redhat.com>
 Reviewed-by: Pavel Hrdina <phrdina@redhat.com>
 (cherry picked from commit 650e6fb7ebf905fe7dc992610ef9e932328460b7)
 
-https://issues.redhat.com/browse/RHEL-73315
+https://issues.redhat.com/browse/RHEL-78186
 ---
  src/qemu/qemu_snapshot.c | 23 +++++++++++++++++++----
  1 file changed, 19 insertions(+), 4 deletions(-)

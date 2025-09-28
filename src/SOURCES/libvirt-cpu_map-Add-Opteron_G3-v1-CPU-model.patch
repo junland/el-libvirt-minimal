@@ -1,5 +1,5 @@
-From d46a39eb87ab713ef82982ed9578ab1e5e826237 Mon Sep 17 00:00:00 2001
-Message-ID: <d46a39eb87ab713ef82982ed9578ab1e5e826237.1734433246.git.jdenemar@redhat.com>
+From 84beffae6c1e35998ac9dd396c22323fa2753f0f Mon Sep 17 00:00:00 2001
+Message-ID: <84beffae6c1e35998ac9dd396c22323fa2753f0f.1734429554.git.jdenemar@redhat.com>
 From: Jiri Denemark <jdenemar@redhat.com>
 Date: Thu, 5 Dec 2024 15:48:47 +0100
 Subject: [PATCH] cpu_map: Add Opteron_G3-v1 CPU model
@@ -8,7 +8,7 @@ Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
 Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
 (cherry picked from commit 422d90dc56d34879e6f52f34516c92dfc7f286fa)
 
-https://issues.redhat.com/browse/RHEL-70052
+https://issues.redhat.com/browse/RHEL-70129
 
 Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
 ---

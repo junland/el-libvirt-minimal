@@ -1,5 +1,5 @@
-From 420c80f7e9d9d6eed500ad45c53a9bf49a00d07e Mon Sep 17 00:00:00 2001
-Message-ID: <420c80f7e9d9d6eed500ad45c53a9bf49a00d07e.1734433246.git.jdenemar@redhat.com>
+From 3e899376d4910fe160c53bfef24ef1800f495e0c Mon Sep 17 00:00:00 2001
+Message-ID: <3e899376d4910fe160c53bfef24ef1800f495e0c.1734429554.git.jdenemar@redhat.com>
 From: Jiri Denemark <jdenemar@redhat.com>
 Date: Thu, 5 Dec 2024 15:36:14 +0100
 Subject: [PATCH] cpu_map: Add qemu64-v1 CPU model
@@ -8,7 +8,7 @@ Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
 Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
 (cherry picked from commit 2c6a015a7f7bdeffc38d5a16c91283c16325bef0)
 
-https://issues.redhat.com/browse/RHEL-70052
+https://issues.redhat.com/browse/RHEL-70129
 
 Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
 ---

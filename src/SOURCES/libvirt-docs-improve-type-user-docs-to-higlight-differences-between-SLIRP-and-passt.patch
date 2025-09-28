@@ -1,5 +1,5 @@
-From 42b16d6b87ad5449f93cda5f31cde92d0cca074f Mon Sep 17 00:00:00 2001
-Message-ID: <42b16d6b87ad5449f93cda5f31cde92d0cca074f.1739824249.git.jdenemar@redhat.com>
+From 2e71e35f0d78191d5ea36297877933e58e624a3a Mon Sep 17 00:00:00 2001
+Message-ID: <2e71e35f0d78191d5ea36297877933e58e624a3a.1739815540.git.jdenemar@redhat.com>
 From: Laine Stump <laine@redhat.com>
 Date: Fri, 14 Feb 2025 22:43:03 -0500
 Subject: [PATCH] docs: improve type='user' docs to higlight differences
@@ -16,7 +16,7 @@ Signed-off-by: Laine Stump <laine@redhat.com>
 Reviewed-by: Ján Tomko <jtomko@redhat.com>
 (cherry picked from commit a47a89a9d335c111a9c2fbb3f4e1c3a13001e74b)
 
-https://issues.redhat.com/browse/RHEL-69455
+https://issues.redhat.com/browse/RHEL-77086
 Signed-off-by: Laine Stump <laine@redhat.com>
 ---
  docs/formatdomain.rst | 116 ++++++++++++++++++++++++++++--------------

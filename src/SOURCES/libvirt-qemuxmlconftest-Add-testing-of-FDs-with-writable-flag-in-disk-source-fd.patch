@@ -1,5 +1,5 @@
-From 12e160e847dac7ef71a0eb09f862b544cb49f76f Mon Sep 17 00:00:00 2001
-Message-ID: <12e160e847dac7ef71a0eb09f862b544cb49f76f.1738940191.git.jdenemar@redhat.com>
+From aebbd45d109383d1c79fc19b35c5f294d92d7d92 Mon Sep 17 00:00:00 2001
+Message-ID: <aebbd45d109383d1c79fc19b35c5f294d92d7d92.1738937224.git.jdenemar@redhat.com>
 From: Peter Krempa <pkrempa@redhat.com>
 Date: Thu, 6 Feb 2025 15:55:37 +0100
 Subject: [PATCH] qemuxmlconftest: Add testing of FDs with 'writable' flag in
@@ -15,7 +15,7 @@ Signed-off-by: Peter Krempa <pkrempa@redhat.com>
 Reviewed-by: Jiri Denemark <jdenemar@redhat.com>
 (cherry picked from commit 7a119483a361a3ab814e4e07ccac7b13b0cbfbf7)
 
-https://issues.redhat.com/browse/RHEL-37519
+https://issues.redhat.com/browse/RHEL-78353
 ---
  .../disk-source-fd.x86_64-latest.args         | 36 +++++++++++--------
  .../disk-source-fd.x86_64-latest.xml          | 21 +++++++++--

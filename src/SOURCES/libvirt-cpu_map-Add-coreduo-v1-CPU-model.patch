@@ -1,5 +1,5 @@
-From 679d1ce3b64151c9673a0287c5dada9f11b77cfc Mon Sep 17 00:00:00 2001
-Message-ID: <679d1ce3b64151c9673a0287c5dada9f11b77cfc.1734433245.git.jdenemar@redhat.com>
+From 65d6734cfd183ba58a113e00f81b99a4a45ae8b9 Mon Sep 17 00:00:00 2001
+Message-ID: <65d6734cfd183ba58a113e00f81b99a4a45ae8b9.1734429553.git.jdenemar@redhat.com>
 From: Jiri Denemark <jdenemar@redhat.com>
 Date: Thu, 5 Dec 2024 15:30:57 +0100
 Subject: [PATCH] cpu_map: Add coreduo-v1 CPU model
@@ -8,7 +8,7 @@ Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
 Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
 (cherry picked from commit ae14b20aaa11f506977b2e88b3c6050ad50ec33d)
 
-https://issues.redhat.com/browse/RHEL-70052
+https://issues.redhat.com/browse/RHEL-70129
 
 Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
 ---

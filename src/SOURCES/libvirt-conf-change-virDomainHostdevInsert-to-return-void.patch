@@ -1,5 +1,5 @@
-From de4d1cf7306b8c456ccd167f29d47c7fb7b49943 Mon Sep 17 00:00:00 2001
-Message-ID: <de4d1cf7306b8c456ccd167f29d47c7fb7b49943.1739824249.git.jdenemar@redhat.com>
+From 5083667a7f861364e293904a18bce550d9880536 Mon Sep 17 00:00:00 2001
+Message-ID: <5083667a7f861364e293904a18bce550d9880536.1739815540.git.jdenemar@redhat.com>
 From: Laine Stump <laine@redhat.com>
 Date: Tue, 11 Feb 2025 16:44:49 -0500
 Subject: [PATCH] conf: change virDomainHostdevInsert() to return void
@@ -14,7 +14,7 @@ Signed-off-by: Laine Stump <laine@redhat.com>
 Reviewed-by: Ján Tomko <jtomko@redhat.com>
 (cherry picked from commit 956c6684113b46b2350db698dc75604f4c3a4b76)
 
-https://issues.redhat.com/browse/RHEL-69455
+https://issues.redhat.com/browse/RHEL-77086
 Signed-off-by: Laine Stump <laine@redhat.com>
 ---
  src/conf/domain_conf.c   | 15 +++++----------

@@ -1,5 +1,5 @@
-From 83e6078e15989f132d4c949d23bd6042a20f507d Mon Sep 17 00:00:00 2001
-Message-ID: <83e6078e15989f132d4c949d23bd6042a20f507d.1734433246.git.jdenemar@redhat.com>
+From 177e3fafb68267a59abedfd9e17b1dc6aa700088 Mon Sep 17 00:00:00 2001
+Message-ID: <177e3fafb68267a59abedfd9e17b1dc6aa700088.1734429554.git.jdenemar@redhat.com>
 From: Jiri Denemark <jdenemar@redhat.com>
 Date: Thu, 5 Dec 2024 15:44:29 +0100
 Subject: [PATCH] cpu_map: Add phenom-v1 CPU model
@@ -8,7 +8,7 @@ Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
 Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
 (cherry picked from commit 332136e49ab4d122d053b11646c292a1a72e732a)
 
-https://issues.redhat.com/browse/RHEL-70052
+https://issues.redhat.com/browse/RHEL-70129
 
 Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
 ---

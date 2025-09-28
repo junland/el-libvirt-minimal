@@ -1,5 +1,5 @@
-From ea370379189eee4e7afb5783fb63890e191e8394 Mon Sep 17 00:00:00 2001
-Message-ID: <ea370379189eee4e7afb5783fb63890e191e8394.1739824249.git.jdenemar@redhat.com>
+From e184df3b58107f0de96b4a2b4f6722a188041c99 Mon Sep 17 00:00:00 2001
+Message-ID: <e184df3b58107f0de96b4a2b4f6722a188041c99.1739815540.git.jdenemar@redhat.com>
 From: Peter Krempa <pkrempa@redhat.com>
 Date: Fri, 7 Feb 2025 17:48:36 +0100
 Subject: [PATCH] qemucapabilitiestest: Update 'caps_10.0.0_x86_64' to
@@ -13,7 +13,7 @@ Signed-off-by: Peter Krempa <pkrempa@redhat.com>
 Reviewed-by: Jiri Denemark <jdenemar@redhat.com>
 (cherry picked from commit c8c2996b2bb9c386a18911dd2bbb12e287f2ba21)
 
-https://issues.redhat.com/browse/RHEL-79095
+https://issues.redhat.com/browse/RHEL-78398
 ---
  .../caps_10.0.0_x86_64.replies                | 3918 +++++++++--------
  .../caps_10.0.0_x86_64.xml                    |    2 +-

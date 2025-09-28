@@ -1,5 +1,5 @@
-From 4eacc6c63a2935cd25bb404639ce8c8bd0747866 Mon Sep 17 00:00:00 2001
-Message-ID: <4eacc6c63a2935cd25bb404639ce8c8bd0747866.1739824250.git.jdenemar@redhat.com>
+From d4bff9bd1d108937b70ce1c9931bcc13e3ad1437 Mon Sep 17 00:00:00 2001
+Message-ID: <d4bff9bd1d108937b70ce1c9931bcc13e3ad1437.1739815540.git.jdenemar@redhat.com>
 From: Andrea Bolognani <abologna@redhat.com>
 Date: Thu, 13 Feb 2025 09:54:05 +0100
 Subject: [PATCH] utils: Canonicalize paths before comparing them
@@ -23,7 +23,7 @@ Signed-off-by: Andrea Bolognani <abologna@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 (cherry picked from commit f2023e8018fe18550ad6aec66fe72bd1376f8522)
 
-https://issues.redhat.com/browse/RHEL-79166
+https://issues.redhat.com/browse/RHEL-79165
 
 Signed-off-by: Andrea Bolognani <abologna@redhat.com>
 ---

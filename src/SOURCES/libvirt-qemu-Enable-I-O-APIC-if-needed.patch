@@ -1,5 +1,5 @@
-From 29a1c56854c6bcd7b8f91952d3060fb4314a2968 Mon Sep 17 00:00:00 2001
-Message-ID: <29a1c56854c6bcd7b8f91952d3060fb4314a2968.1734433245.git.jdenemar@redhat.com>
+From c00e8d5fd4268a119e6a09962220d766ecaf5b30 Mon Sep 17 00:00:00 2001
+Message-ID: <c00e8d5fd4268a119e6a09962220d766ecaf5b30.1734429553.git.jdenemar@redhat.com>
 From: Michal Privoznik <mprivozn@redhat.com>
 Date: Thu, 12 Dec 2024 10:02:43 +0100
 Subject: [PATCH] qemu: Enable I/O APIC if needed
@@ -18,7 +18,7 @@ Relates to: https://issues.redhat.com/browse/RHEL-65844
 Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
 Reviewed-by: Ján Tomko <jtomko@redhat.com>
 (cherry picked from commit 2d222ecf6e73614a400b830ac56e9aaa1bc55ecc)
-https://issues.redhat.com/browse/RHEL-65844
+https://issues.redhat.com/browse/RHEL-71414
 Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
 ---
  src/qemu/qemu_postparse.c                         | 7 +++++++
