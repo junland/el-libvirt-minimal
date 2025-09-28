@@ -30,7 +30,7 @@ jobs:
       run: |
         cp ${{ matrix.el_flavor }}${{ matrix.el_version }}/*.spec "${{ env.BUILD_CONTEXT }}/SPECS/"
         cp -r ${{ matrix.el_flavor }}${{ matrix.el_version }}/SOURCES/* "${{ env.BUILD_CONTEXT }}/SOURCES/"
-        cp build-rpms.sh "${{ env.BUILD_CONTEXT }}"
+        cp -v *.sh "${{ env.BUILD_CONTEXT }}"
 
     - name: Build Docker image
       run: |
