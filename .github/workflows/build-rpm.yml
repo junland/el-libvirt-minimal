@@ -2,10 +2,13 @@ name: Build RPM Package
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ main, dev, copilot/* ]
   pull_request:
     branches: [ main ]
   workflow_dispatch:
+
+env:
+  CONTAINER_RUN_NAME: "rpm-builder-${{ matrix.el_flavor }}${{ matrix.el_version }}-${{ github.run_id }}-${{ github.run_attempt }}"
 
 jobs:
   build-rpm:
@@ -41,26 +44,29 @@ jobs:
 
     - name: Run builder container
       run: |
-        CONTAINER_NAME="rpm-builder-${{ matrix.el_flavor }}${{ matrix.el_version }}-${{ github.run_id }}-${{ github.run_attempt }}"
-        docker run -d -t --name "$CONTAINER_NAME" rpm-builder:${{ matrix.el_flavor }}${{ matrix.el_version }}
-        docker wait "$CONTAINER_NAME"
-        echo "CONTAINER_NAME=$CONTAINER_NAME" >> $GITHUB_ENV
+        docker run -t --name "$CONTAINER_RUN_NAME" rpm-builder:${{ matrix.el_flavor }}${{ matrix.el_version }}
+        docker wait "$CONTAINER_RUN_NAME"
 
-    - name: Extract artifacts from container
+    - name: Copy built packages from container
       run: |
-        docker cp $CONTAINER_NAME:/home/builder/rpmbuild/RPMS ./workspace/RPMS
-        docker cp $CONTAINER_NAME:/home/builder/rpmbuild/SRPMS ./workspace/SRPMS
-        docker rm $CONTAINER_NAME
+        docker cp "$CONTAINER_RUN_NAME":/root/rpmbuild/RPMS/. ~/rpmbuild/RPMS/
+        docker cp "$CONTAINER_RUN_NAME":/root/rpmbuild/SRPMS/. ~/rpmbuild/SRPMS/
+        docker rm "$CONTAINER_RUN_NAME"
 
-    - name: List built packages
+    - name: List built packages for upload
       run: |
         find ./workspace/RPMS ./workspace/SRPMS -name "*.rpm" -type f -exec ls -la {} \;
 
     - name: Upload RPM artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: rpms-${{ matrix.el_flavor }}${{ matrix.el_version }}
-        path: |
-          ./workspace/RPMS
-          ./workspace/SRPMS
+        name: rpms-el${{ matrix.el_version }}
+        path: ~/rpmbuild/RPMS/
+        retention-days: 30
+
+    - name: Upload SRPMS artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: srpms-el${{ matrix.el_version }}
+        path: ~/rpmbuild/SRPMS/
         retention-days: 30
