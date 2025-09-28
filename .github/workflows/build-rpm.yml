@@ -14,7 +14,6 @@ jobs:
   build-rpm:
     name: Build RPM Package
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         el_version: [9]
