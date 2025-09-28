@@ -14,6 +14,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BUILD_ROOT="/home/builder/rpmbuild"
 SPEC_FILE="${SPEC_FILE:-example.spec}"
 
+
+
 echo "=== Starting RPM build process ==="
 echo "SPEC_FILE: $SPEC_FILE"
 echo "BUILD_ROOT: $BUILD_ROOT"
