@@ -51,6 +51,13 @@ jobs:
         docker cp "$CONTAINER_RUN_NAME":/home/builder/rpmbuild/SRPMS/. "${{ env.BUILD_CONTEXT_DIR }}/SRPMS/"
         docker rm "$CONTAINER_RUN_NAME"
 
+    - name: Flatten SRPMS and RPM directory structure
+      run: |
+        find "${{ env.BUILD_CONTEXT_DIR }}/SRPMS" -mindepth 2 -type f -name "*.rpm" -exec mv -v {} "${{ env.BUILD_CONTEXT_DIR }}/SRPMS/" \;
+        find "${{ env.BUILD_CONTEXT_DIR }}/SRPMS" -type d -empty -delete
+        find "${{ env.BUILD_CONTEXT_DIR }}/RPMS" -mindepth 2 -type f -name "*.rpm" -exec mv -v {} "${{ env.BUILD_CONTEXT_DIR }}/RPMS/" \;
+        find "${{ env.BUILD_CONTEXT_DIR }}/RPMS" -type d -empty -delete
+
     - name: List SRPMS and RPM artifacts
       run: |
         find "${{ env.BUILD_CONTEXT_DIR }}/SRPMS" "${{ env.BUILD_CONTEXT_DIR }}/RPMS" -name "*.rpm" -type f -exec ls -lhG {} \; | sort
