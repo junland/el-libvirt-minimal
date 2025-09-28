@@ -66,5 +66,5 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: rpm-pkgs-${{ matrix.el_flavor }}${{ matrix.el_version }}-${{ github.run_id }}-${{ github.run_attempt }}
-        path: "${{ env.BUILD_CONTEXT_DIR }}/[S]RPMS/**/*.rpm"
+        path: "${{ env.BUILD_CONTEXT_DIR }}/[S]RPMS/*.rpm"
         retention-days: 30
