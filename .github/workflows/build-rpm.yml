@@ -59,12 +59,12 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: rpms-el${{ matrix.el_version }}
-        path: ~/rpmbuild/RPMS/
+        path: ~/rpmbuild/**/RPMS/
         retention-days: 30
 
     - name: Upload SRPMS artifacts
       uses: actions/upload-artifact@v4
       with:
         name: srpms-el${{ matrix.el_version }}
-        path: ~/rpmbuild/SRPMS/
+        path: ~/rpmbuild/**/SRPMS/
         retention-days: 30

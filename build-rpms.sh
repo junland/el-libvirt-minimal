@@ -39,6 +39,12 @@ if [ ! -f "$BUILD_ROOT/SPECS/$SPEC_FILE" ]; then
     exit 1
 fi
 
+# verify  dependencies   before building
+echo "Installing build dependencies..."
+spectool -install -C "$BUILD_ROOT/SPECS/$SPEC_FILE" || {
+    echo "Warning: spectool failed or no remote sources to download"
+}
+
 # Get sources using spectool
 echo "Downloading sources with spectool..."
 spectool -g -C "$BUILD_ROOT/SOURCES/" "$BUILD_ROOT/SPECS/$SPEC_FILE" || {
