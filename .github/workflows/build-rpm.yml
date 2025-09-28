@@ -16,11 +16,19 @@ jobs:
         el_flavor: [rocky, alma]
         el_version: [9, 10]
         spec_file: [libvirt.spec]
+        include:
+          - el_flavor: alma
+            el_image: almalinux
+            registry_namespace: almalinuxorg
+          - el_flavor: rocky
+            el_image: rockylinux
+            registry_namespace: rockylinux
+
     env:
       CONTAINER_RUN_NAME: rpm-builder-run-${{ matrix.el_flavor }}${{ matrix.el_version }}-${{ github.run_id }}-${{ github.run_attempt }}
       BUILD_CONTEXT_DIR: build-context
-      EL_IMAGE: ${{ matrix.el_flavor }}linux
-      REGISTRY_NAMESPACE: ${{ matrix.el_flavor }}linux
+      EL_IMAGE: ${{ matrix.el_image }}
+      REGISTRY_NAMESPACE: ${{ matrix.registry_namespace }}
 
     steps:
     - name: Checkout code
