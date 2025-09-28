@@ -13,8 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        el_version: [9]
-        el_flavor: [rocky]
+        el_flavor: [rocky, alma]
+        el_version: [9, 10]
     env:
       CONTAINER_RUN_NAME: rpm-builder-run-${{ matrix.el_flavor }}${{ matrix.el_version }}-${{ github.run_id }}-${{ github.run_attempt }}
       BUILD_CONTEXT_DIR: build-context
@@ -28,8 +28,8 @@ jobs:
 
     - name: Prepare build context
       run: |
-        cp -vr ${{ matrix.el_flavor }}${{ matrix.el_version }}/*.spec "${{ env.BUILD_CONTEXT_DIR }}/SPECS/"
-        cp -vr ${{ matrix.el_flavor }}${{ matrix.el_version }}/SOURCES/* "${{ env.BUILD_CONTEXT_DIR }}/SOURCES/"
+        cp -vr src/*.spec "${{ env.BUILD_CONTEXT_DIR }}/SPECS/"
+        cp -vr src/SOURCES/* "${{ env.BUILD_CONTEXT_DIR }}/SOURCES/"
         cp -v *.sh "${{ env.BUILD_CONTEXT_DIR }}"
 
     - name: Build Docker image

@@ -55,12 +55,12 @@ dkms.conf
 *.dwo
 
 # RPM build related directories and files
-RPMS/
-SRPMS/
-SOURCES/
-SPECS/
-BUILD/
-BUILDROOT/
-workspace/
-build-context/
+./RPMS/
+./SRPMS/
+./SOURCES/
+./SPECS/
+./BUILD/
+./BUILDROOT/
+./workspace/
+./build-context/
 *.rpm
