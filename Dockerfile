@@ -1,7 +1,8 @@
 ARG EL_VERSION=9
 ARG EL_FLAVOR=rocky
+ARG OCI_REGISTRY=quay.io
 
-FROM ${EL_FLAVOR}linux:${EL_VERSION} AS build
+FROM ${OCI_REGISTRY}/${EL_FLAVOR}linux:${EL_VERSION} AS build
 
 ARG SPEC_FILE=example.spec
 
