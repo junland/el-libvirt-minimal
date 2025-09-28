@@ -62,4 +62,5 @@ SPECS/
 BUILD/
 BUILDROOT/
 workspace/
+build-context/
 *.rpm

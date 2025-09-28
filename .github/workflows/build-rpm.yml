@@ -2,7 +2,7 @@ name: Build RPM Package
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ main, dev, copilot/* ]
   pull_request:
     branches: [ main ]
   workflow_dispatch:
@@ -11,25 +11,26 @@ jobs:
   build-rpm:
     name: Build RPM Package
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         el_version: [9]
         el_flavor: [rocky]
+    env:
+      CONTAINER_RUN_NAME: rpm-builder-run-${{ matrix.el_flavor }}${{ matrix.el_version }}-${{ github.run_id }}-${{ github.run_attempt }}
+      BUILD_CONTEXT_DIR: build-context
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
     - name: Create workspace directory
-      run: mkdir -vp workspace/{RPMS,SRPMS}
+      run: mkdir -vp ${{ env.BUILD_CONTEXT_DIR }}/{RPMS,SRPMS,SOURCES,SPECS}
 
     - name: Prepare build context
       run: |
-        mkdir -vp build-context/{SOURCES,SPECS}
-        cp ${{ matrix.el_flavor }}${{ matrix.el_version }}/*.spec build-context/SPECS/
-        cp -r ${{ matrix.el_flavor }}${{ matrix.el_version }}/SOURCES/* build-context/SOURCES/
-        cp build-rpms.sh build-context/
+        cp -vr ${{ matrix.el_flavor }}${{ matrix.el_version }}/*.spec "${{ env.BUILD_CONTEXT_DIR }}/SPECS/"
+        cp -vr ${{ matrix.el_flavor }}${{ matrix.el_version }}/SOURCES/* "${{ env.BUILD_CONTEXT_DIR }}/SOURCES/"
+        cp -v *.sh "${{ env.BUILD_CONTEXT_DIR }}"
 
     - name: Build Docker image
       run: |
@@ -37,29 +38,33 @@ jobs:
                --build-arg EL_VERSION=${{ matrix.el_version }} \
                --build-arg SPEC_FILE=libvirt.spec \
                -f Dockerfile \
-               -t rpm-builder:${{ matrix.el_flavor }}${{ matrix.el_version }} build-context
+               -t rpm-builder:${{ matrix.el_flavor }}${{ matrix.el_version }} "${{ env.BUILD_CONTEXT_DIR }}"
 
     - name: Run builder container
       run: |
-        CONTAINER_ID=$(docker run -d -t rpm-builder:${{ matrix.el_flavor }}${{ matrix.el_version }})
-        docker wait $CONTAINER_ID
-        echo "CONTAINER_ID=$CONTAINER_ID" >> $GITHUB_ENV
+        docker run -t --name "$CONTAINER_RUN_NAME" rpm-builder:${{ matrix.el_flavor }}${{ matrix.el_version }}
+        docker wait "$CONTAINER_RUN_NAME"
 
-    - name: Extract artifacts from container
+    - name: Copy built SRPMS and RPM artifacts
       run: |
-        docker cp $CONTAINER_ID:/home/builder/rpmbuild/RPMS ./workspace/RPMS
-        docker cp $CONTAINER_ID:/home/builder/rpmbuild/SRPMS ./workspace/SRPMS
-        docker rm $CONTAINER_ID 
+        docker cp "$CONTAINER_RUN_NAME":/home/builder/rpmbuild/RPMS/. "${{ env.BUILD_CONTEXT_DIR }}/RPMS/"
+        docker cp "$CONTAINER_RUN_NAME":/home/builder/rpmbuild/SRPMS/. "${{ env.BUILD_CONTEXT_DIR }}/SRPMS/"
+        docker rm "$CONTAINER_RUN_NAME"
 
-    - name: List built packages
+    - name: Flatten SRPMS and RPM directory structure
       run: |
-        find ./workspace/RPMS ./workspace/SRPMS -name "*.rpm" -type f -exec ls -la {} \;
+        find "${{ env.BUILD_CONTEXT_DIR }}/SRPMS" -mindepth 2 -type f -name "*.rpm" -exec mv -v {} "${{ env.BUILD_CONTEXT_DIR }}/SRPMS/" \;
+        find "${{ env.BUILD_CONTEXT_DIR }}/SRPMS" -type d -empty -delete
+        find "${{ env.BUILD_CONTEXT_DIR }}/RPMS" -mindepth 2 -type f -name "*.rpm" -exec mv -v {} "${{ env.BUILD_CONTEXT_DIR }}/RPMS/" \;
+        find "${{ env.BUILD_CONTEXT_DIR }}/RPMS" -type d -empty -delete
 
-    - name: Upload RPM artifacts
+    - name: List SRPMS and RPM artifacts
+      run: |
+        find "${{ env.BUILD_CONTEXT_DIR }}/SRPMS" "${{ env.BUILD_CONTEXT_DIR }}/RPMS" -name "*.rpm" -type f -exec ls -lhG {} \; | sort
+
+    - name: Upload SRPMS and RPM artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: rpms-${{ matrix.el_flavor }}${{ matrix.el_version }}
-        path: |
-          ./workspace/RPMS
-          ./workspace/SRPMS
+        name: rpm-pkgs-${{ matrix.el_flavor }}${{ matrix.el_version }}-${{ github.run_id }}-${{ github.run_attempt }}
+        path: "${{ env.BUILD_CONTEXT_DIR }}/[S]RPMS/*.rpm"
         retention-days: 30

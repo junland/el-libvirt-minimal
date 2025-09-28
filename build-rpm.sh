@@ -4,9 +4,15 @@ set -e
 # RPM Build Entrypoint Script
 # This script consolidates all RPM build functionality into a single entry point
 
+# Verify that we are in a container environment
+if [ ! -f /.containerenv ]; then
+    echo "Error: This script is intended to be run inside a container"
+    exit 1
+fi
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BUILD_ROOT="/home/builder/rpmbuild"
-SPEC_FILE="${SPEC_FILE:-libvirt.spec}"
+SPEC_FILE="${SPEC_FILE:-example.spec}"
 
 echo "=== Starting RPM build process ==="
 echo "SPEC_FILE: $SPEC_FILE"
@@ -55,4 +61,4 @@ rpmbuild -bb "$BUILD_ROOT/SPECS/$SPEC_FILE"
 
 echo "=== RPM build completed successfully ==="
 echo "Built packages:"
-find "$BUILD_ROOT/RPMS" "$BUILD_ROOT/SRPMS" -name "*.rpm" -type f -exec ls -la {} \; 2>/dev/null || echo "No RPM files found"
+find "$BUILD_ROOT/RPMS" "$BUILD_ROOT/SRPMS" -name "*.rpm" -type f -exec ls -lhG {} \; 2>/dev/null || echo "No RPM files found"
