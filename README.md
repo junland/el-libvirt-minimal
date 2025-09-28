@@ -16,7 +16,7 @@ This repository uses a consolidated build process with a single entrypoint scrip
 docker build --build-arg EL_VERSION=9 --build-arg SPEC_FILE=libvirt.spec -t rpm-builder .
 
 # Run the build
-docker run --rm -t rpm-builder
+docker run --rm -t --name rpm-builder-$(date +%s) rpm-builder
 ```
 
 ### Direct execution
