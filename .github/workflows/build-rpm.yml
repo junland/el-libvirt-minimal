@@ -24,7 +24,7 @@ jobs:
       uses: actions/checkout@v5
 
     - name: Create workspace directory
-      run: mkdir -vp "${{ env.BUILD_CONTEXT }}/{RPMS,SRPMS,SOURCES,SPECS}"
+      run: mkdir -vp ${{ env.BUILD_CONTEXT }}/{RPMS,SRPMS,SOURCES,SPECS}
 
     - name: Prepare build context
       run: |
