@@ -76,11 +76,18 @@ jobs:
       run: |
         find "${{ env.BUILD_CONTEXT_DIR }}/SRPMS" "${{ env.BUILD_CONTEXT_DIR }}/RPMS" -name "*.rpm" -type f -exec ls -lhG {} \; | sort
 
-    - name: Upload SRPMS and RPM artifacts
+    - name: Upload RPM artifacts
       uses: actions/upload-artifact@v4
       with:
         name: rpm-pkgs-${{ matrix.el_flavor }}${{ matrix.el_version }}-${{ github.run_id }}-${{ github.run_attempt }}
-        path: "${{ env.BUILD_CONTEXT_DIR }}/[S]RPMS/*.rpm"
+        path: "${{ env.BUILD_CONTEXT_DIR }}/RPMS/*.rpm"
+        retention-days: 30
+
+    - name: Upload SRPM artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: srpm-pkgs-${{ matrix.el_flavor }}${{ matrix.el_version }}-${{ github.run_id }}-${{ github.run_attempt }}
+        path: "${{ env.BUILD_CONTEXT_DIR }}/SRPMS/*.rpm"
         retention-days: 30
     
     - name: Upload debuginfo RPM artifacts
