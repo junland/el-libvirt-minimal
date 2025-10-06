@@ -2,65 +2,97 @@ name: Build RPM Package
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ main, dev, copilot/* ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, dev, copilot/* ]
   workflow_dispatch:
 
 jobs:
   build-rpm:
     name: Build RPM Package
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        el_version: [9]
+        el_flavor: [rocky, alma]
+        el_version: [9, 10]
+        spec_file: [libvirt.spec]
+        include:
+          - el_flavor: alma
+            el_image: almalinux
+            registry_namespace: almalinuxorg
+          - el_flavor: rocky
+            el_image: rockylinux
+            registry_namespace: rockylinux
 
-    container:
-      image: quay.io/rockylinux/rockylinux:${{ matrix.el_version }}
+    env:
+      CONTAINER_RUN_NAME: rpm-builder-run-${{ matrix.el_flavor }}${{ matrix.el_version }}-${{ github.run_id }}-${{ github.run_attempt }}
+      BUILD_CONTEXT_DIR: build-context
+      EL_IMAGE: ${{ matrix.el_image }}
+      REGISTRY_NAMESPACE: ${{ matrix.registry_namespace }}
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
-    - name: Install build dependencies
-      run: |
-        dnf install -y rpm-build rpmdevtools tar gzip
-        rpmdev-setuptree
-        
-    - name: Prepare build environment files
-      run: |
-        # Copy spec file to rpmbuild directory
-        cp rocky${{ matrix.el_version }}/libvirt.spec ~/rpmbuild/SPECS/
+    - name: Create workspace directory
+      run: mkdir -vp ${{ env.BUILD_CONTEXT_DIR }}/{RPMS,SRPMS,SOURCES,SPECS,DEBUG_RPMS}
 
-        # Copy source files to SOURCES directory
-        cp -r rocky${{ matrix.el_version }}/SOURCES/* ~/rpmbuild/SOURCES/
+    - name: Prepare build context
+      run: |
+        cp -vr src/*.spec "${{ env.BUILD_CONTEXT_DIR }}/SPECS/"
+        cp -vr src/SOURCES/* "${{ env.BUILD_CONTEXT_DIR }}/SOURCES/"
+        cp -v *.sh "${{ env.BUILD_CONTEXT_DIR }}"
 
-        # Download additional sources if needed
-        spectool -g -R ~/rpmbuild/SPECS/libvirt.spec -C ~/rpmbuild/SOURCES/
+    - name: Build Docker image
+      run: |
+        docker build \
+               --build-arg EL_IMAGE=${{ env.EL_IMAGE }} \
+               --build-arg EL_VERSION=${{ matrix.el_version }} \
+               --build-arg REGISTRY_NAMESPACE=${{ env.REGISTRY_NAMESPACE }} \
+               -f Dockerfile \
+               -t rpm-builder:${{ matrix.el_flavor }}${{ matrix.el_version }} "${{ env.BUILD_CONTEXT_DIR }}"
 
-    - name: Install build dependencies from spec file
+    - name: Run builder container
       run: |
-        dnf builddep -y ~/rpmbuild/SPECS/libvirt.spec
-        
-    - name: Build source RPM
+        docker run -t --name "$CONTAINER_RUN_NAME" rpm-builder:${{ matrix.el_flavor }}${{ matrix.el_version }} ${{ matrix.spec_file }}
+        docker wait "$CONTAINER_RUN_NAME"
+
+    - name: Copy built SRPMS and RPM artifacts
       run: |
-        rpmbuild -bs ~/rpmbuild/SPECS/libvirt.spec
-        
-    - name: Build binary RPM
+        docker cp "$CONTAINER_RUN_NAME":/home/builder/rpmbuild/RPMS/. "${{ env.BUILD_CONTEXT_DIR }}/RPMS/"
+        docker cp "$CONTAINER_RUN_NAME":/home/builder/rpmbuild/SRPMS/. "${{ env.BUILD_CONTEXT_DIR }}/SRPMS/"
+        docker rm "$CONTAINER_RUN_NAME"
+
+    - name: Flatten SRPMS and RPM directory structure
       run: |
-        rpmbuild -bb ~/rpmbuild/SPECS/libvirt.spec
+        find "${{ env.BUILD_CONTEXT_DIR }}/SRPMS" -mindepth 2 -type f -name "*.rpm" -exec mv -v {} "${{ env.BUILD_CONTEXT_DIR }}/SRPMS/" \;
+        find "${{ env.BUILD_CONTEXT_DIR }}/SRPMS" -type d -empty -delete
+        find "${{ env.BUILD_CONTEXT_DIR }}/RPMS" -mindepth 2 -type f -name "*.rpm" -exec mv -v {} "${{ env.BUILD_CONTEXT_DIR }}/RPMS/" \;
+        find "${{ env.BUILD_CONTEXT_DIR }}/RPMS" -type d -empty -delete
+        find "${{ env.BUILD_CONTEXT_DIR }}/RPMS" -type f -name "*debuginfo*.rpm" -exec mv -v {} "${{ env.BUILD_CONTEXT_DIR }}/DEBUG_RPMS/" \;
         
-    - name: List built packages
+
+    - name: List SRPMS and RPM artifacts
       run: |
-        find ~/rpmbuild -name "*.rpm" -type f -exec ls -la {} \;
-        
+        find "${{ env.BUILD_CONTEXT_DIR }}/SRPMS" "${{ env.BUILD_CONTEXT_DIR }}/RPMS" -name "*.rpm" -type f -exec ls -lhG {} \; | sort
+
     - name: Upload RPM artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: rpms-el${{ matrix.el_version }}
-        path: |
-          $(find ~/rpmbuild/RPMS -type f -name "*.rpm")
-          $(find ~/rpmbuild/SRPMS -type f -name "*.rpm")
-        # Retain RPM artifacts for 30 days to allow sufficient time for review and debugging.
+        name: rpm-pkgs-${{ matrix.el_flavor }}${{ matrix.el_version }}-${{ github.run_id }}-${{ github.run_attempt }}
+        path: "${{ env.BUILD_CONTEXT_DIR }}/RPMS/*.rpm"
+        retention-days: 30
+
+    - name: Upload SRPM artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: srpm-pkgs-${{ matrix.el_flavor }}${{ matrix.el_version }}-${{ github.run_id }}-${{ github.run_attempt }}
+        path: "${{ env.BUILD_CONTEXT_DIR }}/SRPMS/*.rpm"
+        retention-days: 30
+    
+    - name: Upload debuginfo RPM artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: rpm-debuginfo-pkgs-${{ matrix.el_flavor }}${{ matrix.el_version }}-${{ github.run_id }}-${{ github.run_attempt }}
+        path: "${{ env.BUILD_CONTEXT_DIR }}/DEBUG_RPMS/*debuginfo*.rpm"
         retention-days: 30
