@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [ main, dev, copilot/* ]
   workflow_dispatch:
+  schedule:
+  # This workflow is triggered every day at 00:00 UTC
+    - cron: '0 0 */1 * *'
 
 jobs:
   build-rpm:
