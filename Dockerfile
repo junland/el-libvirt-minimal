@@ -6,10 +6,10 @@ ARG REGISTRY_NAMESPACE=rockylinux
 FROM ${REGISTRY}/${REGISTRY_NAMESPACE}/${EL_IMAGE}:${EL_VERSION} AS build
 
 # Set dnf.conf fastestmirror to true for faster downloads
-RUN echo "fastestmirror=true" >> /etc/dnf/dnf.conf
+RUN echo "fastestmirror=True" >> /etc/dnf/dnf.conf
 
 # Set skip_if_unavailable to true for all repositories
-RUN sed -i 's/skip_if_unavailable=false/skip_if_unavailable=true/g' /etc/dnf/dnf.conf
+RUN sed -i 's/skip_if_unavailable=False/skip_if_unavailable=True/g' /etc/dnf/dnf.conf
 
 # Enable CRB repository and install build dependencies
 RUN dnf upgrade -y && \
