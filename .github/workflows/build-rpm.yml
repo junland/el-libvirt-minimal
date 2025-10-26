@@ -84,18 +84,18 @@ jobs:
       with:
         name: rpm-pkgs-${{ matrix.el_flavor }}${{ matrix.el_version }}-${{ github.run_id }}-${{ github.run_attempt }}
         path: "${{ env.BUILD_CONTEXT_DIR }}/RPMS/*.rpm"
-        retention-days: 30
+        retention-days: 3
 
     - name: Upload SRPM artifacts
       uses: actions/upload-artifact@v4
       with:
         name: srpm-pkgs-${{ matrix.el_flavor }}${{ matrix.el_version }}-${{ github.run_id }}-${{ github.run_attempt }}
         path: "${{ env.BUILD_CONTEXT_DIR }}/SRPMS/*.rpm"
-        retention-days: 30
+        retention-days: 3
     
     - name: Upload debuginfo RPM artifacts
       uses: actions/upload-artifact@v4
       with:
         name: rpm-debuginfo-pkgs-${{ matrix.el_flavor }}${{ matrix.el_version }}-${{ github.run_id }}-${{ github.run_attempt }}
         path: "${{ env.BUILD_CONTEXT_DIR }}/DEBUG_RPMS/*debuginfo*.rpm"
-        retention-days: 30
+        retention-days: 3
